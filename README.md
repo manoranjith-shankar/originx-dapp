@@ -1,1 +1,3 @@
-# dapp-a-thon
+# dappathon
+
+Initial commit for project - NFT Charity Dapp

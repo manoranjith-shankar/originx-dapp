@@ -1,129 +1,153 @@
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.4;
+// SPDX-License-Identifier: GPL-3.0
 
-interface IERC721 {
-    function transferFrom(address from, address to, uint256 tokenId) external;
+pragma solidity >=0.8.0 <0.9.0;
+
+contract OriginXCharityRaffle {
+    
+    struct Raffle {
+        uint256 raffleID;
+        address raffleCreator;
+        address nftOwner;
+        string raffleName;
+        address charityAddress;
+        uint256 depositId;
+        uint256 nftPrice;
+        uint256 totalVolumeofTickets;
+        uint256 ticketPrice;
+        uint256 ticketSold;
+        uint256 endTime;
+        bool isCancelled;
+        bool isCompleted;
+        uint256 winningTicket;
+        bool hasWinner;
+    }
+
+    mapping(uint256 => Raffle) public raffles;
+    uint256 public currentRaffleID;
+    mapping(address => uint256[]) public nftDeposits;
+    
+    mapping(uint256 => mapping(address => uint256[])) public raffleTickets;
+    mapping(uint256 => mapping(uint256 => address)) public ticketOwners;
+    
+    mapping(uint256 => bool) public pickedTickets;
+    uint256 public randomSeed;
+    
+    address payable public charity;
+    address payable public developmentTeam;
+    
+    event RaffleCreated(uint256 indexed raffleID, address indexed raffleCreator, string raffleName, address indexed charityAddress, uint256 depositId, uint256 nftPrice, uint256 totalVolumeofTickets, uint256 endTime);
+    event TicketBought(uint256 indexed raffleID, address indexed buyer, uint256 ticketNumber);
+    event RaffleExtended(uint256 indexed raffleID, uint256 newEndTime);
+    event WinnerPicked(uint256 indexed raffleID, address indexed winner, uint256 winningTicket);
+    event RaffleCancelled(uint256 indexed raffleID);
+
+    constructor(address payable _charity, address payable _developmentTeam) {
+        charity = _charity;
+        developmentTeam = _developmentTeam;
+    }
+
+    modifier onlyRaffleCreator(uint256 _raffleID) {
+        require(msg.sender == raffles[_raffleID].raffleCreator, "Only raffle creator can perform this operation");
+        _;
+    }
+
+    modifier onlyValidRaffle(uint256 _raffleID) {
+        require(_raffleID <= currentRaffleID, "Invalid raffle ID");
+        require(!raffles[_raffleID].isCancelled, "This raffle has been cancelled");
+        require(!raffles[_raffleID].isCompleted, "This raffle has already completed");
+        _;
+    }
+
+    function depositNft() external returns (uint256[4] memory depositId) {
+        require(msg.sender != address(0), "Invalid address");
+        depositId = [block.timestamp, currentRaffleID, nftDeposits[msg.sender].length, random()];
+        nftDeposits[msg.sender].push(currentRaffleID);
+    }
+
+    function createRaffle(string calldata _raffleName, address _charityAddress, uint256 _depositId, uint256 _nftPrice, uint256 _totalVolumeofTickets, uint256 _endTime) external returns (uint256[4] memory raffleID) {
+        require(msg.sender != address(0), "Invalid address");
+        require(_nftPrice > 0, "NFT price must be greater than 0");
+        require(_totalVolumeofTickets > 0, "Total volume of tickets must be greater than 0");
+        require(_endTime > block.timestamp, "End time must be in the future");
+    currentRaffleID++;
+    raffleID = [block.timestamp, currentRaffleID, 0, random()];
+    
+    Raffle memory newRaffle = Raffle({
+        raffleID: currentRaffleID,
+        raffleCreator: msg.sender,
+        nftOwner: address(0),
+        raffleName: _raffleName,
+        charityAddress: _charityAddress,
+        depositId: _depositId,
+        nftPrice: _nftPrice,
+        totalVolumeofTickets: _totalVolumeofTickets,
+        ticketPrice: _nftPrice/_totalVolumeofTickets,
+        ticketSold: 0,
+        endTime: _endTime,
+        isCancelled: false,
+        isCompleted: false,
+        winningTicket: 0,
+        hasWinner: false
+    });
+    
+    raffles[currentRaffleID] = newRaffle;
+    
+    emit RaffleCreated(currentRaffleID, msg.sender, _raffleName, _charityAddress, _depositId, _nftPrice, _totalVolumeofTickets, _endTime);
+    
+    return raffleID;
 }
 
-contract Lottery {
-    struct raffle {
-    address creator;
-    address nftContractAddress;
-    uint256 tokenId;
-    uint256 nftPrice;
-    uint256 totalVolumeOfTickets;
-    uint256 ticketPrice;
-    uint256 endTime;
-    uint256 soldTickets;
-    uint256 jackpot;
-    bool ended;
-    mapping(address => uint256) ticketsByAddress;
+function buyTicket(uint256 _raffleID, uint256 _ticketNumber) external payable onlyValidRaffle(_raffleID) {
+    require(msg.sender != address(0), "Invalid address");
+    require(msg.value == raffles[_raffleID].ticketPrice, "Invalid ticket price");
+    require(raffleTickets[_raffleID][msg.sender].length < raffles[_raffleID].totalVolumeofTickets, "You can't buy more tickets");
+    require(!pickedTickets[_ticketNumber], "This ticket is already picked");
+    
+    raffles[_raffleID].ticketSold++;
+    pickedTickets[_ticketNumber] = true;
+    raffleTickets[_raffleID][msg.sender].push(_ticketNumber);
+    ticketOwners[_raffleID][_ticketNumber] = msg.sender;
+    
+    emit TicketBought(_raffleID, msg.sender, _ticketNumber);
+    
+    if(raffles[_raffleID].ticketSold == raffles[_raffleID].totalVolumeofTickets){
+        completeRaffle(_raffleID);
     }
+}
 
+function extendRaffleEndTime(uint256 _raffleID, uint256 _newEndTime) external onlyRaffleCreator(_raffleID) onlyValidRaffle(_raffleID) {
+    require(_newEndTime > raffles[_raffleID].endTime, "New end time must be greater than current end time");
+    raffles[_raffleID].endTime = _newEndTime;
+    
+    emit RaffleExtended(_raffleID, _newEndTime);
+}
 
-function createLottery(address _nftContractAddress, uint256 _tokenId, uint256 _nftPrice, uint256 _totalVolumeOfTickets, uint256 _endTime) public returns (bytes32) {
-    require(_nftPrice > 0, "NFT price must be greater than zero");
-    require(_totalVolumeOfTickets > 0, "Total volume of tickets must be greater than zero");
-    require(_endTime > block.timestamp, "End time must be in the future");
+function pickWinner(uint256 _raffleID) external onlyRaffleCreator(_raffleID) onlyValidRaffle(_raffleID) {
+    require(raffles[_raffleID].endTime <= block.timestamp, "Raffle has not ended yet");
+    require(!raffles[_raffleID].hasWinner, "Winner has already been picked");
+    
+    randomSeed = random();
+    uint256 winningTicket = (randomSeed % raffles[_raffleID].totalVolumeofTickets) + 1;
+    raffles[_raffleID].winningTicket = winningTicket;
+    raffles[_raffleID].hasWinner = true;
+    address winner = ticketOwners[_raffleID][winningTicket];
+    winner.transfer(address(this).balance);
+    
+    emit WinnerPicked(_raffleID, winner, winningTicket);
+} 
+function cancelRaffle(uint256 _raffleID) external onlyRaffleCreator(_raffleID) onlyValidRaffle(_raffleID) {
+raffles[_raffleID].isCancelled = true;
+emit RaffleCancelled(_raffleID);
+}
 
-    uint256 ticketPrice = (_nftPrice * 50) / 100 + _nftPrice;
-    bytes32 raffleId = keccak256(abi.encodePacked(msg.sender, block.timestamp));
+function random() private returns (uint256) {
+randomSeed += uint256(keccak256(abi.encodePacked(msg.sender, tx.origin, block.timestamp, block.difficulty, randomSeed)));
+return randomSeed;
+}
 
-    raffle memory newRaffle = raffle({
-        creator: msg.sender,
-        nftContractAddress: _nftContractAddress,
-        tokenId: _tokenId,
-        nftPrice: _nftPrice,
-        totalVolumeOfTickets: _totalVolumeOfTickets,
-        ticketPrice: ticketPrice,
-        endTime: _endTime,
-        soldTickets: 0,
-        jackpot: 0,
-        ended: false
-    });
+function withdraw() external {
+require(msg.sender == developmentTeam, "Only development team can withdraw funds");
+payable(msg.sender).transfer(address(this).balance);
+}
 
-    for (uint i = 0; i < _totalVolumeOfTickets; i++) {
-        newRaffle.ticketsByAddress[msg.sender] = 0;
-    }
-
-    raffles[raffleId] = newRaffle;
-
-    return raffleId;
-    }
-
- 
-    function buyTicket(bytes32 _raffleId) public payable {
-    Raffle storage raffle = raffles[_raffleId];
-    
-    require(!raffle.ended, "Lottery has already ended");
-    require(raffle.soldTickets < raffle.totalVolumeOfTickets, "Lottery is sold out");
-    require(block.timestamp < raffle.endTime, "Lottery has ended");
-    require(msg.value == raffle.ticketPrice, "Incorrect ticket price");
-    
-    IERC721(raffle.nftContractAddress).transferFrom(raffle.creator, msg.sender, raffle.tokenId);
-    
-    raffle.tickets[msg.sender] += 1;
-    raffle.soldTickets += 1;
-    raffle.jackpot += msg.value;
-    
-    emit TicketPurchased(_raffleId, msg.sender, msg.value);
-    
-    if (raffle.soldTickets == raffle.totalVolumeOfTickets) {
-        endLottery(_raffleId);
-    }
-    }
-
-function endLottery(bytes32 _raffleId) private {
-    Raffle storage raffle = raffles[_raffleId];
-    
-    require(!raffle.ended, "Lottery has already ended");
-    require(block.timestamp >= raffle.endTime, "Lottery has not ended yet");
-    
-    uint256 winnerTicket = uint256(keccak256(abi.encodePacked(blockhash(block.number - 1), block.coinbase, _raffleId))) % raffle.totalVolumeOfTickets;
-    address winner = address(0);
-    uint256 currentTicket = 0;
-    
-    for (uint256 i = 0; i < raffle.totalVolumeOfTickets; i++) {
-        address ticketOwner = getTicketOwner(_raffleId, i);
-        
-        if (ticketOwner != address(0)) {
-            currentTicket += 1;
-            
-            if (currentTicket == winnerTicket + 1) {
-                winner = ticketOwner;
-                break;
-            }
-        }
-    }
-    
-    require(winner != address(0), "Lottery winner could not be determined");
-    
-    IERC721(raffle.nftContractAddress).transferFrom(raffle.creator, winner, raffle.tokenId);
-    
-    payable(winner).transfer(raffle.jackpot);
-    
-    raffle.ended = true;
-    
-    emit LotteryEnded(_raffleId, winner, raffle.jackpot);
-    }
-
-    function cancelLottery(bytes32 _raffleId) public {
-        Raffle storage raffle = raffles[_raffleId];
-        
-        require(msg.sender == raffle.creator, "Only the creator can cancel the lottery");
-        require(!raffle.ended, "Lottery has already ended");
-        
-        IERC721(raffle.nftContractAddress).transferFrom(address(this), raffle.creator, raffle.tokenId);
-        
-        raffle.ended = true;
-        
-        emit LotteryCancelled(_raffleId, msg.sender);
-    }
-
-    function getTicketOwner(bytes32 _raffleId, uint256 _ticketNumber) public view returns (address) {
-    require(_ticketNumber < raffles[_raffleId].totalVolumeOfTickets, "Invalid ticket number");
-    
-    return raffles[_raffleId].tickets[_ticketNumber] != 0 ? address(this) : address(0);
-    }
-
-    }
+}

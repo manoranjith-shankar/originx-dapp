@@ -606,7 +606,7 @@ aside {
 6. Helper Class
 ----------------------------------------------*/
 /* #region Helper Class */
-.netstorm-preloader {
+.originx-preloader {
   position: fixed;
   top: 0;
   left: 0;
@@ -625,11 +625,11 @@ aside {
   z-index: 99999;
 }
 
-.netstorm-preloader .preloader-animation {
+.originx-preloader .preloader-animation {
   z-index: 1000;
 }
 
-.netstorm-preloader .preloader-animation .spinner {
+.originx-preloader .preloader-animation .spinner {
   height: 9em;
   width: 9em;
   margin: 0 auto 3.5em auto;
@@ -640,11 +640,11 @@ aside {
           animation: spinner 1s infinite linear;
 }
 
-.netstorm-preloader .preloader-animation p {
+.originx-preloader .preloader-animation p {
   letter-spacing: 8px;
 }
 
-.netstorm-preloader .loader-animation {
+.originx-preloader .loader-animation {
   position: fixed;
   top: 0;
   left: 0;
@@ -654,7 +654,7 @@ aside {
   pointer-events: none;
 }
 
-.netstorm-preloader .loader-animation .single-loader .loader-bg {
+.originx-preloader .loader-animation .single-loader .loader-bg {
   height: 100%;
   width: 100%;
   left: 0;
@@ -663,18 +663,18 @@ aside {
   transition: all 800ms cubic-bezier(0.77, 0, 0.175, 1);
 }
 
-.netstorm-preloader.loaded {
+.originx-preloader.loaded {
   visibility: hidden;
 }
 
-.netstorm-preloader.loaded .preloader-animation {
+.originx-preloader.loaded .preloader-animation {
   opacity: 0;
   visibility: hidden;
   -webkit-transition: 0.3s ease-out;
   transition: 0.3s ease-out;
 }
 
-.netstorm-preloader.loaded .single-loader .loader-bg {
+.originx-preloader.loaded .single-loader .loader-bg {
   width: 0;
   -webkit-transition: 0.7s all cubic-bezier(0.1, 0.1, 0.1, 1);
   transition: 0.7s all cubic-bezier(0.1, 0.1, 0.1, 1);
@@ -2972,11 +2972,11 @@ header .navbar-expand .dropdown:hover > .dropdown-menu {
   }
   /* #endregion Section */
   /* #region Helper Class */
-  body .netstorm-preloader .preloader-animation .spinner {
+  body .originx-preloader .preloader-animation .spinner {
     height: 8em;
     width: 8em;
   }
-  body .netstorm-preloader .preloader-animation .loader {
+  body .originx-preloader .preloader-animation .loader {
     font-size: var(--h2-size);
   }
   body .intro .btn {
@@ -3031,11 +3031,11 @@ header .navbar-expand .dropdown:hover > .dropdown-menu {
 
 @media (max-width: 576px) {
   /* #region Helper Class */
-  body .netstorm-preloader .preloader-animation .spinner {
+  body .originx-preloader .preloader-animation .spinner {
     height: 7em;
     width: 7em;
   }
-  body .netstorm-preloader .preloader-animation .loader {
+  body .originx-preloader .preloader-animation .loader {
     font-size: var(--h3-size);
   }
   /* #endregion Helper Class */

@@ -5,6 +5,7 @@ import App from './App';
 
 import '@rainbow-me/rainbowkit/styles.css';
 import {
+  darkTheme,
   getDefaultWallets,
   RainbowKitProvider,
 } from '@rainbow-me/rainbowkit';
@@ -14,7 +15,7 @@ import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 
 export const SphinxBetanet = {
-  id: 8888,
+  id: 8082,
   name: 'Sphinx Testnet',
   network: 'Shardeum Sphinx 1.X',
   nativeCurrency: {
@@ -55,7 +56,12 @@ const wagmiClient = createClient({
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains}>
+      <RainbowKitProvider
+        theme={darkTheme({
+        accentColor: '#4f14af',
+        accentColorForeground: 'white',
+        overlayBlur: 'small',
+          })} chains={chains}>
             <App />
       </RainbowKitProvider>
     </WagmiConfig>

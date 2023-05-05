@@ -9,7 +9,7 @@ const Header = () => {
                 <div className="container header">
                     {/* Navbar Brand*/}
                     <a className="navbar-brand" href="/">
-                        <img className="navbar-brand-sticky" src="img/logo.png" alt="" />0
+                        <img className="navbar" src="img/originx-text-transparent.png" alt=""/>
                     </a>
                     <div className="ml-auto" />
                     {/* Navbar */}
@@ -27,14 +27,6 @@ const Header = () => {
                         <li className="nav-item">
                             <a href="/activity" className="nav-link">Activity</a>
                             <a href="/activity" className="nav-link">Mint NFT</a>
-                        </li>
-                    </ul>
-                    {/* Navbar Icons */}
-                    <ul className="navbar-nav icons">
-                        <li className="nav-item">
-                            <a href="#" className="nav-link" data-toggle="modal" data-target="#search">
-                                <i className="fas fa-search" />
-                            </a>
                         </li>
                     </ul>
                     {/* Navbar Toggler */}

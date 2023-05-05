@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 const initData = {
-    pre_heading: "originX",
     heading: "Explore, collect, and sell impactful NFTs with OriginX",
     content: "Donate and redeem unique tokens for a meaningful impact",
     btn_1: "Explore",
@@ -23,7 +22,6 @@ class Hero extends Component {
                 <div className="container">
                     <div className="row">
                         <div className="col-12 col-md-6 col-lg-7">
-                            <span>{this.state.data.pre_heading}</span>
                             <h1 className="mt-4">{this.state.data.heading}</h1>
                             <p>{this.state.data.content}</p>
                             {/* Buttons */}

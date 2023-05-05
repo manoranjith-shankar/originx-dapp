@@ -1,17 +1,16 @@
-import Header from './Header/Header';
-import Hero from './Hero/Hero';
+import React from "react";
+import { BrowserRouter } from "react-router-dom";
+import MyRouts from "./routes/routes";
 
 function App() {
   return (
-    <div className="App">
-        <Header />
-        <Hero />
-    </div>
+      <div>
+        <MyRouts />
+      </div>
   );
 }
 
 export default App;
-
 
 //components:
 /* 

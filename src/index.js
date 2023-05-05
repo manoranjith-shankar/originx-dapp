@@ -9,38 +9,31 @@ import {
   RainbowKitProvider,
 } from '@rainbow-me/rainbowkit';
 import { configureChains, createClient, WagmiConfig } from 'wagmi';
-import { mainnet, polygon, optimism, arbitrum, goerli, polygonMumbai } from 'wagmi/chains';
+import { mainnet, polygon, optimism, arbitrum, polygonMumbai } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 
-export const VolaryTestnet = {
+export const SphinxBetanet = {
   id: 8888,
-  name: 'Volary Testnet',
-  network: 'Volary',
+  name: 'Sphinx Testnet',
+  network: 'Shardeum Sphinx 1.X',
   nativeCurrency: {
   decimals: 18,
-  name: 'Volary',
-  symbol: 'VLRY',
+  name: 'Shardeum Sphinx 1.X',
+  symbol: 'SHM',
   },
-    iconUrl: 'https://nes.tech/wp-content/uploads/2022/09/nest_logo.png',
+    iconUrl: 'https://www.redwolf.in/image/catalog/marketplace/shardeum/shardeum-artist-image.png',
   rpcUrls: {
-  public: { http: ['https://rpc-public-testnet.volary.io/'] },
-  default: { http: ['https://rpc-public-testnet.volary.io/'] },
+  public: { http: ['https://sphinx.shardeum.org'] },
+  default: { http: ['https://sphinx.shardeum.org'] },
   },
   blockExplorers: {
-  etherscan: { name: 'VolaryExplorer', url: 'https://explorer.volary.io/' },
-  default: { name: 'VolaryExplorer', url: 'https://explorer.volary.io/' },
-  },
-  contracts: {
-  multicall3: {
-  address: '0xca11bde05977b3631167028862be2a173976ca11',
-  blockCreated: 1,
-  },
+  default: { name: 'Sphinx Betanet', url: 'https://explorer-sphinx.shardeum.org' },
   },
   }
 
 const { chains, provider } = configureChains(
-  [mainnet, polygonMumbai, polygon, VolaryTestnet, optimism, arbitrum],
+  [mainnet, polygonMumbai, polygon, SphinxBetanet, optimism, arbitrum],
   [
     alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
     publicProvider()

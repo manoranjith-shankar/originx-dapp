@@ -5,10 +5,11 @@ import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 
-contract nftRafflerOriginx is IERC721Receiver {
+contract nftRafflerOriginx1 is IERC721Receiver {
     using SafeMath for uint256;
 
     struct Raffle {
+        uint raffleId;
         string raffleName;
         uint256 nftPrice;
         uint256 totalVolumeofTickets;
@@ -22,7 +23,24 @@ contract nftRafflerOriginx is IERC721Receiver {
         uint256 totalSoldTickets;
         bool raffleCancelled;
         bool raffleEnded;
+        uint256 fundsInContract;
         uint256[] tickets;
+    }
+
+    struct RaffleInfo {
+        string raffleName;
+        uint256 nftPrice;
+        uint256 totalVolumeofTickets;
+        uint256 endTime;
+        uint256 nftId;
+        address nftContractAddress;
+        string nftSourceLink;
+        address raffleCreator;
+        uint256 rafflePool;
+        uint256 ticketPrice;
+        uint256 totalSoldTickets;
+        bool raffleCancelled;
+        bool raffleEnded;
     }
 
     struct TicketOwnership {
@@ -32,30 +50,7 @@ contract nftRafflerOriginx is IERC721Receiver {
     mapping(uint256 => Raffle) private raffles;
     mapping(uint256 => TicketOwnership) private ticketOwnerships;
     uint256 private randomNonce = 0;
-    mapping(uint256 => uint256[4]) private raffleIDToRandomNumber;
     uint256 private raffleCount = 0;
-
-    // function generateRaffleID() private returns (uint256[4] memory) {
-    //     randomNonce++;
-    //     uint256[4] memory raffleID;
-    //     raffleID[0] = uint256(keccak256(abi.encodePacked(block.timestamp, msg.sender, randomNonce)));
-    //     return raffleID;
-    // }
-
-    function generateRaffleID() public view returns (uint256[4] memory) {
-        uint256[4] memory raffleID;
-        raffleID[0] = uint256(
-            keccak256(
-                abi.encodePacked(
-                    block.timestamp,
-                    block.difficulty,
-                    msg.sender,
-                    block.coinbase
-                )
-            )
-        );
-        return raffleID;
-    }
 
     function createRaffle(
         string memory _raffleName,
@@ -65,7 +60,7 @@ contract nftRafflerOriginx is IERC721Receiver {
         uint256 _nftId,
         address _nftContractAddress,
         string memory _nftSourceLink
-    ) public returns (uint256[4] memory) {
+    ) public returns (uint256) {
         require(
             _nftContractAddress != address(0),
             "Invalid NFT contract address"
@@ -78,13 +73,10 @@ contract nftRafflerOriginx is IERC721Receiver {
         );
 
         nftContract.safeTransferFrom(msg.sender, address(this), _nftId);
-
         raffleCount++;
-        uint256[4] memory raffleID = generateRaffleID();
 
-        uint256 raffleIndex = raffleID[0];
-
-        raffles[raffleIndex] = Raffle({
+        raffles[raffleCount] = Raffle({
+            raffleId: raffleCount,
             raffleName: _raffleName,
             nftPrice: _nftPrice,
             totalVolumeofTickets: _totalVolumeofTickets,
@@ -98,43 +90,89 @@ contract nftRafflerOriginx is IERC721Receiver {
             totalSoldTickets: 0,
             raffleCancelled: false,
             raffleEnded: false,
+            fundsInContract: 0,
             tickets: new uint256[](0)
         });
 
-        raffles[raffleIndex].ticketPrice = raffles[raffleIndex].rafflePool.div(
+        raffles[raffleCount].ticketPrice = raffles[raffleCount].rafflePool.div(
             _totalVolumeofTickets
         );
 
-        raffleIDToRandomNumber[raffleIndex] = raffleID;
-
-        return raffleID;
+        return raffleCount;
     }
 
-    function setTicketPrice(uint256 _raffleID) public {
+    function getAvailableTickets(
+        uint256 _raffleID
+    ) public view returns (uint256) {
         Raffle storage raffle = raffles[_raffleID];
-        require(
-            raffle.raffleCreator == msg.sender,
-            "Only raffle creator can set ticket price"
-        );
-        require(raffle.ticketPrice == 0, "Ticket price already set");
+        require(raffle.raffleId != 0, "Raffle not found");
 
-        raffle.ticketPrice = raffle.rafflePool.div(raffle.totalVolumeofTickets);
+        if (raffle.raffleEnded || raffle.raffleCancelled) {
+            return 0;
+        } else {
+            return raffle.totalVolumeofTickets - raffle.totalSoldTickets;
+        }
     }
 
-    function cancelRaffle(uint256 _raffleID) public {
+    function buyTicket(
+        uint256 _raffleID,
+        uint256 _totalTicketsWanted
+    ) public payable {
         Raffle storage raffle = raffles[_raffleID];
+        require(raffle.raffleId != 0, "Raffle not found");
+        require(!raffle.raffleCancelled, "Raffle cancelled");
+        require(!raffle.raffleEnded, "Raffle ended");
         require(
-            raffle.raffleCreator == msg.sender,
-            "Only raffle creator can cancel raffle"
+            raffle.totalSoldTickets.add(_totalTicketsWanted) <=
+                raffle.totalVolumeofTickets,
+            "Not enough tickets available"
         );
-        require(raffle.raffleCancelled == false, "Raffle already cancelled");
 
-        raffle.raffleCancelled = true;
+        // Calculate the price for the requested number of tickets
+        uint256 ticketPrice = raffle.ticketPrice.mul(_totalTicketsWanted);
+        require(msg.value >= ticketPrice, "Insufficient funds");
 
-        IERC721 nftContract = IERC721(raffle.nftContractAddress);
-        nftContract.safeTransferFrom(address(this), msg.sender, raffle.nftId);
+        // Add the tickets to the ticket array
+        for (uint256 i = 0; i < _totalTicketsWanted; i++) {
+            uint256 ticketNumber = raffle.tickets.length + 1;
+            raffle.tickets.push(ticketNumber);
+            ticketOwnerships[_raffleID].ticketsOwned[msg.sender] = ticketNumber;
+        }
+
+        // Increment the number of sold tickets
+        raffle.totalSoldTickets = raffle.totalSoldTickets.add(
+            _totalTicketsWanted
+        );
+
+        // Update the funds in the contract
+        raffle.fundsInContract = raffle.fundsInContract.add(msg.value);
     }
 
+    function raffleInfo(
+        uint256 _raffleID
+    ) public view returns (RaffleInfo memory) {
+        Raffle storage raffle = raffles[_raffleID];
+
+        RaffleInfo memory raffleInfo = RaffleInfo({
+            raffleName: raffle.raffleName,
+            nftPrice: raffle.nftPrice,
+            totalVolumeofTickets: raffle.totalVolumeofTickets,
+            endTime: raffle.endTime,
+            nftId: raffle.nftId,
+            nftContractAddress: raffle.nftContractAddress,
+            nftSourceLink: raffle.nftSourceLink,
+            raffleCreator: raffle.raffleCreator,
+            rafflePool: raffle.rafflePool,
+            ticketPrice: raffle.ticketPrice,
+            totalSoldTickets: raffle.totalSoldTickets,
+            raffleCancelled: raffle.raffleCancelled,
+            raffleEnded: raffle.raffleEnded
+        });
+
+        return raffleInfo;
+    }
+
+    // unused function.
     function onERC721Received(
         address operator,
         address from,

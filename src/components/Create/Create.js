@@ -43,12 +43,8 @@ const Create = () => {
 
     setLoading(false);
   };
-
         return (
             <section className="author-area">
-                <div>
-                    <ConnectButton />
-                </div>
                 <div className="container">
                     <div className="row justify-content-center">
                         <div className="col-12 col-md-7">

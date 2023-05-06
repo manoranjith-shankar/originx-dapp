@@ -1,0 +1,63 @@
+{
+    "img": "/img/originx-logo-main-white.png",
+    "content": "This project is edited by <>",
+    "widget_1": "Useful Links",
+    "widget_2": "Community",
+    "widget_3": "Subscribe Us",
+    "socialData": [
+      {
+        "id": 1,
+        "link": "Github",
+        "icon": "fab fa-github"
+      },
+      {
+        "id": 4,
+        "link": "website",
+        "icon": "fab fa-website"
+      }
+    ],
+    "widgetData_1": [
+      {
+        "id": 1,
+        "text": "All NFTs"
+      },
+      {
+        "id": 2,
+        "text": "How It Works"
+      },
+      {
+        "id": 3,
+        "text": "Create"
+      },
+      {
+        "id": 4,
+        "text": "Explore"
+      },
+      {
+        "id": 5,
+        "text": "Privacy & Terms"
+      }
+    ],
+    "widgetData_2": [
+      {
+        "id": 1,
+        "text": "Help Center"
+      },
+      {
+        "id": 2,
+        "text": "Partners"
+      },
+      {
+        "id": 3,
+        "text": "Suggestions"
+      },
+      {
+        "id": 4,
+        "text": "Blog"
+      },
+      {
+        "id": 5,
+        "text": "Newsletter"
+      }
+    ]
+  }

@@ -11,9 +11,11 @@
     "aos": "^2.3.4",
     "ethers": "^5.7.2",
     "react": "^18.2.0",
+    "react-datepicker": "^4.11.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.1",
     "react-scripts": "5.0.1",
+    "truffle": "^5.8.4",
     "wagmi": "^0.12.13",
     "web-vitals": "^2.1.4"
   },

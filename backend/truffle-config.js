@@ -57,7 +57,7 @@ module.exports = {
    *
    * $ truffle test --network <network-name>
    */
-contracts_build_directory: "../src/contracts/",
+contracts_build_directory: "../src/contracts",
   networks: {
     // Useful for testing. The `development` name is special - truffle uses it by default
     // if it's defined here and no other network is specified at the command line.
@@ -107,7 +107,6 @@ contracts_build_directory: "../src/contracts/",
       confirmations: 2,
       timeoutBlocks: 200,
       skipDryRun: true
-      // contract-address: 0x82A99144149373f96710Dd24be9e6C233264D616 - supplychain.sol
       },
     //
     // Useful for private networks

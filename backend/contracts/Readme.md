@@ -1,4 +1,8 @@
 mainNftRaffle.sol:
 
+Polygon Mumbai:
+deployerAddress: 0xc09AA2837EF2f70a33b4d49C59DCD4e779eF92Eb
+contractAddress: 0xd768AB0837d8608c3BE3a6eB8141010bEFB86d4e
+
 deployerFunctions.sol:
 

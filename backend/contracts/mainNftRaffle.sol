@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 
-contract nftRafflerOriginx1 is IERC721Receiver {
+contract mainNftRaffle is IERC721Receiver {
     using SafeMath for uint256;
 
     struct Raffle {

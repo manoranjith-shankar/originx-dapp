@@ -10,11 +10,24 @@ const Create = () => {
     const [raffleName, setRaffleName] = useState('');
     const [nftPrice, setNftPrice] = useState('');
     const [totalVolumeofTickets, setTotalVolumeofTickets] = useState('');
-    const [endTime, setEndTime] = useState('');
+    const [placeDate,setPlaceDate] = useState('End Date');
+    const [endTime, setEndTime] = useState(''); // initialize with current time
     const [nftId, setNftId] = useState('');
     const [nftContractAddress, setNftContractAddress] = useState('');
     const [nftSourceLink, setNftSourceLink] = useState('');
     const [loading, setLoading] = useState(false);
+      
+      const handlePlaceDateChange = (event) => {
+        const inputDate = event.target.value;
+        setPlaceDate(inputDate);
+      };
+      
+      const handleEndTimeChange = (event) => {
+        const inputDate = event.target.value;
+        const date = new Date(inputDate);
+        const unixTime = Math.floor(date.getTime() / 1000); // convert to Unix timestamp
+        setEndTime(unixTime);
+      };            
 
     const provider = new ethers.providers.Web3Provider(window.ethereum);
 
@@ -84,11 +97,17 @@ const Create = () => {
                                         </div>
                                     </div>
                                     <div className="col-12 col-md-6">
-                                        <div className="form-group">
-                                            <input type="text" className="form-control" placeholder="End Time" required="required" 
-                                                value={endTime} onChange={e => setEndTime(e.target.value)}/>
+                                        <div className="form-group"> 
+                                         <input  type="date" className="form-control" placeholder="date" required="required" 
+                                               value={placeDate} onChange={handlePlaceDateChange} />
                                         </div>
                                     </div>
+                                    <div className="col-12">
+                                        <div className="form-group">
+                                        <input type="text" className="form-control" name="end date" placeholder="End Time" required="required" 
+                                            value={endTime} onChange={handleEndTimeChange}/>
+                                        </div>
+                                    </div> 
                                     <div className="col-12">
                                         <div className="form-group">
                                             <input type="text" className="form-control" name="price" placeholder="Nft Contract Address" required="required" 

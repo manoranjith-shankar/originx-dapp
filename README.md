@@ -21,3 +21,5 @@ This should start the dApp at [localhost](localhost:3000)
 React
 Solidity
 Truffle
+wagmi
+Spheron

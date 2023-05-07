@@ -19,11 +19,11 @@ const Create = () => {
       
       const handlePlaceDateChange = (event) => {
         const inputDate = event.target.value;
+        handleEndTimeChange(inputDate);
         setPlaceDate(inputDate);
       };
       
-      const handleEndTimeChange = (event) => {
-        const inputDate = event.target.value;
+      const handleEndTimeChange = (inputDate) => {
         const date = new Date(inputDate);
         const unixTime = Math.floor(date.getTime() / 1000); // convert to Unix timestamp
         setEndTime(unixTime);

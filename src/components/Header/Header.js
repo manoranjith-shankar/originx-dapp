@@ -20,7 +20,7 @@ const Header = () => {
                         <li className="nav-item dropdown">
                             <a className="nav-link" href="#">Explore <i className="fas fa-angle-down ml-1" /></a>
                             <ul className="dropdown-menu">
-                                <li className="nav-item"><a href="/explore-1" className="nav-link">Open Raffles</a></li>
+                                <li className="nav-item"><a href="/raffles" className="nav-link">Open Raffles</a></li>
                                 <li className="nav-item"><a href="/explore-1" className="nav-link">Unlisted Raffles</a></li>
                             </ul>
                         </li>

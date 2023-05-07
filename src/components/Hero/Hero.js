@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 const initData = {
-    preheading: "",
+    preheading: "Nft Raffles",
     heading: "Explore, collect, and sell impactful NFTs with OriginX",
     content: "Donate and redeem unique tokens for a meaningful impact",
     btn_1: "Explore",
@@ -28,7 +28,7 @@ class Hero extends Component {
                             <p>{this.state.data.content}</p>
                             {/* Buttons */}
                             <div className="button-group">
-                                <a className="btn btn-bordered-white" href="/explore-1"><i className="icon-rocket mr-2" />{this.state.data.btn_1}</a>
+                                <a className="btn btn-bordered-white" href="/raffles"><i className="icon-rocket mr-2" />{this.state.data.btn_1}</a>
                                 <a className="btn btn-bordered-white" href="/create"><i className="icon-note mr-2" />{this.state.data.btn_2}</a>
                             </div>
                         </div>

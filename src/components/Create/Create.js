@@ -68,6 +68,7 @@ const Create = () => {
     }
   };
         return (
+            <>
             <section className="author-area">
                 <div className="container">
                     <div className="row justify-content-center">
@@ -127,16 +128,17 @@ const Create = () => {
                                     </div>
                                     <div className="col-12">
                                         <div className="form-group">
-                                            <input type="text" className="form-control" name="price" placeholder="Nft Contract Address" required="required" 
-                                                value={charityAddress} onChange={e => setCharityAddress(e.target.value)}/>
-                                        </div>
-                                    </div>
-                                    <div className="col-12">
-                                        <div className="form-group">
                                             <input type="link" className="form-control" name="price" placeholder="Nft Source Link" required="required" 
                                                 value={nftSourceLink} onChange={e => setNftSourceLink(e.target.value)} />
                                         </div>
                                     </div>
+                                    <div className="col-12">
+                                        <div className="form-group">
+                                            <input type="text" className="form-control" name="price" placeholder="Charity Address" required="required" 
+                                                value={charityAddress} onChange={e => setCharityAddress(e.target.value)}/>
+                                        </div>
+                                    </div>
+                                    
                                     {/* Add Fractional Nft option */}
                                     {/* <div className="col-12">
                                         <div className="form-group mt-3">
@@ -165,6 +167,15 @@ const Create = () => {
                     </div>
                 </div>
             </section>
+                                    <section><div className="card no-hover">
+                                            <h4 className="mt-0 mb-2">Available Tickets</h4>
+                                            <div className="price d-flex justify-content-between align-items-center">
+                                                <span>{"string"}</span>
+                                                <span>{"String"}</span>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    </>
         );
     }
 

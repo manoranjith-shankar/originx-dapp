@@ -36,7 +36,7 @@ const Create = () => {
         setShowToast(true); // set the state variable to true when the toast should be displayed
       };
       const notifyError = () => {
-        toast.error('The transaction is unsuccessful.');
+        toast.error('Something went wrong. Please try again.');
         setShowToast(true); // set the state variable to true when the toast should be displayed
       };
 
@@ -147,8 +147,9 @@ const Create = () => {
                                         </div>
                                     </div> */}
                                     <div className="col-12">
-                                        <button className="btn w-100 mt-3 mt-sm-4" type="submit" onClick={showToast} >Create Raffle</button>
-                                        <Toaster />
+                                    <button className="btn w-100 mt-3 mt-sm-4" type="submit" onClick={handleSubmit} >Create Raffle</button>
+                                        <Toaster position="bottom-right" reverseOrder={true} toastOptions={{ className: '',duration: 5000, style: {background: '#363636',color: '#fff',}
+                                        }}/>
                                     </div>
                                 </div>
                             </form>

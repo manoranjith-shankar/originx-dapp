@@ -1,19 +1,19 @@
 {
     "img": "/img/originx-logo-main-white.png",
-    "content": "This project is edited by <>",
+    "content": "",
     "widget_1": "Useful Links",
     "widget_2": "Community",
     "widget_3": "Subscribe Us",
     "socialData": [
       {
         "id": 1,
-        "link": "Github",
+        "link": "https://github.com/manoranjith-shankar/dappathon",
         "icon": "fab fa-github"
       },
       {
         "id": 4,
-        "link": "website",
-        "icon": "fab fa-website"
+        "link": "https://bafybeibudot6falo5i4o6rt2jxibxui4o3pheqheyple2sb7ywkghuqzau.ipfs.sphn.link/",
+        "icon": "fab fa-globe"
       }
     ],
     "widgetData_1": [

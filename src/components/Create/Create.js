@@ -68,7 +68,6 @@ const Create = () => {
     }
   };
         return (
-            <>
             <section className="author-area">
                 <div className="container">
                     <div className="row justify-content-center">
@@ -167,15 +166,6 @@ const Create = () => {
                     </div>
                 </div>
             </section>
-                                    <section><div className="card no-hover">
-                                            <h4 className="mt-0 mb-2">Available Tickets</h4>
-                                            <div className="price d-flex justify-content-between align-items-center">
-                                                <span>{"string"}</span>
-                                                <span>{"String"}</span>
-                                            </div>
-                                        </div>
-                                    </section>
-                                    </>
         );
     }
 

@@ -17,7 +17,7 @@ class Footer extends Component {
                         <div className="row">
                             <div className="col-12 col-sm-6 col-lg-3 res-margin">
                                 {/* Footer Items */}
-                                <div className="footer-items">
+                                <div className="footer-items justify-content-center">
                                     {/* Logo */}
                                     <a className="navbar-brand" href="/">
                                         <img src={this.state.data.img} alt="" />

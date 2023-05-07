@@ -383,35 +383,35 @@ $( document ).ready(function() {
     /*----------------------------------------------
     6. Shuffle
     ----------------------------------------------*/
-    (function ($) {
-
-        'use strict';
-
+    $(document).ready(function() {
         $('.explore-area').each(function(index) {
-
-            var count = index + 1;
-
-            $(this).find('.explore-items').removeClass('explore-items').addClass('explore-items-'+count);
-            $(this).find('.explore-item').removeClass('explore-item').addClass('explore-item-'+count);
-            $(this).find('.explore-btn').removeClass('explore-btn').addClass('explore-btn-'+count);
-            
-            var Shuffle = window.Shuffle;
-            var Filter  = new Shuffle(document.querySelector('.explore-items-'+count), {
-                itemSelector: '.explore-item-'+count,
-                buffer: 1,
-            })
-
+      
+          var count = index + 1;
+      
+          $(this).find('.explore-items').removeClass('explore-items').addClass('explore-items-'+count);
+          $(this).find('.explore-item').removeClass('explore-item').addClass('explore-item-'+count);
+          $(this).find('.explore-btn').removeClass('explore-btn').addClass('explore-btn-'+count);
+                  
+          var Shuffle = window.Shuffle;
+          var container = document.querySelector('.explore-items-'+count);
+          if (container) {
+            var Filter = new Shuffle(container, {
+              itemSelector: '.explore-item-'+count,
+              buffer: 1,
+            });
+      
             $('.explore-btn-'+count).on('change', function (e) {
-
-                var input = e.currentTarget;
-                
-                if (input.checked) {
-                    Filter.filter(input.value);
-                }
-            })
+              var input = e.currentTarget;
+                      
+              if (input.checked) {
+                Filter.filter(input.value);
+              }
+            });
+          } else {
+            console.error('No element found for selector: .explore-items-'+count);
+          }
         });
-
-    }(jQuery));
+      });      
 
     /*----------------------------------------------
     7. Contact Form

@@ -15,6 +15,7 @@ const Create = () => {
     const [nftId, setNftId] = useState('');
     const [nftContractAddress, setNftContractAddress] = useState('');
     const [nftSourceLink, setNftSourceLink] = useState('');
+    const [charityAddress, setCharityAddress] = useState('');
     const [showToast, setShowToast] = useState(false);
       
       const handlePlaceDateChange = (event) => {
@@ -56,7 +57,8 @@ const Create = () => {
         endTime,
         nftId,
         nftContractAddress,
-        nftSourceLink
+        nftSourceLink,
+        charityAddress
       );
       console.log(result);
       notify();
@@ -121,6 +123,12 @@ const Create = () => {
                                         <div className="form-group">
                                             <input type="text" className="form-control" name="price" placeholder="Nft Contract Address" required="required" 
                                                 value={nftContractAddress} onChange={e => setNftContractAddress(e.target.value)}/>
+                                        </div>
+                                    </div>
+                                    <div className="col-12">
+                                        <div className="form-group">
+                                            <input type="text" className="form-control" name="price" placeholder="Nft Contract Address" required="required" 
+                                                value={charityAddress} onChange={e => setCharityAddress(e.target.value)}/>
                                         </div>
                                     </div>
                                     <div className="col-12">

@@ -67,7 +67,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -85,7 +86,8 @@
       "name": "buyTicket",
       "outputs": [],
       "stateMutability": "payable",
-      "type": "function"
+      "type": "function",
+      "payable": true
     },
     {
       "inputs": [
@@ -171,7 +173,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -20121,12 +20124,13 @@
     "80001": {
       "events": {},
       "links": {},
-      "address": "0xeA34D29471c273f7826d2b42B4f11DE41A779d83",
-      "transactionHash": "0x1aba678769493e60d3e0f062137cdf31b079ae207e1b221c2aeab96654ce05d2"
+      "address": "0xD9267EA7e565c6a42dcB8BBF113A2edDf1a5b0c9",
+      "transactionHash": "0x9705398ca7698b4230a8921abfa7dad6dd744b30da7d441e368e0c6d64ae437d"
     }
   },
   "schemaVersion": "3.4.13",
-  "updatedAt": "2023-05-06T17:26:10.869Z",
+  "updatedAt": "2023-05-07T13:18:59.663Z",
+  "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
     "methods": {

@@ -3,19 +3,22 @@ import exploreData from './OpenRaffles.json';
 
 class OpenRaffles extends Component {
   state = {
-    data: {},
+    initData: {
+      preHeading: "Exclusive Assets",
+      heading: "Explore",
+      btnText: "Explore More"
+    },
     exploreData: []
   };
 
   componentDidMount() {
     this.setState({
-      data: exploreData,
       exploreData: exploreData.exploreData
     });
   }
 
   render() {
-    const { preHeading, heading, btnText } = this.state.data;
+    const { preHeading, heading, btnText } = this.state.initData;
 
     return (
       <section className="explore-area">
@@ -29,7 +32,7 @@ class OpenRaffles extends Component {
                   <h3 className="mt-3 mb-0">{heading}</h3>
                 </div>
                 <div className="intro-btn">
-                  <a className="btn content-btn" href="/explore-1">
+                  <a className="btn content-btn" href="/">
                     {btnText}
                   </a>
                 </div>
@@ -42,7 +45,7 @@ class OpenRaffles extends Component {
                 <div key={`edt_${idx}`} className="col-12 col-sm-6 col-lg-3 item">
                   <div className="card">
                     <div className="image-over">
-                      <a href="/item-details">
+                      <a href="/raffle-details">
                         <img className="card-img-top" src={item.img} alt="" />
                       </a>
                     </div>
@@ -50,7 +53,7 @@ class OpenRaffles extends Component {
                     <div className="card-caption col-12 p-0">
                       {/* Card Body */}
                       <div className="card-body">
-                        <a href="/item-details">
+                        <a href="/raffle-details">
                           <h5 className="mb-0">{item.title}</h5>
                         </a>
                         <div className="seller d-flex align-items-center my-3">

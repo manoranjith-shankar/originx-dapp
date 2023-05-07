@@ -1,24 +1,18 @@
 import React, { Component } from 'react';
 
 const initData = {
-    itemImg: "/img/auction_2.jpg",
-    date: "2022-03-30",
-    tab_1: "Bids",
-    tab_2: "History",
-    tab_3: "Details",
-    ownerImg: "/img/avatar_1.jpg",
-    itemOwner: "Themeland",
-    created: "15 Jul 2021",
-    title: "Walking On Air",
-    content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum obcaecati dignissimos quae quo ad iste ipsum officiis deleniti asperiores sit.",
-    price_1: "1.5 ETH",
-    price_2: "$500.89",
-    count: "1 of 5",
-    size: "14000 x 14000 px",
-    volume: "64.1",
-    highest_bid: "2.9 BNB",
-    bid_count: "1 of 5",
-    btnText: "Place a Bid"
+    nftSourceLink: "/img/auction_2.jpg",
+    raffleName: "name",
+    raffleCreator: "0x7123r12hek2ekdjn2ilednqkdbk2dbk2bd2d211",
+    nftPrice: "10 ETH",
+    nftId: "5",
+    nftContractAddress: "0x7123r12hek2ekdjn2ilednqkdbk2dbk2bd2d211",
+    ticketPrice: "1 ETH",
+    totalSoldTickets: "10",
+    btnText: "Buy Ticket",
+    endTime: "2022-03-30",
+    tab_1: "History",
+    tab_2: "Details"
 }
 
 const tabData_1 = [
@@ -69,21 +63,6 @@ const tabData_2 = [
     }
 ]
 
-const sellerData = [
-    {
-        id: "1",
-        img: "/img/avatar_1.jpg",
-        seller: "@ArtNoxStudio",
-        post: "Creator"
-    },
-    {
-        id: "2",
-        img: "/img/avatar_2.jpg",
-        seller: "Virtual Worlds",
-        post: "Collection"
-    }
-]
-
 class ItemDetails extends Component {
     state = {
         initData: {},
@@ -93,10 +72,7 @@ class ItemDetails extends Component {
     }
     componentDidMount(){
         this.setState({
-            initData: initData,
-            tabData_1: tabData_1,
-            tabData_2: tabData_2,
-            sellerData: sellerData
+            initData: initData
         })
     }
     render() {
@@ -107,13 +83,15 @@ class ItemDetails extends Component {
                         <div className="col-12 col-lg-5">
                             <div className="item-info">
                                 <div className="item-thumb text-center">
-                                    <img src={this.state.initData.itemImg} alt="" />
+                                    <img src={this.state.initData.nftSourceLink} alt="" />
                                 </div>
                                 <div className="card no-hover countdown-times my-4">
                                     <div className="countdown d-flex justify-content-center" data-date={this.state.initData.date} />
                                 </div>
-                                {/* Netstorm Tab */}
-                                <ul className="netstorm-tab nav nav-tabs" id="nav-tab">
+
+
+                                {/* Tab */}
+                                {/* <ul className="netstorm-tab nav nav-tabs" id="nav-tab">
                                     <li>
                                         <a className="active" id="nav-home-tab" data-toggle="pill" href="#nav-home">
                                             <h5 className="m-0">{this.state.initData.tab_1}</h5>
@@ -129,110 +107,38 @@ class ItemDetails extends Component {
                                             <h5 className="m-0">{this.state.initData.tab_3}</h5>
                                         </a>
                                     </li>
-                                </ul>
-                                {/* Tab Content */}
-                                <div className="tab-content" id="nav-tabContent">
-                                    <div className="tab-pane fade show active" id="nav-home">
-                                        <ul className="list-unstyled">
-                                            {/* Single Tab List */}
-                                            {this.state.tabData_1.map((item, idx) => {
-                                                return (
-                                                    <li key={`tdo_${idx}`} className="single-tab-list d-flex align-items-center">
-                                                        <img className="avatar-sm rounded-circle mr-3" src={item.img} alt="" />
-                                                        <p className="m-0">Bid listed for <strong>{item.price}</strong> {item.time} <br />by <a href="/author">{item.author}</a></p>
-                                                    </li>
-                                                );
-                                            })}
-                                        </ul>
-                                    </div>
-                                    <div className="tab-pane fade" id="nav-profile">
-                                        <ul className="list-unstyled">
-                                            {/* Single Tab List */}
-                                            {this.state.tabData_2.map((item, idx) => {
-                                                return (
-                                                    <li key={`tdt_${idx}`} className="single-tab-list d-flex align-items-center">
-                                                        <img className="avatar-sm rounded-circle mr-3" src={item.img} alt="" />
-                                                        <p className="m-0">Bid listed for <strong>{item.price}</strong> {item.time} <br />by <a href="/author">{item.author}</a></p>
-                                                    </li>
-                                                );
-                                            })}
-                                        </ul>
-                                    </div>
-                                    <div className="tab-pane fade" id="nav-contact">
-                                        {/* Single Tab List */}
-                                        <div className="owner-meta d-flex align-items-center mt-3">
-                                            <span>Owner</span>
-                                            <a className="owner d-flex align-items-center ml-2" href="/author">
-                                                <img className="avatar-sm rounded-circle" src={this.state.initData.ownerImg} alt="" />
-                                                <h6 className="ml-2">{this.state.initData.itemOwner}</h6>
-                                            </a>
-                                        </div>
-                                        <p className="mt-2">Created : {this.state.initData.created}</p>
-                                    </div>
-                                </div>
+                                </ul> */}
+
+
                             </div>
                         </div>
                         <div className="col-12 col-lg-6">
                             {/* Content */}
                             <div className="content mt-5 mt-lg-0">
-                                <h3 className="m-0">{this.state.initData.title}</h3>
-                                <p>{this.state.initData.content}</p>
-                                {/* Owner */}
+                                <h3 className="m-0">{this.state.initData.raffleName}</h3>
+                                {/* <p>{this.state.initData.content}</p> */}
+                                {/* Creator */}
                                 <div className="owner d-flex align-items-center">
-                                    <span>Owned By</span>
-                                    <a className="owner-meta d-flex align-items-center ml-3" href="/author">
-                                        <img className="avatar-sm rounded-circle" src={this.state.initData.ownerImg} alt="" />
-                                        <h6 className="ml-2">{this.state.initData.itemOwner}</h6>
+                                    <span>Created By</span>
+                                    <a className=" d-flex align-items-center ml-3">
+                                        <h6 className="ml-2">{this.state.initData.raffleCreator}</h6>
                                     </a>
                                 </div>
-                                {/* Item Info List */}
-                                <div className="item-info-list mt-4">
-                                    <ul className="list-unstyled">
-                                        <li className="price d-flex justify-content-between">
-                                            <span>Current Price {this.state.initData.price_1}</span>
-                                            <span>{this.state.initData.price_2}</span>
-                                            <span>{this.state.initData.count}</span>
-                                        </li>
-                                        <li>
-                                            <span>Size </span>
-                                            <span>{this.state.initData.size}</span>
-                                        </li>
-                                        <li>
-                                            <span>Volume Traded </span>
-                                            <span>{this.state.initData.volume}</span>
-                                        </li>
-                                    </ul>
-                                </div>
+                                {/* Raffle Info List */}
+
                                 <div className="row items">
-                                    {this.state.sellerData.map((item, idx) => {
-                                        return (
-                                            <div key={`sd_${idx}`} className="col-12 col-md-6 item px-lg-2">
-                                                <div className="card no-hover">
-                                                    <div className="single-seller d-flex align-items-center">
-                                                        <a href="/author">
-                                                            <img className="avatar-md rounded-circle" src={item.img} alt="" />
-                                                        </a>
-                                                        {/* Seller Info */}
-                                                        <div className="seller-info ml-3">
-                                                            <a className="seller mb-2" href="/author">{item.seller}</a>
-                                                            <span>{item.post}</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
+                                    
                                     <div className="col-12 item px-lg-2">
                                         <div className="card no-hover">
-                                            <h4 className="mt-0 mb-2">Highest Bid</h4>
+                                            <h4 className="mt-0 mb-2">Available Tickets</h4>
                                             <div className="price d-flex justify-content-between align-items-center">
-                                                <span>{this.state.initData.highest_bid}</span>
-                                                <span>{this.state.initData.bid_count}</span>
+                                                <span>{this.state.initData.ticketPrice}</span>
+                                                <span>{this.state.initData.totalSoldTickets}</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <a className="d-block btn btn-bordered-white mt-4" href="/wallet-connect">{this.state.initData.btnText}</a>
+                                <a className="d-block btn btn-bordered-white mt-4" href="/">{this.state.initData.btnText}</a>
                             </div>
                         </div>
                     </div>

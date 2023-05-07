@@ -2,10 +2,10 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 // importing all the themes
-import ItemDetail from "../components/ItemDetail/ItemDetail";
 import Home from "../themes/Home";
 import CreateRaffle from "../themes/CreateRaffle";
 import OpenRafflesTheme from "../themes/OpenRafflesTheme";
+import RaffleDetailsTheme from "../themes/RaffleDetailsTheme";
 
 class MyRouts extends React.Component {
   render() {
@@ -16,7 +16,7 @@ class MyRouts extends React.Component {
             <Route exact path="/" element={<Home />} />
             <Route exact path="/create" element={<CreateRaffle />} />
             <Route exact path="/raffles" element={<OpenRafflesTheme />} />
-            <Route exact path="/raffle-details" element={<ItemDetail />} />
+            <Route exact path="/raffle-details" element={<RaffleDetailsTheme />} />
           </Routes>
         </Router>
       </div>

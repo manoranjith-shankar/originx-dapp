@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAccount } from 'wagmi';
 import { ethers } from 'ethers';
 import mainNftRaffle from '../contracts/mainNftRaffle.json'
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Create = () => {
 
@@ -15,7 +15,7 @@ const Create = () => {
     const [nftId, setNftId] = useState('');
     const [nftContractAddress, setNftContractAddress] = useState('');
     const [nftSourceLink, setNftSourceLink] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [showToast, setShowToast] = useState(false);
       
       const handlePlaceDateChange = (event) => {
         const inputDate = event.target.value;
@@ -30,6 +30,15 @@ const Create = () => {
       };            
 
     const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+    const notify = () => {
+        toast.success('The transaction is successful.');
+        setShowToast(true); // set the state variable to true when the toast should be displayed
+      };
+      const notifyError = () => {
+        toast.error('The transaction is unsuccessful.');
+        setShowToast(true); // set the state variable to true when the toast should be displayed
+      };
 
     const handleSubmit = async (event) => {
     event.preventDefault();
@@ -50,11 +59,11 @@ const Create = () => {
         nftSourceLink
       );
       console.log(result);
+      notify();
     } catch (err) {
       console.log(err);
+      notifyError();
     }
-
-    setLoading(false);
   };
         return (
             <section className="author-area">
@@ -138,7 +147,8 @@ const Create = () => {
                                         </div>
                                     </div> */}
                                     <div className="col-12">
-                                        <button className="btn w-100 mt-3 mt-sm-4" type="submit">Create Item</button>
+                                        <button className="btn w-100 mt-3 mt-sm-4" type="submit" onClick={showToast} >Create Raffle</button>
+                                        <Toaster />
                                     </div>
                                 </div>
                             </form>

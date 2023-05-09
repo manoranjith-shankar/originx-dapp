@@ -8,6 +8,9 @@
 # prompts
 /.txt
 
+#chains
+/.chains
+
 # testing
 /coverage
 

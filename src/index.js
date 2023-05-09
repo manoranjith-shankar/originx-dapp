@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import App from './App';
 
 import '@rainbow-me/rainbowkit/styles.css';
@@ -14,27 +13,8 @@ import { mainnet, polygon, optimism, arbitrum, polygonMumbai } from 'wagmi/chain
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 
-export const SphinxBetanet = {
-  id: 8082,
-  name: 'Sphinx Testnet',
-  network: 'Shardeum Sphinx 1.X',
-  nativeCurrency: {
-  decimals: 18,
-  name: 'Shardeum Sphinx 1.X',
-  symbol: 'SHM',
-  },
-    iconUrl: 'https://www.redwolf.in/image/catalog/marketplace/shardeum/shardeum-artist-image.png',
-  rpcUrls: {
-  public: { http: ['https://sphinx.shardeum.org'] },
-  default: { http: ['https://sphinx.shardeum.org'] },
-  },
-  blockExplorers: {
-  default: { name: 'Sphinx Betanet', url: 'https://explorer-sphinx.shardeum.org' },
-  },
-  }
-
 const { chains, provider } = configureChains(
-  [mainnet, polygonMumbai, polygon, SphinxBetanet, optimism, arbitrum],
+  [mainnet, polygonMumbai, polygon, optimism, arbitrum],
   [
     alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
     publicProvider()

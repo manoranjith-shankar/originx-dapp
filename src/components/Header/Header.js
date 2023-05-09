@@ -1,5 +1,6 @@
 import React from 'react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
     return (
@@ -15,18 +16,19 @@ const Header = () => {
                     {/* Navbar */}
                     <ul className="navbar-nav items mx-auto">
                         <li className="nav-item dropdown">
-                            <a className="nav-link" href="/">Home</a>
+                            {/* <a className="nav-link" href="/">Home</a> */}
+                            <Link to="/" className="nav-link">Home</Link>
                         </li>
                         <li className="nav-item dropdown">
                             <a className="nav-link" href="#">Explore <i className="fas fa-angle-down ml-1" /></a>
-                            <ul className="dropdown-menu">
+                            <ul className="dropdown-menu"> 
                                 <li className="nav-item"><a href="/raffles" className="nav-link">Open Raffles</a></li>
                                 <li className="nav-item"><a href="/explore-1" className="nav-link">Unlisted Raffles</a></li>
                             </ul>
                         </li>
                         <li className="nav-item">
-                            <a href="/activity" className="nav-link">Activity</a>
-                            <a href="/activity" className="nav-link">Mint NFT</a>
+                            <Link to="/activity" className="nav-link">Activity</Link>
+                            <Link to="/mint" className="nav-link">Mint NFT</Link>
                         </li>
                     </ul>
                     {/* Navbar Toggler */}

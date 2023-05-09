@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 const initData = {
     preheading: "Nft Raffles",
@@ -28,8 +29,10 @@ class Hero extends Component {
                             <p>{this.state.data.content}</p>
                             {/* Buttons */}
                             <div className="button-group">
-                                <a className="btn btn-bordered-white" href="/raffles"><i className="icon-rocket mr-2" />{this.state.data.btn_1}</a>
-                                <a className="btn btn-bordered-white" href="/create"><i className="icon-note mr-2" />{this.state.data.btn_2}</a>
+                            <Link to="/raffles" className="btn btn-bordered-white"><i className="icon-rocket mr-2" />{this.state.data.btn_1}</Link>
+                            <Link to="/create" className="btn btn-bordered-white"><i className="icon-note mr-2" />{this.state.data.btn_2}</Link>
+                            {/* <a className="btn btn-bordered-white" href="/raffles"><i className="icon-rocket mr-2" />{this.state.data.btn_1}</a>
+                                <a className="btn btn-bordered-white" href="/create"><i className="icon-note mr-2" />{this.state.data.btn_2}</a> */}
                             </div>
                         </div>
                     </div>

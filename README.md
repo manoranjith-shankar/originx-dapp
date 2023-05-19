@@ -5,7 +5,7 @@ NFT Raffle Charity DApp empowers NFT creators and collectors to monetize their d
 In simple words,  By listing their NFTs for raffle tickets, NFT owners can generate more interest and excitement around their digital assets, while also contributing to a good cause.
 
 ## Installing / Getting started
-> There is no complete build for this application, because of goerli deprecation :dizzy_face:
+> You must have node.js installed
 
 A quick introduction of the minimal setup you need to get a hello world up &
 running.
@@ -15,14 +15,14 @@ npm install --save
 npm start
 ```
 
-This should start the dApp at [localhost](localhost:3000)
+This should start the dApp at [(localhost)](localhost:3000)
 
 ### Contracts
 ```shell
 cd backend
-truffle migrate --network sphinx
+truffle migrate --network matic
 ```
-This will deploy the smart contract on sphinx testnet
+This will deploy the smart contract on matic testnet
 
 ### Deployed Contract address
 

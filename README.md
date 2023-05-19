@@ -4,8 +4,8 @@ NFT Raffle Charity DApp empowers NFT creators and collectors to monetize their d
 
 In simple words,  By listing their NFTs for raffle tickets, NFT owners can generate more interest and excitement around their digital assets, while also contributing to a good cause.
 
-## Installing / Getting started
-> You must have node.js installed
+## Getting started
+> You must have [node.js](https://nodejs.org/en/download) installed
 
 A quick introduction of the minimal setup you need to get a hello world up &
 running.
@@ -15,7 +15,7 @@ npm install --save
 npm start
 ```
 
-This should start the dApp at [(localhost)](localhost:3000)
+This should start the dApp at [(localhost)](https://localhost:3000)
 
 ### Contracts
 ```shell

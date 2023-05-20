@@ -13,8 +13,8 @@ class Home extends Component {
             <div className="main">
                 <Header />
                 <Hero />
+                <Info />
                 <Work />
-                {/* <Info /> */}
                 <Footer />
             </div>
         );

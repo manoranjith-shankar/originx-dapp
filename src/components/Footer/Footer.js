@@ -4,9 +4,7 @@ import footerData from './footerData.json';
 class Footer extends Component {
     state = {
         data: footerData,
-        socialData: footerData.socialData,
-        widgetData_1: footerData.widgetData_1,
-        widgetData_2: footerData.widgetData_2
+        socialData: footerData.socialData
     }
     render() {
         return (
@@ -27,9 +25,9 @@ class Footer extends Component {
                                     <div className="social-icons d-flex">
                                         {this.state.socialData.map((item, idx) => {
                                             return (
-                                                <a key={`sd_${idx}`} className={item.link} href="#">
-                                                    <i className={item.icon} />
-                                                    <i className={item.icon} />
+                                                <a key={`sd_${idx}`} className={item.link} >
+                                                    <i className={item.icon} href="https://github.com"/>
+                                                    <i className={item.icon} href="https://github.com"/>
                                                 </a>
                                             );
                                         })}
@@ -47,9 +45,9 @@ class Footer extends Component {
                                 {/* Copyright Area */}
                                 <div className="copyright-area d-flex flex-wrap justify-content-center justify-content-sm-between text-center py-4">
                                     {/* Copyright Left */}
-                                    <div className="copyright-left"></div>
+                                    <div className="copyright-left">Submitted to Theta Hackathon</div>
                                     {/* Copyright Right */}
-                                    <div className="copyright-right">By Team <a href="#">0xc0d3rs</a></div>
+                                    <div className="copyright-right">By Team <a href="https://0xc0d3rs.tech" target= "_blank" >0xc0d3rs</a></div>
                                 </div>
                             </div>
                         </div>

@@ -15,7 +15,7 @@ npm install --save
 npm start
 ```
 
-This should start the dApp at [(localhost)](https://localhost:3000)
+This should start the dApp at [localhost](https://localhost:3000)
 
 ### Contracts
 ```shell

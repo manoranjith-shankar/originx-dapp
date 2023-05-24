@@ -58,7 +58,7 @@ class OpenRaffles extends Component {
                         </a>
                         <div className="seller d-flex align-items-center my-3">
                           <span>Owned By</span>
-                          <a href="/author">
+                          <a href="https://etherscan.io/address/">
                             <h6 className="ml-2 mb-0">{item.owner}</h6>
                           </a>
                         </div>

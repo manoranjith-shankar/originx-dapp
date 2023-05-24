@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 
 const initData = {
     pre_heading: "Get Started",
-    heading: "How can we help you?",
-    content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum obcaecati dignissimos quae quo ad iste ipsum officiis deleniti asperiores sit."
+    heading: "What's What",
+    content: "Some text to be displayed here..."
 }
 
 const data = [
@@ -11,19 +11,22 @@ const data = [
         id: "1",
         icon: "icon icon-note text-effect",
         title: "Creating",
-        content: "Learn how to create your very first NFT and how to create your NFT collections so you can begin selling and sharing"
+        content: "Learn how to create your very first NFT and how to create your NFT collections so you can begin selling and sharing",
+        href: "#"
     },
     {
         id: "2",
-        icon: "icon icon-flag text-effect",
-        title: "Partners",
-        content: "Learn how you can partner with us to showcase your NFT drops"
+        icon: "icon icon-info text-effect",
+        title: "About",
+        content: "Get to know about originX and the raffler backend",
+        href: "#"
     },
     {
         id: "3",
-        icon: "icon icon-info text-effect",
-        title: "About",
-        content: "Get to know about originX and the raffler backend"
+        icon: "icon icon-flag text-effect",
+        title: "Partners",
+        content: "Learn how you can partner with us to showcase your NFT drops & collections",
+        href: "#"
     }
 ]
 
@@ -58,8 +61,8 @@ class Info extends Component {
                                 <div key={`hd_${idx}`} className="col-12 col-md-6 col-lg-4 item">
                                     {/* Help Card */}
                                     <div className="card help-card">
-                                        <a className="d-block text-center" href="#">
-                                            <i className={item.icon} />
+                                        <a className="d-block text-center" href={item.href}>
+                                            <i className={item.icon}/>
                                             <h4>{item.title}</h4>
                                             <p>{item.content}</p>
                                         </a>

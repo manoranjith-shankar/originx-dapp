@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 const initData = {
-    nftSourceLink: "/img/auction_2.jpg",
     raffleName: "name",
+    nftSourceLink: "/img/auction_2.jpg",
     raffleCreator: "0x7123r12hek2ekdjn2ilednqkdbk2dbk2bd2d211",
     nftPrice: "10 ETH",
     nftId: "5",

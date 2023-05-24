@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
-import "github.com/abdk-consulting/abdk-libraries-solidity/ABDKMath64x64.sol";
+import "https://github.com/abdk-consulting/abdk-libraries-solidity/ABDKMath64x64.sol";
 
 contract mainNftRaffle is IERC721Receiver {
     using SafeMath for uint256;

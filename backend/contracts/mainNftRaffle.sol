@@ -4,11 +4,9 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
-import "https://github.com/abdk-consulting/abdk-libraries-solidity/ABDKMath64x64.sol";
 
 contract mainNftRaffle is IERC721Receiver {
     using SafeMath for uint256;
-    using ABDKMath64x64 for int128;
 
     struct Raffle {
     uint raffleId;
@@ -48,7 +46,7 @@ contract mainNftRaffle is IERC721Receiver {
         uint256 totalSoldTickets;
         bool raffleCancelled;
         bool raffleEnded;
-        }
+    }
 
     mapping(uint256 => Raffle) private raffles;
     mapping(uint256 => mapping(uint256 => address)) public ticketToOwner;
@@ -85,7 +83,7 @@ contract mainNftRaffle is IERC721Receiver {
     tickets: new uint256[](0),
     winningTicket: 0,
     raffleWinner: address(0),
-    developmentTeam: payable(address(0xc09AA2837EF2f70a33b4d49C59DCD4e779eF92Eb))
+    developmentTeam: payable(address(0xFb4D4D414C549E025A046BB60f13036e75e9C159))
     });
 
     raffles[raffleCount].ticketPrice = raffles[raffleCount].rafflePool.div(_totalVolumeofTickets);
@@ -117,6 +115,7 @@ contract mainNftRaffle is IERC721Receiver {
         return raffle.totalVolumeofTickets - raffle.totalSoldTickets;
     }
     }
+
     function buyTicket(uint256 _raffleId, uint256 _totalTicketsWanted) public payable {
         Raffle storage raffle = raffles[_raffleId];
 
@@ -124,7 +123,8 @@ contract mainNftRaffle is IERC721Receiver {
         require(!raffle.raffleEnded, "Raffle is ended");
         require(_totalTicketsWanted > 0, "Invalid number of tickets");
         require(_totalTicketsWanted <= raffle.totalVolumeofTickets - raffle.totalSoldTickets, "Not enough tickets available");
-        require(msg.value >= _totalTicketsWanted * raffle.ticketPrice, "Incorrect payment amount");
+        uint256 totalTicketPrice = _totalTicketsWanted * raffle.ticketPrice;
+        require(msg.value >= totalTicketPrice, "Incorrect payment amount");
 
         // Update ticket ownership
         for (uint256 i = 0; i < _totalTicketsWanted; i++) {
@@ -136,6 +136,13 @@ contract mainNftRaffle is IERC721Receiver {
     // Update raffle info
     raffle.totalSoldTickets += _totalTicketsWanted;
     raffle.fundsInContract += msg.value;
+    }
+
+    function getTotalTicketPrice (uint _raffleId, uint256 _totalTicketsWanted) public view returns (uint256) {
+        Raffle storage raffle = raffles[_raffleId];
+
+        uint256 totalTicketPrice = _totalTicketsWanted * raffle.ticketPrice;
+        return totalTicketPrice;
     }
 
     // This function picks a random ticket from totalSoldTickets for a raffleId.
@@ -156,108 +163,36 @@ contract mainNftRaffle is IERC721Receiver {
     emit WinnerSelected(raffleId, winningTicketNumber, winningTicketOwner);
     }
 
-    // This function calculates the prize amount for each entity.
-    // function calculatePrizePool(uint256 _raffleId) private returns (uint256, uint256, uint256, uint256) {
-    //     uint256 rafflePrizePool = raffles[_raffleId].rafflePool;
-    //     uint256 raffleCreatorPrize = raffles[_raffleId].nftPrice + (rafflePrizePool * 5) / 100;
-    //     uint256 developmentTeamPrize = (rafflePrizePool * 5) / 100;
-    //     uint256 charityPrize = rafflePrizePool - raffleCreatorPrize - developmentTeamPrize;
-    //     return (rafflePrizePool, raffleCreatorPrize, developmentTeamPrize, charityPrize);
-    // }
-
-    // // This function sends the prize pool to each entity.
-    // function sendPrizePool(uint256 _raffleId) public {
-    //     require(address(this).balance >= raffles[_raffleId].rafflePool, "Insufficient contract balance");
-
-    //     // Retrieve the winner information from the raffle struct
-    //     address winningTicketOwner = raffles[_raffleId].raffleWinner;
-    //     uint256 winningTicketNumber = pickRandomTicket(_raffleId);
-
-    //     require(winningTicketOwner != address(0), "Winner has not been selected yet");
-
-    //     // Calculate the prize pool for each entity.
-    //     (uint256 rafflePrizePool, uint256 raffleCreatorPrize , uint256 developmentTeamPrize, uint256 charityPrize) = calculatePrizePool(_raffleId);
-
-    //     // Transfer the prize amounts to each entity.
-    //     payable(raffles[_raffleId].raffleCreator).transfer(raffleCreatorPrize);
-
-    //     // Call safeTransferFrom function on ERC721 token contract to transfer the NFT to the winner.
-    //     IERC721(raffles[_raffleId].nftContractAddress).safeTransferFrom(address(this), winningTicketOwner, raffles[_raffleId].nftId);
-
-    //     payable(raffles[_raffleId].developmentTeam).transfer(developmentTeamPrize);
-    //     payable(raffles[_raffleId].charityAddress).transfer(charityPrize);
-    // }
-
-    function calculatePrizePool(uint256 _raffleId) private returns (uint256, uint256, uint256, uint256) {
+    function getPrizePool(uint256 _raffleId) public view returns (uint256, uint256, uint256, uint256) {
         uint256 rafflePrizePool = raffles[_raffleId].rafflePool;
-
-        int128 rafflePrizePoolFixed = ABDKMath64x64.fromUInt(rafflePrizePool);
-        int128 raffleCreatorPrizeFixed = ABDKMath64x64.add(
-            ABDKMath64x64.fromUInt(raffles[_raffleId].nftPrice),
-            ABDKMath64x64.div(ABDKMath64x64.mul(rafflePrizePoolFixed, ABDKMath64x64.fromUInt(5)), ABDKMath64x64.fromUInt(100))
-        );
-
-        int128 developmentTeamPrizeFixed = ABDKMath64x64.div(ABDKMath64x64.mul(rafflePrizePoolFixed, ABDKMath64x64.fromUInt(5)), ABDKMath64x64.fromUInt(100));
-
-        int128 charityPrizeFixed = ABDKMath64x64.sub(
-            ABDKMath64x64.sub(rafflePrizePoolFixed, raffleCreatorPrizeFixed),
-            developmentTeamPrizeFixed
-        );
-
-        uint256 raffleCreatorPrize = ABDKMath64x64.toUInt(raffleCreatorPrizeFixed);
-        uint256 developmentTeamPrize = ABDKMath64x64.toUInt(developmentTeamPrizeFixed);
-        uint256 charityPrize = ABDKMath64x64.toUInt(charityPrizeFixed);
+        uint256 raffleCreatorPrize = raffles[_raffleId].nftPrice + (rafflePrizePool.mul(5)).div(100);
+        uint256 developmentTeamPrize = (rafflePrizePool.mul(5)).div(100);
+        uint256 charityPrize = rafflePrizePool - raffleCreatorPrize - developmentTeamPrize;
 
         return (rafflePrizePool, raffleCreatorPrize, developmentTeamPrize, charityPrize);
     }
 
-    function getCalculatedPrize(uint256 _raffleId) public view returns (uint256, uint256, uint256, uint256) {
+    function sendPrizePool(uint256 _raffleId) public {
+        require(address(this).balance >= raffles[_raffleId].rafflePool, "Insufficient contract balance");
+
+        // Retrieve the winner information from the raffle struct
+        address winningTicketOwner = raffles[_raffleId].raffleWinner;
+
         uint256 rafflePrizePool = raffles[_raffleId].rafflePool;
+        uint256 raffleCreatorPrize = raffles[_raffleId].nftPrice + (rafflePrizePool.mul(5)).div(100);
+        uint256 developmentTeamPrize = (rafflePrizePool.mul(5)).div(100);
+        uint256 charityPrize = rafflePrizePool - raffleCreatorPrize - developmentTeamPrize;
 
-        int128 rafflePrizePoolFixed = ABDKMath64x64.fromUInt(rafflePrizePool);
-        int128 raffleCreatorPrizeFixed = ABDKMath64x64.add(
-            ABDKMath64x64.fromUInt(raffles[_raffleId].nftPrice),
-            ABDKMath64x64.div(ABDKMath64x64.mul(rafflePrizePoolFixed, ABDKMath64x64.fromUInt(5)), ABDKMath64x64.fromUInt(100))
-        );
+        require(winningTicketOwner != address(0), "Winner has not been selected yet");
 
-        int128 developmentTeamPrizeFixed = ABDKMath64x64.div(ABDKMath64x64.mul(rafflePrizePoolFixed, ABDKMath64x64.fromUInt(5)), ABDKMath64x64.fromUInt(100));
+        // Transfer the prize amounts to each entity.
+        payable(raffles[_raffleId].raffleCreator).transfer(raffleCreatorPrize);
 
-        int128 charityPrizeFixed = ABDKMath64x64.sub(
-            ABDKMath64x64.sub(rafflePrizePoolFixed, raffleCreatorPrizeFixed),
-            developmentTeamPrizeFixed
-        );
+        payable(raffles[_raffleId].developmentTeam).transfer(developmentTeamPrize);
+        payable(raffles[_raffleId].charityAddress).transfer(charityPrize);
 
-        uint256 raffleCreatorPrize = ABDKMath64x64.toUInt(raffleCreatorPrizeFixed);
-        uint256 developmentTeamPrize = ABDKMath64x64.toUInt(developmentTeamPrizeFixed);
-        uint256 charityPrize = ABDKMath64x64.toUInt(charityPrizeFixed);
-
-        return (rafflePrizePool, raffleCreatorPrize, developmentTeamPrize, charityPrize);
-    }
-
- function sendPrizePool(uint256 _raffleId) public {
-    require(address(this).balance >= raffles[_raffleId].rafflePool, "Insufficient contract balance");
-
-    // Retrieve the winner information from the raffle struct
-    address winningTicketOwner = raffles[_raffleId].raffleWinner;
-    uint256 winningTicketNumber = pickRandomTicket(_raffleId);
-
-    require(winningTicketOwner != address(0), "Winner has not been selected yet");
-
-    // Calculate the prize pool for each entity using ABDKMath64x64 library.
-    (uint256 rafflePrizePool, uint256 raffleCreatorPrize , uint256 developmentTeamPrize, uint256 charityPrize) = calculatePrizePool(_raffleId);
-
-    // Transfer the prize amounts to each entity.
-    payable(raffles[_raffleId].raffleCreator).transfer(raffleCreatorPrize);
-
-    // Call safeTransferFrom function on ERC721 token contract to transfer the NFT to the winner.
-    IERC721(raffles[_raffleId].nftContractAddress).safeTransferFrom(address(this), winningTicketOwner, raffles[_raffleId].nftId);
-
-    payable(raffles[_raffleId].developmentTeam).transfer(developmentTeamPrize);
-    payable(raffles[_raffleId].charityAddress).transfer(charityPrize);
-
-    // Send the remaining balance to the winner
-    uint256 remainingBalance = rafflePrizePool - raffleCreatorPrize - developmentTeamPrize - charityPrize;
-    payable(winningTicketOwner).transfer(remainingBalance);
+        // Call safeTransferFrom function on ERC721 token contract to transfer the NFT to the winner.
+        IERC721(raffles[_raffleId].nftContractAddress).safeTransferFrom(address(this), winningTicketOwner, raffles[_raffleId].nftId);
     }
 
     function raffleInfo(uint256 _raffleID) public view returns (RaffleInfo memory) {
@@ -285,6 +220,11 @@ contract mainNftRaffle is IERC721Receiver {
 
     function onERC721Received(address operator, address from, uint256 tokenId, bytes calldata data) external returns (bytes4) {
     return this.onERC721Received.selector;
+    }
+
+    function getEntityAddresses(uint256 _raffleId) public view returns (address, address, address) {
+
+        return (raffles[_raffleId].raffleCreator, raffles[_raffleId].developmentTeam,raffles[_raffleId].charityAddress);
     }
 
     function getContractBalance() public view returns (uint256) {

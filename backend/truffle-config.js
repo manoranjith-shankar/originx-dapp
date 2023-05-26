@@ -108,6 +108,13 @@ contracts_build_directory: "../src/contracts",
       timeoutBlocks: 200,
       skipDryRun: true
       },
+    // testnet: {
+    //   provider: () => new HDWalletProvider(MNEMONIC, `https://rpc.buildbear.io/outstanding-tarfful-1a71d457`),
+    //   network_id: 9042,
+    //   confirmations: 0,
+    //   timeoutBlocks: 200,
+    //   skipDryRun: true
+    //   },
     //
     // Useful for private networks
     // private: {

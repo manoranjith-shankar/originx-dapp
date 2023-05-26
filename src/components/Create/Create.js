@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAccount } from 'wagmi';
 import { ethers } from 'ethers';
-import mainNftRaffle from '../contracts/mainNftRaffle.json'
+import mainNftRaffle from '../contracts/mainNftRaffle.json';
 import toast, { Toaster } from 'react-hot-toast';
 
 const Create = () => {
@@ -33,18 +33,18 @@ const Create = () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
 
     const notify = () => {
-        toast.success('The transaction is successful.');
+        toast.success(`The transaction is successful`);
         setShowToast(true); // set the state variable to true when the toast should be displayed
       };
       const notifyError = () => {
-        toast.error('Something went wrong. Please try again.');
+        toast.error(`Something went wrong. Please try again.`);
         setShowToast(true); // set the state variable to true when the toast should be displayed
       };
 
     const handleSubmit = async (event) => {
     event.preventDefault();
     const contract = new ethers.Contract(
-      mainNftRaffle.networks['80001'].address,
+      mainNftRaffle.networks.address,
       mainNftRaffle.abi,
       provider.getSigner(account)
     );
@@ -52,7 +52,7 @@ const Create = () => {
     try {
       const result = await contract.createRaffle(
         raffleName,
-        ethers.utils.parseEther(nftPrice),
+        ethers.utils.parseUnits(nftPrice),
         totalVolumeofTickets,
         endTime,
         nftId,
@@ -75,7 +75,6 @@ const Create = () => {
                             {/* Intro */}
                             <div className="intro mt-5 mt-lg-0 mb-4 mb-lg-5">
                                 <div className="intro-content">
-                                    <span>Get Started</span>
                                     <h3 className="mt-3 mb-0">Create Raffle</h3>
                                 </div>
                             </div>
@@ -139,24 +138,8 @@ const Create = () => {
                                     </div>
                                     
                                     {/* Add Fractional Nft option */}
-                                    {/* <div className="col-12">
-                                        <div className="form-group mt-3">
-                                            <div className="form-check form-check-inline">
-                                                <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" defaultValue="option1" defaultChecked />
-                                                <label className="form-check-label" htmlFor="inlineRadio1">Put on Sale</label>
-                                            </div>
-                                            <div className="form-check form-check-inline">
-                                                <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" defaultValue="option2" />
-                                                <label className="form-check-label" htmlFor="inlineRadio2">Instant Sale Price</label>
-                                            </div>
-                                            <div className="form-check form-check-inline">
-                                                <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" defaultValue="option3" />
-                                                <label className="form-check-label" htmlFor="inlineRadio3">Unlock Purchased</label>
-                                            </div>
-                                        </div>
-                                    </div> */}
                                     <div className="col-12">
-                                    <button className="btn w-100 mt-3 mt-sm-4" type="submit" onClick={handleSubmit} >Create Raffle</button>
+                                    <button className="btn w-100 mt-3 mt-sm-4" type="submit" >Create Raffle</button>
                                         <Toaster position="bottom-right" reverseOrder={true} toastOptions={{ className: '',duration: 5000, style: {background: '#363636',color: '#fff',}
                                         }}/>
                                     </div>

@@ -13,19 +13,8 @@ const OpenRaffles = () => {
   const { account } = useAccount();
   const provider = new ethers.providers.Web3Provider(window.ethereum);
 
-  const shortenAddress = (address) => {
-    if (address.length <= 8) {
-      return address;
-    }
-    return `${address.slice(0, 5)}...${address.slice(-3)}`;
-  };
-
-  const parseEther = (amount) => {
-    return ethers.utils.formatEther(amount);
-  };
-
   useEffect(() => {
-    const fetchRaffles = async () => {
+    const totalRaffles = async () => {
       try {
         // Initialize ethers provider and contract instance
         const contract = new ethers.Contract(
@@ -33,7 +22,6 @@ const OpenRaffles = () => {
           mainNftRaffle.abi,
           provider.getSigner(account)
         );
-
         // Retrieve the total number of raffles from the contract
         const totalRaffles = await contract.getTotalRaffles();
       
@@ -41,29 +29,25 @@ const OpenRaffles = () => {
         const exploreData = [];
         for (let i = 1; i <= totalRaffles; i++) {
           const raffleInfo = await contract.raffleInfo(i);
-          
-          const owner = shortenAddress(raffleInfo.raffleCreator);
-          const price = parseEther(raffleInfo.ticketPrice);
-          const availableTickets = `${raffleInfo.totalVolumeofTickets - raffleInfo.totalSoldTickets} of ${raffleInfo.totalVolumeofTickets}`;
-
           exploreData.push({
             id: raffleInfo.raffleId,
             img: raffleInfo.nftSourceLink,
             title: raffleInfo.raffleName,
-            owner: owner,
-            price: price,
-            availableTickets: availableTickets,
+            owner: raffleInfo.raffleCreator,
+            price: raffleInfo.ticketPrice.toString(),
+            availableTickets: `${(raffleInfo.totalSoldTickets - raffleInfo.totalVolumeofTickets)} of ${raffleInfo.totalVolumeofTickets}`,
             btnText: "Buy Ticket"
           });
         }
-
+        console.log(totalRaffles)
+        console.log(exploreData)
         setExploreData(exploreData);
       } catch (error) {
-        console.log('Error:', error);
+        console.log(error);
       }
     };
 
-    fetchRaffles();
+    totalRaffles();
   }, []);
 
   return (
@@ -108,7 +92,7 @@ const OpenRaffles = () => {
                       </a>
                     </div>
                     <div className="card-bottom d-flex justify-content-between">
-                      <span>{item.price} ETH</span>
+                      <span>{item.price}</span>
                       <span>{item.availableTickets}</span>
                     </div>
                     <a className="btn btn-bordered-white btn-smaller mt-3" href="/">

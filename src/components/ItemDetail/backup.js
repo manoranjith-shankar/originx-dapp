@@ -1,14 +1,11 @@
 import React, { Component, useState } from 'react';
-import { useAccount } from 'wagmi';
-import { ethers } from 'ethers';
-import mainNftRaffle from '../contracts/mainNftRaffle.json';
-import toast, { Toaster } from 'react-hot-toast';
 
 const initData = {
     itemImg: "/img/auction_2.jpg", // nft image source
     itemOwner: "0xc092ewd...1313", // raffleCreator
     date: "2025-03-30", // end time
-    raffleName: "Raffle_Name", // raffle Name
+    created: "15 Jul 2021", // raffle created time
+    title: "Raffle_Name", // raffle Name
     Ticket_price: "2.9 BNB", // ticket price
     totalTickets: `1 of 5`, // (totalAvailableTickets - totalSoldTickets) of totalAvailableTickets
     btnText: "Buy Tickets"
@@ -27,56 +24,21 @@ const aboutRaffle = [
     }
 ]
 
-const ItemDetails = () => {
 
-    const { account } = useAccount();
-    const [raffleName, setRaffleName] = useState('');
-    const [nftPrice, setNftPrice] = useState('');
-    const [ticketPrice, setTicketPrice] = useState('');
-    const [totalVolumeofTickets, setTotalVolumeofTickets] = useState('');
-    const [endTime, setEndTime] = useState('');
-    const [nftId, setNftId] = useState('');
-    const [nftContractAddress, setNftContractAddress] = useState('');
-    const [nftSourceLink, setNftSourceLink] = useState('');
-    const [charityAddress, setCharityAddress] = useState('');
-    const [showToast, setShowToast] = useState(false);
-      
-      const handleEndTimeChange = (inputDate) => {
-        const date = new Date(inputDate);
-        const unixTime = Math.floor(date.getTime() / 1000); // convert to Unix timestamp
-        setEndTime(unixTime);
-      };            
-
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-
-    const notify = () => {
-        toast.success(`The transaction is successful`);
-        setShowToast(true); // set the state variable to true when the toast should be displayed
-      };
-      const notifyError = () => {
-        toast.error(`Something went wrong. Please try again.`);
-        setShowToast(true); // set the state variable to true when the toast should be displayed
-      };
-
-    const handleSubmit = async (event) => {
-    event.preventDefault();
-    const contract = new ethers.Contract(
-      mainNftRaffle.networks['80001'].address,
-      mainNftRaffle.abi,
-      provider.getSigner(account)
-    );
-
-    try {
-      const input = await contract.raffleInfo(
-        raffleId,
-      );
-      console.log(input);
-      notify();
-    } catch (err) {
-      console.log(err);
-      notifyError();
+class ItemDetails extends Component {
+    state = {
+        initData: {},
+        tabData_1: [],
+        tabData_2: [],
+        aboutRaffle: []
     }
-  };
+    componentDidMount(){
+        this.setState({
+            initData: initData,
+            aboutRaffle: aboutRaffle
+        })
+    }
+    render() {
         return (
             <section className="item-details-area">
                 <div className="container">
@@ -136,6 +98,7 @@ const ItemDetails = () => {
                 </div>
             </section>
         );
-    };
+    }
+}
 
 export default ItemDetails;

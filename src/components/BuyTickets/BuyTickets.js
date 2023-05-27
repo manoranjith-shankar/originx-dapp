@@ -7,9 +7,11 @@ import { useParams } from 'react-router-dom';
 const BuyTickets = () => {
   const { raffleId } = useParams();
   const [raffleData, setRaffleData] = useState(null);
+  const [totalTicketsWanted, setTotalTicketsWanted] = useState(1);
   const { account } = useAccount();
 
   const provider = new ethers.providers.Web3Provider(window.ethereum);
+  
   const shortenAddress = (address) => {
     if (address.length <= 8) {
       return address;
@@ -20,6 +22,14 @@ const BuyTickets = () => {
   const parseEther = (amount) => {
     return ethers.utils.formatEther(amount);
   };
+
+  const formatDate = (unixTimestamp) => {
+    const date = new Date(unixTimestamp * 1000);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}/${month}/${day}`;
+  };  
 
   useEffect(() => {
     const fetchRaffleData = async () => {
@@ -37,6 +47,7 @@ const BuyTickets = () => {
         const owner = shortenAddress(raffleInfo.raffleCreator);
         const price = parseEther(raffleInfo.ticketPrice);
         const availableTickets = `${raffleInfo.totalVolumeofTickets - raffleInfo.totalSoldTickets} of ${raffleInfo.totalVolumeofTickets}`;
+        const endDate = formatDate(raffleInfo.endtime);
 
         const raffleData = {
           id: raffleInfo.raffleId,
@@ -44,20 +55,20 @@ const BuyTickets = () => {
           title: raffleInfo.raffleName,
           owner: owner,
           price: price,
-          date: raffleInfo.endtime,
+          date: endDate,
           availableTickets: availableTickets,
-          btnText: "Buy Tickets"
+          totalTicketsWanted: totalTicketsWanted,
+          btnText: `Pay ${price * totalTicketsWanted} for ${totalTicketsWanted} Ticket(s)`
         };
 
         setRaffleData(raffleData);
-        console.log(raffleData.date);
       } catch (error) {
         console.log('Error:', error);
       }
     };
 
     fetchRaffleData();
-  }, [raffleId, account, provider]);
+  }, [raffleId, account, provider, totalTicketsWanted]);
 
   if (!raffleData) {
     return <div>Loading...</div>;
@@ -73,11 +84,18 @@ const BuyTickets = () => {
       );
 
       // Call the buyTicket function
-      await contract.buyTicket(raffleData.id, 1);
+      await contract.buyTicket(raffleData.id, totalTicketsWanted);
       alert('Tickets bought successfully!');
     } catch (error) {
       console.log('Error:', error);
       alert('Error buying tickets. Please try again.');
+    }
+  };
+
+  const handleTotalTicketsChange = (event) => {
+    const value = parseInt(event.target.value, 10);
+    if (!isNaN(value) && value >= 1 && value <= (raffleData.totalVolumeofTickets - raffleData.totalSoldTickets)) {
+      setTotalTicketsWanted(value);
     }
   };
 
@@ -111,6 +129,16 @@ const BuyTickets = () => {
                     <div className="price d-flex justify-content-between align-items-center">
                       <span>{raffleData.price} ETH</span>
                       <span>{raffleData.availableTickets}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="row items">
+                <div className="col-12 item px-lg-2">
+                  <div className="card no-hover">
+                    <h4 className="mt-0 mb-2">Total Tickets Wanted</h4>
+                    <div className="price d-flex justify-content-between align-items-center">
+                      <input type="number" min="1" max={(raffleData.totalVolumeofTickets - raffleData.totalSoldTickets)} value={totalTicketsWanted} onChange={handleTotalTicketsChange} />
                     </div>
                   </div>
                 </div>

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';
 import { ethers } from 'ethers';
 import mainNftRaffle from '../contracts/mainNftRaffle.json';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTicket } from '@fortawesome/free-solid-svg-icons';
 
 const OpenRaffles = () => {
   const [initData] = useState({
@@ -53,7 +55,7 @@ const OpenRaffles = () => {
             owner: owner,
             price: price,
             availableTickets: availableTickets,
-            btnText: "Buy Ticket"
+            btnText: "Buy Tickets"
           });
         }
 
@@ -90,7 +92,7 @@ const OpenRaffles = () => {
             <div key={`edt_${idx}`} className="col-12 col-sm-6 col-lg-3 item">
               <div className="card">
                 <div className="image-over">
-                  <a href="/raffle-details">
+                  <a href="/">
                     <img className="card-img-top" src={item.img} alt="" />
                   </a>
                 </div>
@@ -98,12 +100,12 @@ const OpenRaffles = () => {
                 <div className="card-caption col-12 p-0">
                   {/* Card Body */}
                   <div className="card-body">
-                    <a href="/raffle-details">
+                    <a rel="noreferrer" target={"_blank"} href={`${item.img}`}>
                       <h5 className="mb-0">{item.title}</h5>
                     </a>
                     <div className="seller d-flex align-items-center my-3">
                       <span>Owned By</span>
-                      <a href="https://etherscan.io/address/">
+                      <a href={`https://mumbai.polygonscan.com/address/`}>
                         <h6 className="ml-2 mb-0">{item.owner}</h6>
                       </a>
                     </div>
@@ -111,8 +113,9 @@ const OpenRaffles = () => {
                       <span>{item.price} ETH</span>
                       <span>{item.availableTickets}</span>
                     </div>
-                    <a className="btn btn-bordered-white btn-smaller mt-3" href="/">
-                      <i className="icon-handbag mr-2" />
+                    <a className="btn btn-bordered-white btn-smaller mt-3" href={`/buytickets/${item.id}`}>
+                      <FontAwesomeIcon icon={faTicket} />
+                      <i className="fa-solid fa-ticket mr-2" />
                       {item.btnText}
                     </a>
                   </div>

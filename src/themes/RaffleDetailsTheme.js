@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
-
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
-import ItemDetails from '../components/ItemDetail/ItemDetail';
+import BuyTickets from '../components/BuyTickets/BuyTickets';
 
 class RaffleDetailsTheme extends Component {
     render() {
         return (
             <div className="main">
                 <Header />
-                <ItemDetails />
+                <BuyTickets />
                 <Footer />
             </div>
         );

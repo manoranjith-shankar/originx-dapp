@@ -103,7 +103,7 @@ contract mainNftRaffle is IERC721Receiver {
             winningTicket: 0,
             raffleWinner: address(0),
             developmentTeam: payable(
-                address(0xFb4D4D414C549E025A046BB60f13036e75e9C159)
+                address(0xE46Cb9CA18520D3F0394F570C35259c188B33B98)
             )
         });
 

@@ -1,104 +1,163 @@
-import React, { Component, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useAccount } from 'wagmi';
+import { ethers } from 'ethers';
+import mainNftRaffle from '../contracts/mainNftRaffle.json';
+import { useParams } from 'react-router-dom';
 
-const initData = {
-    itemImg: "/img/auction_2.jpg", // nft image source
-    itemOwner: "0xc092ewd...1313", // raffleCreator
-    date: "2025-03-30", // end time
-    created: "15 Jul 2021", // raffle created time
-    title: "Raffle_Name", // raffle Name
-    Ticket_price: "2.9 BNB", // ticket price
-    totalTickets: `1 of 5`, // (totalAvailableTickets - totalSoldTickets) of totalAvailableTickets
-    btnText: "Buy Tickets"
-}
+const BuyTickets = () => {
+  const { raffleId } = useParams();
+  const [raffleData, setRaffleData] = useState(null);
+  const [totalTicketsWanted, setTotalTicketsWanted] = useState(1);
+  const { account } = useAccount();
 
-const aboutRaffle = [
-    {
-        id: "1",
-        seller: "NFT",
-        post: "Creator"
-    },
-    {
-        id: "2",
-        seller: "Charity",
-        post: "UNICEF USA"
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const shortenAddress = (address) => {
+    if (address.length <= 8) {
+      return address;
     }
-]
+    return `${address.slice(0, 5)}...${address.slice(-4)}`;
+  };
 
+  const parseEther = (amount) => {
+    return ethers.utils.formatEther(amount);
+  };
 
-class ItemDetails extends Component {
-    state = {
-        initData: {},
-        tabData_1: [],
-        tabData_2: [],
-        aboutRaffle: []
-    }
-    componentDidMount(){
-        this.setState({
-            initData: initData,
-            aboutRaffle: aboutRaffle
-        })
-    }
-    render() {
-        return (
-            <section className="item-details-area">
-                <div className="container">
-                    <div className="row justify-content-between">
-                        <div className="col-12 col-lg-5">
-                            <div className="item-info">
-                                <div className="item-thumb text-center">
-                                    <img src={this.state.initData.itemImg} alt="" />
-                                </div>
-                                <div className="card no-hover countdown-times my-4">
-                                    <div className="countdown d-flex justify-content-center" data-date={this.state.initData.date} />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-12 col-lg-6">
-                            {/* Content */}
-                            <div className="content mt-5 mt-lg-0">
-                                <h3 className="m-0">{this.state.initData.title}</h3>
-                                <p>{this.state.initData.content}</p>
-                                {/* Owner */}
-                                <div className="owner d-flex align-items-center">
-                                    <span>Created By</span>
-                                    <a className="owner-meta d-flex align-items-center ml-3" href="/">
-                                        <h6 className="ml-2">{this.state.initData.itemOwner}</h6>
-                                    </a>
-                                </div>
-                                <div className="row items">
-                                    {this.state.aboutRaffle.map((item, idx) => {
-                                        return (
-                                            <div key={`sd_${idx}`} className="col-12 col-md-6 item px-lg-2">
-                                                <div className="card no-hover">
-                                                    <div className="single-seller d-flex align-items-center">
-                                                        {/* Seller Info */}
-                                                        <div className="seller-info ml-3">
-                                                            <a className="seller mb-2" href="/">{item.seller}</a>
-                                                            <span>{item.post}</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
-                                    <div className="col-12 item px-lg-2">
-                                        <div className="card no-hover">
-                                            <h4 className="mt-0 mb-2">Available Tickets</h4>
-                                            <div className="price d-flex justify-content-between align-items-center">
-                                                <span>{this.state.initData.Ticket_price}</span>
-                                                <span>{this.state.initData.totalTickets}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a className="d-block btn btn-bordered-white mt-4" href="/">{this.state.initData.btnText}</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+  const formatDate = (unixTimestamp) => {
+    const date = new Date(unixTimestamp * 1000);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `"${year}-${month}-${day}"`;
+  };  
+
+  useEffect(() => {
+    const fetchRaffleData = async () => {
+      try {
+        // Initialize ethers provider and contract instance
+        const contract = new ethers.Contract(
+          mainNftRaffle.networks['80001'].address,
+          mainNftRaffle.abi,
+          provider.getSigner(account)
         );
-    }
-}
 
-export default ItemDetails;
+        // Fetch raffle details for the specified raffleId
+        const raffleInfo = await contract.raffleInfo(raffleId);
+
+        const owner = shortenAddress(raffleInfo.raffleCreator);
+        const price = parseEther(raffleInfo.ticketPrice);
+        const availableTickets = raffleInfo.totalVolumeofTickets - raffleInfo.totalSoldTickets;
+        const endDate = formatDate(raffleInfo.endTime);
+        console.log(endDate);
+
+        const raffleData = {
+          id: raffleInfo.raffleId,
+          img: raffleInfo.nftSourceLink,
+          title: raffleInfo.raffleName,
+          owner: owner,
+          price: price,
+          date: endDate,
+          availableTickets: availableTickets,
+          totalTicketsWanted: totalTicketsWanted,
+          btnText: `Pay ${price * totalTicketsWanted} for ${totalTicketsWanted} Ticket(s)`
+        };
+
+        setRaffleData(raffleData);
+      } catch (error) {
+        console.log('Error:', error);
+      }
+    };
+
+    fetchRaffleData();
+  }, [raffleId, account, provider, totalTicketsWanted]);
+
+  if (!raffleData) {
+    return <div>Loading...</div>;
+  }
+
+  const handleBuyTickets = async (event) => {
+    event.preventDefault();
+    try {
+      // Initialize ethers provider and contract instance
+      const contract = new ethers.Contract(
+        mainNftRaffle.networks['80001'].address,
+        mainNftRaffle.abi,
+        provider.getSigner(account)
+      );
+
+      // Call the buyTicket function
+      await contract.buyTicket(raffleData.id, totalTicketsWanted);
+      alert('Tickets bought successfully!');
+    } catch (error) {
+      console.log('Error:', error);
+      alert('Error buying tickets. Please try again.');
+    }
+  };
+
+  const handleTotalTicketsChange = (event) => {
+    const value = parseInt(event.target.value, 10);
+    if (!isNaN(value) && value >= 1 && value <= raffleData.availableTickets) {
+      setTotalTicketsWanted(value);
+  
+      // Calculate btnText based on the updated value of totalTicketsWanted
+      const price = parseFloat(raffleData.price);
+      const btnText = `Pay ${price * value} for ${value} Ticket(s)`;
+      setRaffleData((prevRaffleData) => ({ ...prevRaffleData, totalTicketsWanted: value, btnText }));
+    }
+  };
+
+  return (
+    <section className="item-details-area">
+      <div className="container">
+        <div className="row justify-content-between">
+          <div className="col-12 col-lg-5">
+            <div className="item-info">
+              <div className="item-thumb text-center">
+                <img src={raffleData.img} alt="" />
+              </div>
+              <div className="card no-hover countdown-times my-4">
+                <div className="countdown d-flex justify-content-center" data-date={raffleData.date} />
+              </div>
+            </div>
+          </div>
+          <div className="col-12 col-lg-6">
+            <div className="content mt-5 mt-lg-0">
+              <h3 className="m-0">{raffleData.title}</h3>
+              <div className="owner d-flex align-items-center">
+                <span>Created By</span>
+                <a className="owner-meta d-flex align-items-center ml-3" href="/">
+                  <h6 className="ml-2">{raffleData.owner}</h6>
+                </a>
+              </div>
+              <div className="row items">
+                <div className="col-12 item px-lg-2">
+                  <div className="card no-hover">
+                    <h4 className="mt-0 mb-2">Available Tickets</h4>
+                    <div className="price d-flex justify-content-between align-items-center">
+                      <span>{raffleData.price} ETH</span>
+                      <span>{raffleData.availableTickets}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="row items">
+                <div className="col-12 item px-lg-2">
+                  <div className="card no-hover">
+                    <h4 className="mt-0 mb-2">Total Tickets Wanted</h4>
+                    <div className="price d-flex justify-content-between align-items-center">
+                      <input type="number" min="1" max={raffleData.availableTickets} value={totalTicketsWanted} onChange={handleTotalTicketsChange} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <a className="d-block btn btn-bordered-white mt-4" href={''} onClick={handleBuyTickets}>
+                {raffleData.btnText}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default BuyTickets;

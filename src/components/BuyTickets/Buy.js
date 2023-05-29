@@ -1,30 +1,41 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 
 const initData = {
-    raffleName: "name",
-    nftSourceLink: "/img/auction_2.jpg",
-    raffleCreator: "0x7123r12hek2ekdjn2ilednqkdbk2dbk2bd2d211",
-    nftPrice: "10 ETH",
-    nftId: "5",
-    nftContractAddress: "0x7123r12hek2ekdjn2ilednqkdbk2dbk2bd2d211",
-    ticketPrice: "1 ETH",
-    totalSoldTickets: "10",
-    btnText: "Buy Ticket",
-    endTime: "2022-03-30",
-    tab_1: "History",
-    tab_2: "Details"
+    itemImg: "/img/auction_2.jpg", // nft image source
+    itemOwner: "0xc092ewd...1313", // raffleCreator
+    date: "2025-03-30", // end time
+    created: "15 Jul 2021", // raffle created time
+    title: "Raffle_Name", // raffle Name
+    Ticket_price: "2.9 BNB", // ticket price
+    totalTickets: `1 of 5`, // (totalAvailableTickets - totalSoldTickets) of totalAvailableTickets
+    btnText: "Buy Tickets"
 }
+
+const aboutRaffle = [
+    {
+        id: "1",
+        seller: "NFT",
+        post: "Creator"
+    },
+    {
+        id: "2",
+        seller: "Charity",
+        post: "UNICEF USA"
+    }
+]
+
 
 class ItemDetails extends Component {
     state = {
         initData: {},
         tabData_1: [],
         tabData_2: [],
-        sellerData: []
+        aboutRaffle: []
     }
     componentDidMount(){
         this.setState({
-            initData: initData
+            initData: initData,
+            aboutRaffle: aboutRaffle
         })
     }
     render() {
@@ -35,57 +46,47 @@ class ItemDetails extends Component {
                         <div className="col-12 col-lg-5">
                             <div className="item-info">
                                 <div className="item-thumb text-center">
-                                    <img src={this.state.initData.nftSourceLink} alt="" />
+                                    <img src={this.state.initData.itemImg} alt="" />
                                 </div>
                                 <div className="card no-hover countdown-times my-4">
                                     <div className="countdown d-flex justify-content-center" data-date={this.state.initData.date} />
                                 </div>
-
-
-                                {/* Tab */}
-                                {/* <ul className="netstorm-tab nav nav-tabs" id="nav-tab">
-                                    <li>
-                                        <a className="active" id="nav-home-tab" data-toggle="pill" href="#nav-home">
-                                            <h5 className="m-0">{this.state.initData.tab_1}</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a id="nav-profile-tab" data-toggle="pill" href="#nav-profile">
-                                            <h5 className="m-0">{this.state.initData.tab_2}</h5>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a id="nav-contact-tab" data-toggle="pill" href="#nav-contact">
-                                            <h5 className="m-0">{this.state.initData.tab_3}</h5>
-                                        </a>
-                                    </li>
-                                </ul> */}
-
-
                             </div>
                         </div>
                         <div className="col-12 col-lg-6">
                             {/* Content */}
                             <div className="content mt-5 mt-lg-0">
-                                <h3 className="m-0">{this.state.initData.raffleName}</h3>
-                                {/* <p>{this.state.initData.content}</p> */}
-                                {/* Creator */}
+                                <h3 className="m-0">{this.state.initData.title}</h3>
+                                <p>{this.state.initData.content}</p>
+                                {/* Owner */}
                                 <div className="owner d-flex align-items-center">
                                     <span>Created By</span>
-                                    <a className=" d-flex align-items-center ml-3">
-                                        <h6 className="ml-2">{this.state.initData.raffleCreator}</h6>
+                                    <a className="owner-meta d-flex align-items-center ml-3" href="/">
+                                        <h6 className="ml-2">{this.state.initData.itemOwner}</h6>
                                     </a>
                                 </div>
-                                {/* Raffle Info List */}
-
                                 <div className="row items">
-                                    
+                                    {this.state.aboutRaffle.map((item, idx) => {
+                                        return (
+                                            <div key={`sd_${idx}`} className="col-12 col-md-6 item px-lg-2">
+                                                <div className="card no-hover">
+                                                    <div className="single-seller d-flex align-items-center">
+                                                        {/* Seller Info */}
+                                                        <div className="seller-info ml-3">
+                                                            <a className="seller mb-2" href="/">{item.seller}</a>
+                                                            <span>{item.post}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
                                     <div className="col-12 item px-lg-2">
                                         <div className="card no-hover">
                                             <h4 className="mt-0 mb-2">Available Tickets</h4>
                                             <div className="price d-flex justify-content-between align-items-center">
-                                                <span>{this.state.initData.ticketPrice}</span>
-                                                <span>{this.state.initData.totalSoldTickets}</span>
+                                                <span>{this.state.initData.Ticket_price}</span>
+                                                <span>{this.state.initData.totalTickets}</span>
                                             </div>
                                         </div>
                                     </div>

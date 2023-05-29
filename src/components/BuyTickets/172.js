@@ -1,103 +1,53 @@
 import React, { useEffect, useState } from 'react';
-import { useAccount } from 'wagmi';
-import { ethers } from 'ethers';
-import mainNftRaffle from '../contracts/mainNftRaffle.json';
 import { useParams } from 'react-router-dom';
+import { ethers } from 'ethers';
+import { useAccount } from 'wagmi';
+import mainNftRaffle from '../contracts/mainNftRaffle.json';
 
 const BuyTickets = () => {
   const { raffleId } = useParams();
   const [raffleData, setRaffleData] = useState(null);
   const [totalTicketsWanted, setTotalTicketsWanted] = useState(1);
   const { account } = useAccount();
-
   const provider = new ethers.providers.Web3Provider(window.ethereum);
+
   const shortenAddress = (address) => {
     if (address.length <= 8) {
       return address;
     }
-    return `${address.slice(0, 5)}...${address.slice(-4)}`;
+    return `${address.slice(0, 5)}...${address.slice(-3)}`;
   };
 
-  const parseEther = (amount) => {
-    return ethers.utils.formatEther(amount);
-  };
-
-  const formatDate = (unixTimestamp) => {
-    const date = new Date(unixTimestamp * 1000);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `"${year}-${month}-${day}"`;
-  };  
-
-  useEffect(() => {
-    const fetchRaffleData = async () => {
-      try {
-        // Initialize ethers provider and contract instance
-        const contract = new ethers.Contract(
-          mainNftRaffle.networks['80001'].address,
-          mainNftRaffle.abi,
-          provider.getSigner(account)
-        );
-
-        // Fetch raffle details for the specified raffleId
-        const raffleInfo = await contract.raffleInfo(raffleId);
-
-        const owner = shortenAddress(raffleInfo.raffleCreator);
-        const price = parseEther(raffleInfo.ticketPrice);
-        const availableTickets = raffleInfo.totalVolumeofTickets - raffleInfo.totalSoldTickets;
-        const endDate = formatDate(raffleInfo.endTime);
-        console.log(endDate);
-
-        const raffleData = {
-          id: raffleInfo.raffleId,
-          img: raffleInfo.nftSourceLink,
-          title: raffleInfo.raffleName,
-          owner: owner,
-          price: price,
-          date: endDate,
-          availableTickets: availableTickets,
-          totalTicketsWanted: totalTicketsWanted,
-          btnText: `Pay ${price * totalTicketsWanted} for ${totalTicketsWanted} Ticket(s)`
-        };
-
-        setRaffleData(raffleData);
-      } catch (error) {
-        console.log('Error:', error);
-      }
-    };
-
-    fetchRaffleData();
-  }, [raffleId, account, provider, totalTicketsWanted]);
-
-  if (!raffleData) {
-    return <div>Loading...</div>;
-  }
-
-  const handleBuyTickets = async (event) => {
-    event.preventDefault();
+  const handleBuyTicket = async () => {
     try {
-      // Initialize ethers provider and contract instance
       const contract = new ethers.Contract(
         mainNftRaffle.networks['80001'].address,
         mainNftRaffle.abi,
         provider.getSigner(account)
       );
-  
-      // Convert total ticket price from ETH to Wei
-      const totalTicketPriceEth = parseFloat(raffleData.price) * totalTicketsWanted;
-      const totalTicketPriceWei = ethers.utils.parseEther(totalTicketPriceEth.toString());
-  
-      // Create a transaction object to send ETH to the contract
-      const transaction = {
-        to: contract.address,
-        value: totalTicketPriceWei,
-      };
-  
-      // Send the transaction to the contract's buyTicket function
-      const txResponse = await provider.getSigner().sendTransaction(transaction);
-      await txResponse.wait();
-  
+      const parsedRaffleId = parseInt(raffleId);
+      const parsedTotalTicketsWanted = parseInt(totalTicketsWanted);
+
+      if (isNaN(parsedRaffleId) || isNaN(parsedTotalTicketsWanted)) {
+        alert('Please enter valid numbers for raffle ID and total tickets wanted.');
+        return;
+      }
+
+      const raffle = await contract.raffles(parsedRaffleId);
+      const totalTicketPrice = parsedTotalTicketsWanted * raffle.ticketPrice;
+
+      const paymentResponse = await window.ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [
+          {
+            to: contract.address,
+            value: ethers.utils.hexlify(totalTicketPrice),
+            data: contract.interface.encodeFunctionData('buyTicket', [parsedRaffleId, parsedTotalTicketsWanted]),
+          },
+        ],
+      });
+
+      await contract.provider.waitForTransaction(paymentResponse);
       alert('Tickets bought successfully!');
     } catch (error) {
       console.log('Error:', error);
@@ -107,15 +57,53 @@ const BuyTickets = () => {
 
   const handleTotalTicketsChange = (event) => {
     const value = parseInt(event.target.value, 10);
-    if (!isNaN(value) && value >= 1 && value <= raffleData.availableTickets) {
+    if (!isNaN(value) && value >= 1 && raffleData && value <= raffleData.availableTickets) {
       setTotalTicketsWanted(value);
-  
-      // Calculate btnText based on the updated value of totalTicketsWanted
-      const price = parseFloat(raffleData.price);
-      const btnText = `Pay ${price * value} for ${value} Ticket(s)`;
-      setRaffleData((prevRaffleData) => ({ ...prevRaffleData, totalTicketsWanted: value, btnText }));
     }
-  };
+  };  
+
+  useEffect(() => {
+    const fetchRaffleData = async () => {
+      try {
+        const signer = provider.getSigner();
+        const contract = new ethers.Contract(
+          mainNftRaffle.networks['80001'].address,
+          mainNftRaffle.abi,
+          signer
+        );
+
+        const raffleInfo = await contract.raffleInfo(raffleId);
+        const owner = shortenAddress(raffleInfo.raffleCreator);
+        const price = ethers.BigNumber.from(raffleInfo.ticketPrice);
+        const availableTickets = raffleInfo.totalVolumeofTickets - raffleInfo.totalSoldTickets;
+
+        const raffleData = {
+          id: raffleInfo.raffleId,
+          img: raffleInfo.nftSourceLink,
+          title: raffleInfo.raffleName,
+          owner: owner,
+          price: price,
+          availableTickets: availableTickets,
+          totalVolumeofTickets: raffleInfo.totalVolumeofTickets,
+        };
+
+        setRaffleData(raffleData);
+      } catch (error) {
+        console.log('Error:', error);
+      }
+    };
+
+    fetchRaffleData();
+  }, [raffleId, provider]);
+
+  if (!raffleData) {
+    return <div>Loading...</div>;
+  }
+
+  const totalTicketPriceWei = ethers.utils.formatUnits(
+    raffleData.price.mul(totalTicketsWanted),
+    'wei'
+  );
 
   return (
     <section className="item-details-area">
@@ -145,8 +133,10 @@ const BuyTickets = () => {
                   <div className="card no-hover">
                     <h4 className="mt-0 mb-2">Available Tickets</h4>
                     <div className="price d-flex justify-content-between align-items-center">
-                      <span>{raffleData.price} ETH</span>
-                      <span>{raffleData.availableTickets}</span>
+                      <span>{raffleData.price.toString()} ETH</span>
+                      <span>
+                        {raffleData.availableTickets} of {raffleData.totalVolumeofTickets}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -156,14 +146,20 @@ const BuyTickets = () => {
                   <div className="card no-hover">
                     <h4 className="mt-0 mb-2">Total Tickets Wanted</h4>
                     <div className="price d-flex justify-content-between align-items-center">
-                      <input type="number" min="1" max={raffleData.availableTickets} value={totalTicketsWanted} onChange={handleTotalTicketsChange} />
+                      <input
+                        type="number"
+                        min="1"
+                        max={raffleData.availableTickets}
+                        value={totalTicketsWanted}
+                        onChange={handleTotalTicketsChange}
+                      />
                     </div>
                   </div>
                 </div>
               </div>
-              <a className="d-block btn btn-bordered-white mt-4" href={''} onClick={handleBuyTickets}>
-                {raffleData.btnText}
-              </a>
+              <button className="d-block btn btn-bordered-white mt-4" href={''} onClick={handleBuyTicket}>
+                {`Pay ${totalTicketPriceWei} wei for ${totalTicketsWanted} Ticket(s)`}
+              </button>
             </div>
           </div>
         </div>

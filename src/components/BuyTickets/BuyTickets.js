@@ -47,7 +47,6 @@ const BuyTickets = () => {
         const price = parseEther(raffleInfo.ticketPrice);
         const availableTickets = raffleInfo.totalVolumeofTickets - raffleInfo.totalSoldTickets;
         const endDate = formatDate(raffleInfo.endTime);
-        console.log(endDate);
 
         const raffleData = {
           id: raffleInfo.raffleId,
@@ -55,10 +54,10 @@ const BuyTickets = () => {
           title: raffleInfo.raffleName,
           owner: owner,
           price: price,
+          unparsedPrice: raffleInfo.ticketPrice, // Store the unparsed ticket price
           date: endDate,
           availableTickets: availableTickets,
           totalTicketsWanted: totalTicketsWanted,
-          btnText: `Pay ${price * totalTicketsWanted} for ${totalTicketsWanted} Ticket(s)`
         };
 
         setRaffleData(raffleData);
@@ -84,18 +83,24 @@ const BuyTickets = () => {
         provider.getSigner(account)
       );
   
-      // Convert total ticket price from ETH to Wei
-      const totalTicketPriceEth = parseFloat(raffleData.price) * totalTicketsWanted;
-      const totalTicketPriceWei = ethers.utils.parseEther(totalTicketPriceEth.toString());
+      // Convert raffleData.unparsedPrice to BigNumber object
+      const ticketPrice = ethers.BigNumber.from(raffleData.unparsedPrice);
   
-      // Create a transaction object to send ETH to the contract
-      const transaction = {
-        to: contract.address,
+      // Calculate the total ticket price
+      const totalTicketPriceWei = ticketPrice.mul(totalTicketsWanted);
+  
+      // Prepare the transaction object
+      const txObject = {
+        to: mainNftRaffle.networks['80001'].address,
         value: totalTicketPriceWei,
+        data: contract.interface.encodeFunctionData('buyTicket', [
+          raffleData.id,
+          totalTicketsWanted,
+        ]),
       };
   
-      // Send the transaction to the contract's buyTicket function
-      const txResponse = await provider.getSigner().sendTransaction(transaction);
+      // Send the transaction
+      const txResponse = await provider.getSigner().sendTransaction(txObject);
       await txResponse.wait();
   
       alert('Tickets bought successfully!');
@@ -103,17 +108,12 @@ const BuyTickets = () => {
       console.log('Error:', error);
       alert('Error buying tickets. Please try again.');
     }
-  };
+  };  
 
   const handleTotalTicketsChange = (event) => {
     const value = parseInt(event.target.value, 10);
     if (!isNaN(value) && value >= 1 && value <= raffleData.availableTickets) {
       setTotalTicketsWanted(value);
-  
-      // Calculate btnText based on the updated value of totalTicketsWanted
-      const price = parseFloat(raffleData.price);
-      const btnText = `Pay ${price * value} for ${value} Ticket(s)`;
-      setRaffleData((prevRaffleData) => ({ ...prevRaffleData, totalTicketsWanted: value, btnText }));
     }
   };
 
@@ -162,7 +162,7 @@ const BuyTickets = () => {
                 </div>
               </div>
               <a className="d-block btn btn-bordered-white mt-4" href={''} onClick={handleBuyTickets}>
-                {raffleData.btnText}
+                Pay {raffleData.unparsedPrice * totalTicketsWanted} for {totalTicketsWanted} Ticket(s)
               </a>
             </div>
           </div>

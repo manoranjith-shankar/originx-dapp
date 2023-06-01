@@ -3,12 +3,14 @@ import { useAccount } from 'wagmi';
 import { ethers } from 'ethers';
 import mainNftRaffle from '../contracts/mainNftRaffle.json';
 import { useParams } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
 
 const BuyTickets = () => {
   const { raffleId } = useParams();
+  const { account } = useAccount();
   const [raffleData, setRaffleData] = useState(null);
   const [totalTicketsWanted, setTotalTicketsWanted] = useState(1);
-  const { account } = useAccount();
+  const [showToast, setShowToast] = useState(false);
 
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const shortenAddress = (address) => {
@@ -37,8 +39,17 @@ const BuyTickets = () => {
     provider.getSigner(account)
   );
 
-  // console.log(raffleId)
-  // console.log(contract.getTicketPrice(raffleId));
+  const notify = () => {
+    toast.promise(
+      notify(),
+       {
+         loading: 'Transacting',
+         success: <b>Tickets bought successfully</b>,
+         error: <b>Could not buy tickets</b>,
+       }
+     );
+     setShowToast(true);
+  };
 
   useEffect(() => {
     const fetchRaffleData = async () => {
@@ -86,6 +97,7 @@ const BuyTickets = () => {
 
   const handleBuyTickets = async (event) => {
     event.preventDefault();
+    var loadingToastId;
 
     try {
       // Calculate the total price for the desired number of tickets
@@ -94,6 +106,7 @@ const BuyTickets = () => {
       const totalPrice = calculateTotalPrice(raffleData.unparsedPrice, totalTicketsWanted);
       console.log(totalPrice.toString());
 
+      var loadingToastId = toast.loading('Transacting...')
       // Buy tickets by calling the contract's buyTickets function
       const tx = await contract.buyTicket(raffleId, totalTicketsWanted, {
         value: totalPrice,
@@ -101,10 +114,12 @@ const BuyTickets = () => {
 
       await tx.wait();
 
+      toast.dismiss(loadingToastId);
+      toast.success('Tickets bought successfully!');
       // Tickets bought successfully
-      console.log(tx);
-      console.log('Tickets bought successfully!');
+      console.log(tx.hash);
     } catch (error) {
+      toast.error('Could not buy tickets.');
       console.log('Error buying tickets:', error);
     }
   };
@@ -144,8 +159,12 @@ const BuyTickets = () => {
                   <div className="card no-hover">
                     <h4 className="mt-0 mb-2">Available Tickets</h4>
                     <div className="price d-flex justify-content-between align-items-center">
-                      <span>{raffleData.price} ETH</span>
-                      <span>{raffleData.availableTickets}</span>
+                    <span>{raffleData.price} ETH</span>
+                        {raffleData.availableTickets === 0 ? (
+                          <span>Sold Out</span>
+                        ) : (
+                          <span>{raffleData.availableTickets}</span>
+                        )}   
                     </div>
                   </div>
                 </div>
@@ -162,6 +181,8 @@ const BuyTickets = () => {
               </div>
               <a className="d-block btn btn-bordered-white mt-4" href={''} onClick={handleBuyTickets}>
                 Pay {raffleData.price * totalTicketsWanted} ETH for {totalTicketsWanted} Ticket(s)
+                <Toaster position="bottom-right" reverseOrder={true} toastOptions={{ className: '',duration: 5000, style: {background: '#363636',color: '#fff',}
+                                        }}/>
               </a>
             </div>
           </div>

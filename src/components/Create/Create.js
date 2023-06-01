@@ -44,7 +44,7 @@ const Create = () => {
     const handleSubmit = async (event) => {
     event.preventDefault();
     const contract = new ethers.Contract(
-      mainNftRaffle.networks.address,
+      mainNftRaffle.networks['80001'].address,
       mainNftRaffle.abi,
       provider.getSigner(account)
     );

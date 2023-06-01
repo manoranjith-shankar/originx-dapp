@@ -7,7 +7,6 @@ import CreateRaffle from "../themes/CreateRaffle";
 import OpenRafflesTheme from "../themes/OpenRafflesTheme";
 import RaffleDetailsTheme from "../themes/RaffleDetailsTheme";
 
-
 class MyRouts extends React.Component {
   render() {
     return (

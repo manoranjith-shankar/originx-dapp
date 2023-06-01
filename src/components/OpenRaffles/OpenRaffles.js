@@ -68,6 +68,10 @@ const OpenRaffles = () => {
     fetchRaffles();
   }, []);
 
+  if (!exploreData) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <section className="explore-area">
       <div className="container">
@@ -113,7 +117,7 @@ const OpenRaffles = () => {
                       <span>{item.price} ETH</span>
                       <span>{item.availableTickets}</span>
                     </div>
-                    <a className="btn btn-bordered-white btn-smaller mt-3" href={`/buytickets/${item.id}`}>
+                    <a className="btn btn-bordered-white btn-smaller mt-3" href={`/buytickets/${idx + 1}`}>
                       <FontAwesomeIcon icon={faTicket} />
                       <i className="fa-solid fa-ticket mr-2" />
                       {item.btnText}

@@ -28,18 +28,22 @@ const BuyTickets = () => {
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     return `"${year}-${month}-${day}"`;
-  };  
+  };
+    
+  // Initialize ethers provider and contract instance
+  const contract = new ethers.Contract(
+    mainNftRaffle.networks['80001'].address,
+    mainNftRaffle.abi,
+    provider.getSigner(account)
+  );
+
+  // console.log(raffleId)
+  // console.log(contract.getTicketPrice(raffleId));
 
   useEffect(() => {
     const fetchRaffleData = async () => {
       try {
-        // Initialize ethers provider and contract instance
-        const contract = new ethers.Contract(
-          mainNftRaffle.networks['80001'].address,
-          mainNftRaffle.abi,
-          provider.getSigner(account)
-        );
-
+        
         // Fetch raffle details for the specified raffleId
         const raffleInfo = await contract.raffleInfo(raffleId);
 
@@ -75,40 +79,28 @@ const BuyTickets = () => {
 
   const handleBuyTickets = async (event) => {
     event.preventDefault();
+
     try {
-      // Initialize ethers provider and contract instance
-      const contract = new ethers.Contract(
-        mainNftRaffle.networks['80001'].address,
-        mainNftRaffle.abi,
-        provider.getSigner(account)
-      );
-  
-      // Convert raffleData.unparsedPrice to BigNumber object
-      const ticketPrice = ethers.BigNumber.from(raffleData.unparsedPrice);
-  
-      // Calculate the total ticket price
-      const totalTicketPriceWei = ticketPrice.mul(totalTicketsWanted);
-  
-      // Prepare the transaction object
-      const txObject = {
-        to: mainNftRaffle.networks['80001'].address,
-        value: totalTicketPriceWei,
-        data: contract.interface.encodeFunctionData('buyTicket', [
-          raffleData.id,
-          totalTicketsWanted,
-        ]),
-      };
-  
-      // Send the transaction
-      const txResponse = await provider.getSigner().sendTransaction(txObject);
-      await txResponse.wait();
-  
-      alert('Tickets bought successfully!');
+      // Calculate the total price for the desired number of tickets
+      // const totalPrice = ethers.utils.parseEther(raffleData.unparsedPrice)
+      //   .mul(totalTicketsWanted);
+      const totalPrice = raffleData.unparsedPrice;
+      console.log(totalPrice);
+
+      // Buy tickets by calling the contract's buyTickets function
+      const tx = await contract.buyTicket(raffleId, totalTicketsWanted, {
+        value: totalPrice,
+      });
+
+      await tx.wait();
+
+      // Tickets bought successfully
+      console.log(tx);
+      console.log('Tickets bought successfully!');
     } catch (error) {
-      console.log('Error:', error);
-      alert('Error buying tickets. Please try again.');
+      console.log('Error buying tickets:', error);
     }
-  };  
+  };
 
   const handleTotalTicketsChange = (event) => {
     const value = parseInt(event.target.value, 10);
@@ -162,7 +154,7 @@ const BuyTickets = () => {
                 </div>
               </div>
               <a className="d-block btn btn-bordered-white mt-4" href={''} onClick={handleBuyTickets}>
-                Pay {raffleData.unparsedPrice * totalTicketsWanted} for {totalTicketsWanted} Ticket(s)
+                Pay {raffleData.price * totalTicketsWanted} ETH for {totalTicketsWanted} Ticket(s)
               </a>
             </div>
           </div>

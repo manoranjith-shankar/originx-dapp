@@ -77,6 +77,13 @@ const BuyTickets = () => {
     return <div>Loading...</div>;
   }
 
+  const calculateTotalPrice = (unparsedPrice, totalTicketsWanted) => {
+    const pricePerTicket = ethers.BigNumber.from(unparsedPrice);
+    const totalTickets = ethers.BigNumber.from(totalTicketsWanted);
+    const totalPrice = pricePerTicket.mul(totalTickets);
+    return totalPrice;
+  };
+
   const handleBuyTickets = async (event) => {
     event.preventDefault();
 
@@ -84,8 +91,8 @@ const BuyTickets = () => {
       // Calculate the total price for the desired number of tickets
       // const totalPrice = ethers.utils.parseEther(raffleData.unparsedPrice)
       //   .mul(totalTicketsWanted);
-      const totalPrice = raffleData.unparsedPrice;
-      console.log(totalPrice);
+      const totalPrice = calculateTotalPrice(raffleData.unparsedPrice, totalTicketsWanted);
+      console.log(totalPrice.toString());
 
       // Buy tickets by calling the contract's buyTickets function
       const tx = await contract.buyTicket(raffleId, totalTicketsWanted, {

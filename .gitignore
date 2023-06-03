@@ -8,6 +8,11 @@
 # prompts
 /.txt
 
+# backup components
+/src/components/Create/bu.js
+/src/components/BuyTickets/bu.js
+/src/components/OpenRaffles/bu.js
+
 #chains
 /.chains
 

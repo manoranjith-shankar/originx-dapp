@@ -15,6 +15,13 @@ const OpenRaffles = () => {
   const { account } = useAccount();
   const provider = new ethers.providers.Web3Provider(window.ethereum);
 
+  // Initialize ethers provider and contract instance
+  const contract = new ethers.Contract(
+    mainNftRaffle.networks['4002'].address,
+    mainNftRaffle.abi,
+    provider.getSigner(account)
+  );
+
   const shortenAddress = (address) => {
     if (address.length <= 8) {
       return address;
@@ -29,13 +36,6 @@ const OpenRaffles = () => {
   useEffect(() => {
     const fetchRaffles = async () => {
       try {
-        const networkId = await provider.getNetwork().then((network) => network.chainId);
-        // Initialize ethers provider and contract instance
-        const contract = new ethers.Contract(
-          mainNftRaffle.networks[networkId].address,
-          mainNftRaffle.abi,
-          provider.getSigner(account)
-        );
 
         // Retrieve the total number of raffles from the contract
         const totalRaffles = await contract.getTotalRaffles();
@@ -54,7 +54,7 @@ const OpenRaffles = () => {
             img: raffleInfo.nftSourceLink,
             title: raffleInfo.raffleName,
             owner: owner,
-            price: price,
+            price: price.slice(0, 6),
             availableTickets: availableTickets,
             btnText: "Buy Tickets"
           });
@@ -69,12 +69,21 @@ const OpenRaffles = () => {
     fetchRaffles();
   }, [account, provider], []);
 
-  console.log(exploreData,[]);
-
-   if (!exploreData || exploreData.length === 0) {
+  if (!exploreData || exploreData.length === 0) {
     return (
       <div className="overlay-container">
         <div className="overlay-spinner"></div>
+      </div>
+    );
+  }
+  
+  if (contract.getTotalRaffles === 0) {
+    return (
+      <div className="popup-container">
+        <div className="popup">
+          <h3>No open raffles available</h3>
+          <p>There are currently no open raffles to explore. Please check back later.</p>
+        </div>
       </div>
     );
   }

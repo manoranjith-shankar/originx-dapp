@@ -10,7 +10,6 @@ const BuyTickets = () => {
   const { account } = useAccount();
   const [raffleData, setRaffleData] = useState(null);
   const [totalTicketsWanted, setTotalTicketsWanted] = useState(1);
-  const [charityInfo, setCharityInfo] = useState('');
   const [showToast, setShowToast] = useState(false);
 
   const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -31,18 +30,6 @@ const BuyTickets = () => {
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     return `"${year}-${month}-${day}"`;
-  };
-  
-  const notify = () => {
-    toast.promise(
-      notify(),
-       {
-         loading: 'Transacting',
-         success: <b>Tickets bought successfully</b>,
-         error: <b>Could not buy tickets</b>,
-       }
-     );
-     setShowToast(true);
   };
 
   useEffect(() => {
@@ -100,10 +87,8 @@ const BuyTickets = () => {
 
   const handleBuyTickets = async (event) => {
     event.preventDefault();
-    var loadingToastId;
 
     try {
-
       const networkId = await provider.getNetwork().then((network) => network.chainId);
         // Initialize ethers provider and contract instance
         const contract = new ethers.Contract(

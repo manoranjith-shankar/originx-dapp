@@ -40,7 +40,7 @@ const Create = () => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
 
   const notify = () => {
-    toast.success(`The transaction is successful`);
+    toast.success(`Raffle created successfully`);
   };
 
   const notifyError = () => {
@@ -57,12 +57,8 @@ const Create = () => {
       mainNftRaffle.abi,
       provider.getSigner(account)
     );
-    try{
-      if(networkId === undefined)
-      toast.error("Network Id undefined") }
-    finally {
-      console.log(networkId);
-    }
+
+    var loadingToastId = toast.loading('Creating....')
 
     try {
       const result = await contract.createRaffle(
@@ -76,10 +72,28 @@ const Create = () => {
         charityAddress.value
       );
       console.log(result);
+      toast.dismiss(loadingToastId);
       notify();
     } catch (err) {
       console.log(err);
+      console.log(charityAddress.value)
+      console.log(err.action);
+
+      if(charityAddress.value === undefined) {
+        toast.dismiss(loadingToastId)
+        toast.error("Please select a charity address")
+      }
+      else if (err.action === "sendTransaction") {
+        toast.dismiss(loadingToastId);
+        toast.error("Provider denied transaction")
+        }
+      else if (err.reason === "execution reverted: ERC721: caller is not token owner or approved") {
+      toast.dismiss(loadingToastId);
+      toast.error("You are not the owner of this token or you haven't approved it yet");
+      }
+      else {
       notifyError();
+      }
     }
   };
 
@@ -205,6 +219,7 @@ const Create = () => {
                       placeholder="Select Address"
                       data={charityAddresses}
                       dataKey='id'
+                      required="required"
                       textField='id'
                       onChange={(value) => setCharityAddress(value)}
                     />

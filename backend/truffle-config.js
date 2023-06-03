@@ -101,16 +101,13 @@ contracts_build_directory: "../src/contracts",
       // contract-address: 0x20Cb80523c2f89cC29980f688549343B244Bd461 - Manufacturer.sol
       // contract-address: 0x77d138ADBaE7c03306147f29078c3a1b18C3B779 - supplychain.sol
     // },
-    testnet: {
+    fantom: {
       networkCompleteTimeout: 3000000000,
-      provider: () => new HDWalletProvider(MNEMONIC, `https://rpc.buildbear.io/hollow-ackbar-14753b14`),
-      network_id: 9134,       //  id
-      confirmations: 0,    // # of confirmations to wait between deployments. (default: 0)
-      timeoutBlocks: 0,  // # of blocks before a deployment times out  (minimum/default: 50)
-      skipDryRun: true     // Skip dry run before migrations? (default: false for public nets )
-      // contract-address: 0xD88fb82b8717B495E61026bE3a2E4508Aa908015 - Products.sol
-      // contract-address: 0x20Cb80523c2f89cC29980f688549343B244Bd461 - Manufacturer.sol
-      // contract-address: 0x77d138ADBaE7c03306147f29078c3a1b18C3B779 - supplychain.sol
+      provider: () => new HDWalletProvider(MNEMONIC, `https://rpc.testnet.fantom.network`),
+      network_id: 4002,
+      confirmations: 0,
+      timeoutBlocks: 0, 
+      skipDryRun: true
     },
     matic: {
       provider: () => new HDWalletProvider(MNEMONIC, `https://rpc-mumbai.maticvigil.com`),

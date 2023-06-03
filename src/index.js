@@ -9,27 +9,27 @@ import {
   RainbowKitProvider,
 } from '@rainbow-me/rainbowkit';
 import { configureChains, createClient, WagmiConfig } from 'wagmi';
-import { mainnet, polygon, optimism, arbitrum, polygonMumbai, avalanche } from 'wagmi/chains';
+import { mainnet, polygon, polygonMumbai, avalanche } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 
-export const testnet = {
-  id: 9134,
-  name: 'Mainnet fork',
-  network: 'Ethereum',
+export const fantomTestnet = {
+  id: 4002,
+  name: 'Fantom Network',
+  network: 'Fantom Testnet',
   nativeCurrency: {
   decimals: 18,
-  name: 'ethereum',
-  symbol: 'ETH',
+  name: 'fantom testnet',
+  symbol: 'FTM',
   },
-    iconUrl: 'https://logowik.com/content/uploads/images/ethereum-eth-icon9411.logowik.com.webp',
+    iconUrl: 'https://seeklogo.com/images/F/fantom-ftm-logo-3566C53917-seeklogo.com.png',
   rpcUrls: {
-  public: { http: ['https://rpc.buildbear.io/hollow-ackbar-14753b14'] },
-  default: { http: ['https://rpc.buildbear.io/hollow-ackbar-14753b14'] },
+  public: { http: ['https://rpc.testnet.fantom.network'] },
+  default: { http: ['https://rpc.testnet.fantom.network'] },
   },
   blockExplorers: {
-  etherscan: { name: 'explorer', url: 'https://explorer.buildbear.io/hollow-ackbar-14753b14/transactions' },
-  default: { name: 'explorer', url: 'https://explorer.buildbear.io/hollow-ackbar-14753b14/transactions' },
+  etherscan: { name: 'explorer', url: 'https://testnet.ftmscan.com/' },
+  default: { name: 'explorer', url: 'https://testnet.ftmscan.com/' },
   },
   contracts: {
   multicall3: {
@@ -40,7 +40,7 @@ export const testnet = {
   }
 
 const { chains, provider } = configureChains(
-  [mainnet, testnet, polygonMumbai, polygon, optimism, arbitrum, avalanche],
+  [mainnet, fantomTestnet, polygonMumbai, polygon, avalanche],
   [
     alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
     publicProvider()

@@ -8,16 +8,16 @@
 # prompts
 /.txt
 
-# backup components
-/src/components/Create/bu.js
-/src/components/BuyTickets/bu.js
-/src/components/OpenRaffles/bu.js
-
 #chains
 /.chains
 
 # testing
 /coverage
+
+# backup components
+/src/components/BuyTickets/backup.js
+/src/components/BuyTickets/buy.js
+/src/components/OpenRaffles/backup.js
 
 # production
 /build

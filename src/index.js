@@ -13,19 +13,19 @@ import { mainnet, polygon, polygonMumbai, avalanche } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 
-export const fantomTestnet = {
+export const Fantom = {
   id: 4002,
   name: 'Fantom Network',
-  network: 'Fantom Testnet',
+  network: 'Fantom Network',
   nativeCurrency: {
   decimals: 18,
-  name: 'fantom testnet',
+  name: 'Fantom Testnet',
   symbol: 'FTM',
   },
     iconUrl: 'https://seeklogo.com/images/F/fantom-ftm-logo-3566C53917-seeklogo.com.png',
   rpcUrls: {
-  public: { http: ['https://rpc.testnet.fantom.network'] },
-  default: { http: ['https://rpc.testnet.fantom.network'] },
+  public: { http: ['https://eth-rpc-api.thetatoken.org/rpc'] },
+  default: { http: ['https://eth-rpc-api.thetatoken.org/rpc'] },
   },
   blockExplorers: {
   etherscan: { name: 'explorer', url: 'https://testnet.ftmscan.com/' },
@@ -40,7 +40,7 @@ export const fantomTestnet = {
   }
 
 const { chains, provider } = configureChains(
-  [mainnet, fantomTestnet, polygonMumbai, polygon, avalanche],
+  [mainnet, Fantom, polygonMumbai, polygon, avalanche],
   [
     alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
     publicProvider()

@@ -4,7 +4,6 @@ import { ethers } from 'ethers';
 import mainNftRaffle from '../contracts/mainNftRaffle.json';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTicket } from '@fortawesome/free-solid-svg-icons';
-import { toast } from 'react-hot-toast';
 
 const OpenRaffles = () => {
   const [initData] = useState({
@@ -12,9 +11,8 @@ const OpenRaffles = () => {
     heading: "Explore",
     btnText: "Explore More"
   });
-  const { account } = useAccount();
   const [exploreData, setExploreData] = useState([]);
-  const [raffleCount, setRaffleCount] = useState([]);
+  const { account } = useAccount();
   const provider = new ethers.providers.Web3Provider(window.ethereum);
 
   const shortenAddress = (address) => {
@@ -31,16 +29,16 @@ const OpenRaffles = () => {
   useEffect(() => {
     const fetchRaffles = async () => {
       try {
+        const networkId = await provider.getNetwork().then((network) => network.chainId);
         // Initialize ethers provider and contract instance
         const contract = new ethers.Contract(
-          mainNftRaffle.networks['4002'].address,
+          mainNftRaffle.networks[networkId].address,
           mainNftRaffle.abi,
           provider.getSigner(account)
         );
 
         // Retrieve the total number of raffles from the contract
         const totalRaffles = await contract.getTotalRaffles();
-        console.log(totalRaffles);
       
         // Fetch raffle details for each raffle
         const exploreData = [];
@@ -62,7 +60,6 @@ const OpenRaffles = () => {
           });
         }
 
-        setRaffleCount(totalRaffles);
         setExploreData(exploreData);
       } catch (error) {
         console.log('Error:', error);
@@ -72,9 +69,13 @@ const OpenRaffles = () => {
     fetchRaffles();
   }, [account, provider], []);
 
-  if (raffleCount._hex==0x00){
+  console.log(exploreData,[]);
+
+   if (!exploreData || exploreData.length === 0) {
     return (
-      <div>No raffles Created</div>
+      <div className="overlay-container">
+        <div className="overlay-spinner"></div>
+      </div>
     );
   }
 

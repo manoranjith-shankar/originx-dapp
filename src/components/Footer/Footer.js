@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
 import footerData from './footerData.json';
+import { Link } from 'react-router-dom';
+
+const gradientStyle = {
+    background: `linear-gradient(to right, var(--primary-color), var(--secondary-color))`,
+    display: 'inline',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+  };
 
 class Footer extends Component {
     state = {
@@ -47,7 +55,7 @@ class Footer extends Component {
                                     {/* Copyright Left */}
                                     <div className="copyright-left">Submitted to Fantom Hackathon Q2 2023</div>
                                     {/* Copyright Right */}
-                                    <div className="copyright-right">By Team <a href="https://0xc0d3rs.tech" target= "_blank" >0xc0d3rs</a></div>
+                                    <div className="copyright-right"><Link href="https://0xc0d3rs.tech" target= "_blank" style={gradientStyle} >Manoranjith Shankar</Link></div>
                                 </div>
                             </div>
                         </div>

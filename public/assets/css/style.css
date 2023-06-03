@@ -2005,22 +2005,22 @@ header .navbar-expand .dropdown:hover > .dropdown-menu {
   font-size: 20px;
 }
 
-.item-details-area .netstorm-tab.nav-tabs {
+.item-details-area .originx-tab.nav-tabs {
   border-bottom: 2px solid var(--card-bg-color);
 }
 
-.item-details-area .netstorm-tab li {
+.item-details-area .originx-tab li {
   margin: 0;
 }
 
-.item-details-area .netstorm-tab li a {
+.item-details-area .originx-tab li a {
   position: relative;
   display: inline-block;
   margin: 0 10px;
   padding: 10px 0;
 }
 
-.item-details-area .netstorm-tab li a::after {
+.item-details-area .originx-tab li a::after {
   position: absolute;
   content: '';
   height: 3px;
@@ -2034,17 +2034,17 @@ header .navbar-expand .dropdown:hover > .dropdown-menu {
   transition: all 0.3s ease 0s;
 }
 
-.item-details-area .netstorm-tab li a.active h5 {
+.item-details-area .originx-tab li a.active h5 {
   color: var(--primary-color);
 }
 
-.item-details-area .netstorm-tab li a.active::after {
+.item-details-area .originx-tab li a.active::after {
   width: 100%;
   visibility: visible;
   opacity: 1;
 }
 
-.item-details-area .netstorm-tab li:first-of-type a {
+.item-details-area .originx-tab li:first-of-type a {
   margin-left: 0;
 }
 
@@ -2194,22 +2194,22 @@ header .navbar-expand .dropdown:hover > .dropdown-menu {
           box-shadow: 0 5px 10px rgba(14, 49, 139, 0.5);
 }
 
-.activity-area .netstorm-tab.nav-tabs {
+.activity-area .originx-tab.nav-tabs {
   border-bottom: 2px solid var(--card-bg-color);
 }
 
-.activity-area .netstorm-tab li {
+.activity-area .originx-tab li {
   margin: 0;
 }
 
-.activity-area .netstorm-tab li a {
+.activity-area .originx-tab li a {
   position: relative;
   display: inline-block;
   margin: 0 10px;
   padding: 10px 0;
 }
 
-.activity-area .netstorm-tab li a::after {
+.activity-area .originx-tab li a::after {
   position: absolute;
   content: '';
   height: 3px;
@@ -2223,17 +2223,17 @@ header .navbar-expand .dropdown:hover > .dropdown-menu {
   transition: all 0.3s ease 0s;
 }
 
-.activity-area .netstorm-tab li a.active h5 {
+.activity-area .originx-tab li a.active h5 {
   color: var(--primary-color);
 }
 
-.activity-area .netstorm-tab li a.active::after {
+.activity-area .originx-tab li a.active::after {
   width: 100%;
   visibility: visible;
   opacity: 1;
 }
 
-.activity-area .netstorm-tab li:first-of-type a {
+.activity-area .originx-tab li:first-of-type a {
   margin-left: 0;
 }
 
@@ -2422,6 +2422,7 @@ header .navbar-expand .dropdown:hover > .dropdown-menu {
   font-weight: 900;
   font-family: 'Font Awesome 5 Free';
 }
+
 
 .badge {
   font-weight: 500;

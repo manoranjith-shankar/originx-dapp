@@ -9,9 +9,9 @@ const Header = () => {
             <nav data-aos="zoom-out" data-aos-delay={800} className="navbar navbar-expand">
                 <div className="container header">
                     {/* Navbar Brand*/}
-                    <Link className="navbar-brand" to="/">
+                    <a className="navbar-brand" href="/">
                         <img className="navbar" src="img/originx-text-transparent.png" alt=""/>
-                    </Link>
+                    </a>
                     <div className="ml-auto" />
                     {/* Navbar */}
                     <ul className="navbar-nav items mx-auto">
@@ -20,10 +20,10 @@ const Header = () => {
                             <Link to="/" className="nav-link">Home</Link>
                         </li>
                         <li className="nav-item dropdown">
-                            <a className="nav-link">Explore <i className="fas fa-angle-down ml-1" /></a>
+                            <a className="nav-link" href="#">Explore <i className="fas fa-angle-down ml-1" /></a>
                             <ul className="dropdown-menu"> 
-                                <li className="nav-item"><Link to="/raffles" className="nav-link">Open Raffles</Link></li>
-                                <li className="nav-item"><Link to="/owned-raffles" className="nav-link">My Raffles</Link></li>
+                                <Link className="nav-item"><a href="/raffles" className="nav-link">Open Raffles</a></Link>
+                                <Link className="nav-item"><a href="/raffle-owner" className="nav-link">My Raffles</a></Link>
                             </ul>
                         </li>
                         <li className="nav-item">

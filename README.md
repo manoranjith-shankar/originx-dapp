@@ -20,16 +20,30 @@ This should start the dApp at [localhost](https://localhost:3000)
 ### Contracts
 ```shell
 cd backend
-truffle migrate --network matic
+truffle migrate --network theta
 ```
-This will deploy the smart contract on matic testnet
+This will deploy the smart contract on theta
 
-### Deployed Contract address
+### Approve 721 Standard
+> Deployed contract address of the 721 Standard is required.
 
+Approve the deployed contract address in Theta Metachain with the Id of the 
+721 Standard, to create raffle.
+
+After the raffle had been created successfully, it updates in [localhost/raffles](https://localhost:3000/raffles). You can buy tickets and use [localhost/activity](https://localhost:3000/activity), to pick a winner.
+
+### Configure addresses
+>/backend/contracts/mainNftRaffle.sol
+
+Update the development team address with your own address.
+
+>/src/components/Create/Create.js
+
+Update the charity address with your own address.
 
 ### Built With
 React
 Solidity
 Truffle
 wagmi
-Spheron
+DigitalOcean

@@ -10,6 +10,7 @@ const BuyTickets = () => {
   const { account } = useAccount();
   const [raffleData, setRaffleData] = useState(null);
   const [totalTicketsWanted, setTotalTicketsWanted] = useState(1);
+  const [charityInfo, setCharityInfo] = useState('');
   const [showToast, setShowToast] = useState(false);
 
   const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -31,14 +32,7 @@ const BuyTickets = () => {
     const day = String(date.getDate()).padStart(2, '0');
     return `"${year}-${month}-${day}"`;
   };
-    
-  // Initialize ethers provider and contract instance
-  const contract = new ethers.Contract(
-    mainNftRaffle.networks['80001'].address,
-    mainNftRaffle.abi,
-    provider.getSigner(account)
-  );
-
+  
   const notify = () => {
     toast.promise(
       notify(),
@@ -54,6 +48,14 @@ const BuyTickets = () => {
   useEffect(() => {
     const fetchRaffleData = async () => {
       try {
+
+        const networkId = await provider.getNetwork().then((network) => network.chainId);
+        // Initialize ethers provider and contract instance
+        const contract = new ethers.Contract(
+          mainNftRaffle.networks[networkId].address,
+          mainNftRaffle.abi,
+          provider.getSigner(account)
+        );
         
         // Fetch raffle details for the specified raffleId
         const raffleInfo = await contract.raffleInfo(raffleId);
@@ -72,6 +74,7 @@ const BuyTickets = () => {
           unparsedPrice: raffleInfo.ticketPrice, // Store the unparsed ticket price
           date: endDate,
           availableTickets: availableTickets,
+          volumeOfTickets: raffleInfo.totalVolumeofTickets - 0,
           totalTicketsWanted: totalTicketsWanted,
         };
 
@@ -82,7 +85,7 @@ const BuyTickets = () => {
     };
 
     fetchRaffleData();
-  }, [raffleId, account, provider, totalTicketsWanted]);
+  }, [raffleId, account, provider, totalTicketsWanted],[]);
 
   if (!raffleData) {
     return <div>Loading...</div>;
@@ -100,9 +103,15 @@ const BuyTickets = () => {
     var loadingToastId;
 
     try {
-      // Calculate the total price for the desired number of tickets
-      // const totalPrice = ethers.utils.parseEther(raffleData.unparsedPrice)
-      //   .mul(totalTicketsWanted);
+
+      const networkId = await provider.getNetwork().then((network) => network.chainId);
+        // Initialize ethers provider and contract instance
+        const contract = new ethers.Contract(
+          mainNftRaffle.networks[networkId].address,
+          mainNftRaffle.abi,
+          provider.getSigner(account)
+        );
+        
       const totalPrice = calculateTotalPrice(raffleData.unparsedPrice, totalTicketsWanted);
       console.log(totalPrice.toString());
 
@@ -119,8 +128,14 @@ const BuyTickets = () => {
       // Tickets bought successfully
       console.log(tx.hash);
     } catch (error) {
+
+      if (raffleData.availableTickets === 0) {
+        toast.error('Tickets Sold out');
+      }
+      else {
       toast.error('Could not buy tickets.');
       console.log('Error buying tickets:', error);
+    }
     }
   };
 
@@ -141,7 +156,7 @@ const BuyTickets = () => {
                 <img src={raffleData.img} alt="" />
               </div>
               <div className="card no-hover countdown-times my-4">
-                <div className="countdown d-flex justify-content-center" data-date={raffleData.date} />
+                <div className="countdown d-flex justify-content-center" data-date="2023-10-7" />
               </div>
             </div>
           </div>
@@ -155,6 +170,16 @@ const BuyTickets = () => {
                 </a>
               </div>
               <div className="row items">
+              <div className="card no-hover">
+                <div className="single-seller d-flex align-items-center">
+                  <div className="seller-info ml-3">
+                      <a className="seller mb-2" href="/">Charity Information</a>
+                      <span>Creator</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+              <div className="row items">
                 <div className="col-12 item px-lg-2">
                   <div className="card no-hover">
                     <h4 className="mt-0 mb-2">Available Tickets</h4>
@@ -163,7 +188,7 @@ const BuyTickets = () => {
                         {raffleData.availableTickets === 0 ? (
                           <span>Sold Out</span>
                         ) : (
-                          <span>{raffleData.availableTickets}</span>
+                          <span>{raffleData.availableTickets} of {raffleData.volumeOfTickets}</span>
                         )}   
                     </div>
                   </div>

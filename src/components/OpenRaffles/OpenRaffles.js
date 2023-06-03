@@ -7,7 +7,7 @@ import { faTicket } from '@fortawesome/free-solid-svg-icons';
 
 const OpenRaffles = () => {
   const [initData] = useState({
-    preHeading: "Exclusive Assets",
+    preHeading: "Open Raffles",
     heading: "Explore",
     btnText: "Explore More"
   });
@@ -29,9 +29,10 @@ const OpenRaffles = () => {
   useEffect(() => {
     const fetchRaffles = async () => {
       try {
+        const networkId = await provider.getNetwork().then((network) => network.chainId);
         // Initialize ethers provider and contract instance
         const contract = new ethers.Contract(
-          mainNftRaffle.networks['80001'].address,
+          mainNftRaffle.networks[networkId].address,
           mainNftRaffle.abi,
           provider.getSigner(account)
         );
@@ -66,10 +67,16 @@ const OpenRaffles = () => {
     };
 
     fetchRaffles();
-  }, []);
+  }, [account, provider], []);
 
-  if (!exploreData) {
-    return <div>Loading...</div>;
+  console.log(exploreData,[]);
+
+   if (!exploreData || exploreData.length === 0) {
+    return (
+      <div className="overlay-container">
+        <div className="overlay-spinner"></div>
+      </div>
+    );
   }
 
   return (

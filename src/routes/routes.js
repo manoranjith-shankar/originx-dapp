@@ -6,6 +6,7 @@ import Home from "../themes/Home";
 import CreateRaffle from "../themes/CreateRaffle";
 import OpenRafflesTheme from "../themes/OpenRafflesTheme";
 import RaffleDetailsTheme from "../themes/RaffleDetailsTheme";
+import RaffleActionsTheme from "../themes/RaffleActionsTheme";
 
 class MyRouts extends React.Component {
   render() {
@@ -17,6 +18,7 @@ class MyRouts extends React.Component {
             <Route path="/create" element={<CreateRaffle />} />
             <Route path="/raffles" element={<OpenRafflesTheme />} />
             <Route path="/buytickets/:raffleId" element={<RaffleDetailsTheme />} />
+            <Route path="/raffle-owner" element={<RaffleActionsTheme />} />
           </Routes>
         </Router>
       </div>

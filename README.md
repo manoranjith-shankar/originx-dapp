@@ -20,9 +20,9 @@ This should start the dApp at [localhost](https://localhost:3000)
 ### Contracts
 ```shell
 cd backend
-truffle migrate --network theta
+truffle migrate --network fantom
 ```
-This will deploy the smart contract on theta
+This will deploy the smart contract on fantom
 
 ### Approve 721 Standard
 > Deployed contract address of the 721 Standard is required.

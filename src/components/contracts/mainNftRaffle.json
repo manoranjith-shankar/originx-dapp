@@ -31260,8 +31260,8 @@
     "4002": {
       "events": {},
       "links": {},
-      "address": "0xB13D23f7bdFD39754163F76909468f1a8669adC4",
-      "transactionHash": "0xc97813c2e91de0811581668d06afa6395c43fdf9d329fb18a557a8b68d27b090"
+      "address": "0xaA6C4317979148FE2291B214e77099503095DcDe",
+      "transactionHash": "0xbf8ee075ad7cf5ff269cdfebf8d563daffd3594ff0693da14cf64b3bacc15461"
     },
     "80001": {
       "events": {
@@ -31297,7 +31297,7 @@
     }
   },
   "schemaVersion": "3.4.13",
-  "updatedAt": "2023-06-04T08:34:49.158Z",
+  "updatedAt": "2023-06-04T08:36:13.119Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

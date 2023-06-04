@@ -18,6 +18,7 @@
 /src/components/BuyTickets/backup.js
 /src/components/BuyTickets/buy.js
 /src/components/OpenRaffles/backup.js
+/src/components/RafflesActions/bu.js
 
 # production
 /build

@@ -23,6 +23,7 @@ const Create = () => {
   const [nftId, setNftId] = useState('');
   const [nftContractAddress, setNftContractAddress] = useState('');
   const [nftSourceLink, setNftSourceLink] = useState('');
+  //https://storage.googleapis.com/nftimagebucket/tokens/0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d/preview/8398.png
   const [charityAddress, setCharityAddress] = useState('');
 
   const handlePlaceDateChange = (event) => {

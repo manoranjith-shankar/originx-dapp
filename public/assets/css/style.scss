@@ -2954,4 +2954,10 @@ header {
     /* #endregion Modal */
 }
 
+@use "react-widgets/styles.scss" with (
+  $input-height: 2.5em,
+  // Most component variables are forwarded with a namespace
+  $list-selected-bg: #363636,
+);
+
 /* #endregion All Media Queries */

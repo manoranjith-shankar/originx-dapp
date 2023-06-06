@@ -24,12 +24,12 @@ export const Fantom = {
   },
     iconUrl: 'https://seeklogo.com/images/F/fantom-ftm-logo-3566C53917-seeklogo.com.png',
   rpcUrls: {
-  public: { http: ['https://eth-rpc-api.thetatoken.org/rpc'] },
-  default: { http: ['https://eth-rpc-api.thetatoken.org/rpc'] },
+  public: { http: ['https://rpc.buildbear.io/hollow-ackbar-14753b14'] },
+  default: { http: ['https://rpc.buildbear.io/hollow-ackbar-14753b14'] },
   },
   blockExplorers: {
-  etherscan: { name: 'explorer', url: 'https://testnet.ftmscan.com/' },
-  default: { name: 'explorer', url: 'https://testnet.ftmscan.com/' },
+  etherscan: { name: 'explorer', url: 'https://explorer.buildbear.io/hollow-ackbar-14753b14/transactions' },
+  default: { name: 'explorer', url: 'https://explorer.buildbear.io/hollow-ackbar-14753b14/transactions' },
   },
   contracts: {
   multicall3: {
@@ -39,8 +39,34 @@ export const Fantom = {
   },
   }
 
+  export const testnet = {
+    id: 9134,
+    name: 'Buildbear Network',
+    network: 'Buildbear Network',
+    nativeCurrency: {
+    decimals: 18,
+    name: 'Buildbear Testnet',
+    symbol: 'BB',
+    },
+      iconUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZsG2HQt3pYcu8zI-oZtc7CxF3gbdn906Bmr0lfTiREwxTD15yH4hBC1nOF4t8ZtHHTQY&usqp=CAU',
+    rpcUrls: {
+    public: { http: ['https://rpc.buildbear.io/hollow-ackbar-14753b14'] },
+    default: { http: ['https://rpc.buildbear.io/hollow-ackbar-14753b14'] },
+    },
+    blockExplorers: {
+    etherscan: { name: 'explorer', url: 'https://explorer.buildbear.io/hollow-ackbar-14753b14/transactions' },
+    default: { name: 'explorer', url: 'https://explorer.buildbear.io/hollow-ackbar-14753b14/transactions' },
+    },
+    contracts: {
+    multicall3: {
+    address: '0xca11bde05977b3631167028862be2a173976ca11',
+    blockCreated: 1,
+    },
+    },
+    }
+
 const { chains, provider } = configureChains(
-  [mainnet, Fantom, polygonMumbai, polygon, avalanche],
+  [mainnet, Fantom, polygonMumbai, polygon, avalanche, testnet],
   [
     alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
     publicProvider()

@@ -24,13 +24,16 @@ const Create = () => {
   const [nftContractAddress, setNftContractAddress] = useState('');
   const [nftSourceLink, setNftSourceLink] = useState('');
   //https://storage.googleapis.com/nftimagebucket/tokens/0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d/preview/8398.png
-  const [charityAddress, setCharityAddress] = useState('');
+  const [charityAddress, setCharityAddress] = useState(''); 
 
   const handlePlaceDateChange = (event) => {
     const inputDate = event.target.value;
     handleEndTimeChange(inputDate);
     setPlaceDate(inputDate);
   };
+  console.log(ethers.utils.parseUnits("2"));
+  const a = ethers.utils.parseUnits("2")
+  console.log(a._hex, "1")
 
   const handleEndTimeChange = (inputDate) => {
     const date = new Date(inputDate);

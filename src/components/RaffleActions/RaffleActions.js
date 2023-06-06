@@ -3,6 +3,9 @@ import { useAccount } from 'wagmi';
 import { ethers } from 'ethers';
 import mainNftRaffle from '../contracts/mainNftRaffle.json';
 import toast, { Toaster } from 'react-hot-toast';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 
 const RaffleActions = () => {
   const { account } = useAccount();
@@ -48,16 +51,24 @@ const RaffleActions = () => {
         for (let i = 0; i < rafflesOwnedCount; i++) {
           const raffleId = raffleIdsOwned[i];
           const raffleInfo = await contract.raffleInfo(raffleId);
-          
+          const prizePool = await contract.getPrizePool(raffleId);
+
+          const creatorPrize = prizePool[0].toString();
+          const creatorPrizeinEth = ethers.utils.formatEther(creatorPrize)
           const owner = shortenAddress(raffleInfo.raffleCreator);
           const price = raffleInfo.price;
           const availableTickets = `${raffleInfo.totalVolumeofTickets - raffleInfo.totalSoldTickets} of ${raffleInfo.totalVolumeofTickets}`;
+          const totalSoldTickets = `${raffleInfo.totalSoldTickets} of ${raffleInfo.totalVolumeofTickets}`;
+          const pickCondition = (raffleInfo.totalSoldTickets / raffleInfo.totalVolumeofTickets) * 100;
 
           raffleDetails.push({
             id: raffleInfo.raffleId,
             img: raffleInfo.nftSourceLink,
             title: raffleInfo.raffleName,
+            creator: creatorPrizeinEth,
+            pickCondition: pickCondition,
             owner: owner,
+            ticketsSold: totalSoldTickets,
             price: price,
             availableTickets: availableTickets,
             btnText: "Buy Tickets"
@@ -67,14 +78,42 @@ const RaffleActions = () => {
         setRaffleInfo(raffleDetails);
         setTotalRafflesOwned(rafflesOwnedCount)
         setRaffleIdsOwned(raffleIdsOwned)
-        console.log(raffleDetails)
+        console.log(raffleDetails.pickCondition)
       } catch (error) {
         console.log('Error:', error);
       }
     };
 
     fetchRafflesOwned();
-  }, [account, provider, accountAddress]);
+  }, [account, provider, accountAddress],[]);
+
+  const handlePickWinner = async (raffleId) => {
+    try {
+
+      const networkId = await provider.getNetwork().then((network) => network.chainId);
+      const contract = new ethers.Contract(
+        mainNftRaffle.networks[networkId].address,
+        mainNftRaffle.abi,
+        provider.getSigner(account)
+      );
+
+      if(raffleInfo.pickCondition >=80 ) {
+
+      // Call the pickWinner function in the contract  
+      const transaction = await contract.pickWinner(raffleId);
+      await transaction.wait();
+
+      toast.success(`Winner picked for raffle ID ${raffleId}`);
+      }
+
+      else {
+        toast.error("Total Tickets is less than 80%")
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error('Error picking winner');
+    }
+  };
 
   useEffect(() => {
     if (totalRafflesOwned === 0) {
@@ -120,23 +159,27 @@ const RaffleActions = () => {
                       <h5 className="mb-0">{raffleDetails.title}</h5>
                     </a>
                     <div className="seller d-flex align-items-center my-3">
-                      <span>Owned By</span>
-                      <a>
-                        <h6 className="ml-2 mb-0">{raffleDetails.owner}</h6>
+                      <span>Tickets sold</span> 
+                      <a href={`https://${raffleDetails.owner}`}>
+                        <h6 className="ml-2 mb-0">{raffleDetails.ticketsSold}</h6>
                       </a>
                     </div>
-                    <div className="card-bottom d-flex justify-content-between">
-                      <span>{raffleDetails.price}</span>
-                      <span>{raffleDetails.availableTickets}</span>
+                    <div className="seller d-flex align-items-center my-3">
+                      <span>Prize Share</span>
+                      <a href={`https://${raffleDetails.owner}`}>
+                        <h6 className="ml-2 mb-0">{raffleDetails.creator} ETH</h6>
+                      </a>
                     </div>
                     <div className="row items">
+                      <button className="btn btn-bordered-white btn-smaller mt-3" onClick={() => handlePickWinner(raffleDetails.id)}>
+                      <FontAwesomeIcon icon={faCircleCheck} />
+                        <i className="fa-solid fa-CircleCheck mr-2" />
+                        Pick Winner
+                      </button>
                       <a className="btn btn-bordered-white btn-smaller mt-3" href={`/raffle-details/${raffleDetails.id}`}>
-                        <i className="icon-handbag mr-2" />
-                        {raffleDetails.btnText}
-                      </a>
-                      <a className="btn btn-bordered-white btn-smaller mt-3" href={`/raffle-details/${raffleDetails.id}`}>
-                        <i className="icon-handbag mr-2" />
-                        {raffleDetails.btnText}
+                      <FontAwesomeIcon icon=  {faPaperPlane} />
+                        <i className="fa-light fa-PaperPlane mr-2" />
+                        Send Prize
                       </a>
                     </div>
                   </div>
@@ -149,7 +192,7 @@ const RaffleActions = () => {
           <div className="col-12 text-center">
             <a id="load-btn" className="btn btn-bordered-white mt-5" href="#">
               {initData.btnText}
-              <Toaster position="bottom-right" reverseOrder={true} toastOptions={{ className: '', duration: 5000, style: { background: '#363636', color: '#fff' } }} />
+              {/* <Toaster position="bottom-right" reverseOrder={true} toastOptions={{ className: '', duration: 5000, style: { background: '#363636', color: '#fff' } }} /> */}
             </a>
           </div>
         </div>

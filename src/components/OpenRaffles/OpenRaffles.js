@@ -50,17 +50,18 @@ const OpenRaffles = () => {
           const availableTickets = `${raffleInfo.totalVolumeofTickets - raffleInfo.totalSoldTickets} of ${raffleInfo.totalVolumeofTickets}`;
 
           exploreData.push({
-            id: raffleInfo.raffleId,
+            id: raffleInfo.raffleID,
             img: raffleInfo.nftSourceLink,
             title: raffleInfo.raffleName,
             owner: owner,
-            price: price.slice(0, 6),
+            price: price.slice(0,8),
             availableTickets: availableTickets,
             btnText: "Buy Tickets"
           });
         }
 
         setExploreData(exploreData);
+        console.log(exploreData);
       } catch (error) {
         console.log('Error:', error);
       }

@@ -32,6 +32,7 @@ contract mainNftRaffle is IERC721Receiver {
     }
 
     struct RaffleInfo {
+        uint raffleId;
         string raffleName;
         uint256 nftPrice;
         uint256 totalVolumeofTickets;
@@ -134,20 +135,22 @@ contract mainNftRaffle is IERC721Receiver {
         return totalTicketsOwned;
     }
 
-    function getOwnedRaffles(address owner) public view returns (uint256 totalRaffles, uint256[] memory raffleIds) {
-    uint256[] memory ownedRaffleIds = new uint256[](raffleCount);
-    uint256 count = 0;
-    for (uint256 i = 0; i <= raffleCount; i++) {
-        if (raffles[i].raffleCreator == owner) {
-            ownedRaffleIds[count] = i;
-            count++;
+    function getOwnedRaffles(
+        address owner
+    ) public view returns (uint256 totalRaffles, uint256[] memory raffleIds) {
+        uint256[] memory ownedRaffleIds = new uint256[](raffleCount);
+        uint256 count = 0;
+        for (uint256 i = 0; i <= raffleCount; i++) {
+            if (raffles[i].raffleCreator == owner) {
+                ownedRaffleIds[count] = i;
+                count++;
+            }
         }
-    }
-    uint256[] memory result = new uint256[](count);
-    for (uint256 j = 0; j < count; j++) {
-        result[j] = ownedRaffleIds[j];
-    }
-    return (count, result);
+        uint256[] memory result = new uint256[](count);
+        for (uint256 j = 0; j < count; j++) {
+            result[j] = ownedRaffleIds[j];
+        }
+        return (count, result);
     }
 
     function getAvailableTickets(
@@ -283,7 +286,7 @@ contract mainNftRaffle is IERC721Receiver {
             winningTicketOwner,
             raffles[_raffleId].nftId
         );
-    }   
+    }
 
     function raffleInfo(
         uint256 _raffleID
@@ -291,6 +294,7 @@ contract mainNftRaffle is IERC721Receiver {
         Raffle storage raffle = raffles[_raffleID];
 
         RaffleInfo memory raffleInfo = RaffleInfo({
+            raffleId: _raffleID,
             raffleName: raffle.raffleName,
             nftPrice: raffle.nftPrice,
             totalVolumeofTickets: raffle.totalVolumeofTickets,

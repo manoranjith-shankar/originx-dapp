@@ -109,19 +109,15 @@ const RaffleActions = () => {
   
       // Check if raffleWinner is set
       const raffleInfo = await contract.raffleInfo(raffleId);
-      const { raffleWinner } = raffleInfo;
-      if (raffleWinner) {
-        toast.error('Winner already picked for this raffle');
-        return;
-      }
-
-      console.log(raffleId)
+      const { winningTicket } = raffleInfo;
+      console.log(raffleId._hex[3].toString())
+      console.log(winningTicket)
       
       // Call the pickWinner function in the contract
-      const transaction = await contract.pickWinner(raffleId);
+      const transaction = await contract.pickWinner(raffleId._hex[3].toString());
       await transaction.wait();
 
-      console.log(raffleWinner)
+      console.log(winningTicket)
   
       toast.success(`Winner picked for raffle ID ${raffleId}`);
   
@@ -156,7 +152,7 @@ const RaffleActions = () => {
     } 
     catch(error) {
       console.error(error);
-      toast.error('Error picking winner');
+      toast.error('Priezes Already sent');
     }
   };
 

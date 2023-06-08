@@ -45,6 +45,8 @@ contract mainNftRaffle is IERC721Receiver {
         uint256 rafflePool;
         uint256 ticketPrice;
         uint256 totalSoldTickets;
+        uint winningTicket;
+        address raffleWinner;
         bool raffleCancelled;
         bool raffleEnded;
     }
@@ -300,6 +302,8 @@ contract mainNftRaffle is IERC721Receiver {
             totalVolumeofTickets: raffle.totalVolumeofTickets,
             endTime: raffle.endTime,
             nftId: raffle.nftId,
+            winningTicket: raffle.winningTicket,
+            raffleWinner: raffle.raffleWinner,
             nftContractAddress: raffle.nftContractAddress,
             nftSourceLink: raffle.nftSourceLink,
             charityAddress: raffle.charityAddress,

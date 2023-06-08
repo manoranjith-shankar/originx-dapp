@@ -11,9 +11,10 @@ const RaffleActions = () => {
   const { account } = useAccount();
   const accountAddress = useAccount().address;
   const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const accountAddressSliced = accountAddress.slice(0, 6);
   const [initData] = useState({
-    preHeading: "Open Raffles",
-    heading: "Explore",
+    preHeading: "Explore",
+    heading: "My Raffles",
     btnText: "Load More"
   });
 
@@ -41,6 +42,10 @@ const RaffleActions = () => {
         const rafflesOwned = await contract.getOwnedRaffles(accountAddress);
         const rafflesOwnedCount = rafflesOwned[0];
         const raffleIdsOwned = rafflesOwned[1];
+
+        if (rafflesOwnedCount === 0) {
+          toast.error("You don't have any raffles owned");
+        }
     
         const raffleDetails = [];
         for (let i = 0; i < rafflesOwnedCount; i++) {
@@ -52,11 +57,12 @@ const RaffleActions = () => {
           const creatorPrizeinEth = ethers.utils.formatEther(creatorPrize);
           const owner = shortenAddress(raffle.raffleCreator);
           const price = raffle.ticketPrice;
+          const Id = raffle.raffleId
           const availableTickets = `${raffle.totalVolumeofTickets - raffle.totalSoldTickets} of ${raffle.totalVolumeofTickets}`;
           const totalSoldTickets = `${raffle.totalSoldTickets} of ${raffle.totalVolumeofTickets}`;
     
           raffleDetails.push({
-            id: raffle.raffleId,
+            id: Id,
             img: raffle.nftSourceLink,
             title: raffle.raffleName,
             creator: creatorPrizeinEth,
@@ -69,17 +75,28 @@ const RaffleActions = () => {
             raffleWinner: raffle.raffleWinner,
           });
         }
-    
+        
         setRaffleInfo(raffleDetails);
         setTotalRafflesOwned(rafflesOwnedCount);
         setRaffleIdsOwned(raffleIdsOwned);
+
+        console.log(raffleDetails);
+
       } catch (error) {
         console.log('Error:', error);
       }    
     };
 
     fetchRafflesOwned();
-  }, [account, provider, accountAddress],[]);
+
+    // Fetch raffles every 30 seconds
+    const intervalId = setInterval(fetchRafflesOwned, 30000);
+
+    return () => {
+      // Clear the interval when the component is unmounted
+      clearInterval(intervalId);
+    };
+  }, [account, provider, accountAddress]);
 
   const handlePickWinner = async (raffleId) => {
     try {
@@ -97,13 +114,23 @@ const RaffleActions = () => {
         toast.error('Winner already picked for this raffle');
         return;
       }
-  
+
+      console.log(raffleId)
+      
       // Call the pickWinner function in the contract
       const transaction = await contract.pickWinner(raffleId);
       await transaction.wait();
+
+      console.log(raffleWinner)
   
       toast.success(`Winner picked for raffle ID ${raffleId}`);
-      console.log(raffleInfo.raffleWinner)
+  
+      // Update the raffleInfo state to include the new raffleWinner
+      setRaffleInfo((prevRaffleInfo) =>
+        prevRaffleInfo.map((raffle) =>
+          raffle.id === raffleId ? { ...raffle, raffleWinner: accountAddress } : raffle
+        )
+      );
     } catch (error) {
       console.error(error);
       if (error.code === -32603) {
@@ -111,7 +138,7 @@ const RaffleActions = () => {
       }
       toast.error('Error picking winner');
     }
-  };  
+  };    
   
   const handleSendPrize = async (raffleId) => {
     try {
@@ -121,30 +148,17 @@ const RaffleActions = () => {
         mainNftRaffle.abi,
         provider.getSigner(account)
       );
-        // Call the pickWinner function in the contract  
-        const transaction = await contract.sendPrizePool(raffleId);
-        await transaction.wait();
-        toast.success(`Prizes successfully credited for ${raffleId}`);
+      console.log(raffleId);
+      // Call the pickWinner function in the contract  
+      const transaction = await contract.sendPrizePool(raffleId);
+      await transaction.wait();
+      toast.success(`Prizes successfully credited for ${raffleId}`);
     } 
     catch(error) {
       console.error(error);
       toast.error('Error picking winner');
     }
   };
-
-  useEffect(() => {
-    if (totalRafflesOwned === 0) {
-      toast.error("You don't have any raffles owned");
-    } else {
-      const accountAddressSliced = accountAddress.slice(0, 6);
-      toast(`Total raffles owned by ${accountAddressSliced} is ${totalRafflesOwned}`, {
-        duration: 6000,
-      });
-      toast(`Raffle Ids owned by ${accountAddressSliced} is ${raffleIdsOwned}`, {
-        duration: 6000,
-      });
-    }
-  }, [totalRafflesOwned, accountAddress, raffleIdsOwned],[]);
 
   return (
     <section className="explore-area load-more">
@@ -189,12 +203,12 @@ const RaffleActions = () => {
                     </div>
                     <div className="row items">
                       <button className="btn btn-bordered-white btn-smaller mt-3" onClick={() => handlePickWinner(raffleDetails.id)}>
-                      <FontAwesomeIcon icon={faCircleCheck} />
+                        <FontAwesomeIcon icon={faCircleCheck} />
                         <i className="fa-solid fa-CircleCheck mr-2" />
                         Pick Winner
                       </button>
                       <button className="btn btn-bordered-white btn-smaller mt-3" onClick={() => handleSendPrize(raffleDetails.id)}>
-                      <FontAwesomeIcon icon=  {faPaperPlane} />
+                        <FontAwesomeIcon icon=  {faPaperPlane} />
                         <i className="fa-light fa-PaperPlane mr-2" />
                         Send Prize
                       </button>
@@ -206,14 +220,14 @@ const RaffleActions = () => {
           ))}
         </div>
         <div className="row">
-          <div className="col-12 text-center">
-            <a id="load-btn" className="btn btn-bordered-white mt-5" href="#">
-              {initData.btnText}
-              <Toaster position="bottom-right" reverseOrder={true} toastOptions={{ className: '', duration: 5000, style: { background: '#363636', color: '#fff' } }} />
-            </a>
+        <div className="col-12 text-center">
+              <a id="load-btn" className="btn btn-bordered-white mt-5" href="#">
+                {initData.btnText}
+              </a>
           </div>
         </div>
       </div>
+      <Toaster position="bottom-right" reverseOrder={true} toastOptions={{ className: '', duration: 5000, style: { background: '#363636', color: '#fff' } }} />
     </section>
   );
 };

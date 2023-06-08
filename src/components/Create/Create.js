@@ -48,7 +48,7 @@ const Create = () => {
   };
 
   const notifyError = () => {
-    toast.error(`Approve of NFT or network provider error`);
+    toast.error(`Approve of NFT or ownership error`);
   };
 
   const handleSubmit = async (event) => {

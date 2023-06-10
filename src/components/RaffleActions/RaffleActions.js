@@ -106,6 +106,7 @@ const RaffleActions = () => {
         mainNftRaffle.abi,
         provider.getSigner(account)
       );
+      var loadingToastId = toast.loading(`Picking winner for RaffleId: ${raffleId}...`)
   
       // Check if raffleWinner is set
       const raffleInfo = await contract.raffleInfo(raffleId);
@@ -116,10 +117,10 @@ const RaffleActions = () => {
       // Call the pickWinner function in the contract
       const transaction = await contract.pickWinner(raffleId._hex[3].toString());
       await transaction.wait();
-
-      console.log(winningTicket)
-  
+      toast.dismiss(loadingToastId);
+      
       toast.success(`Winner picked for raffle ID ${raffleId}`);
+      console.log(winningTicket)
   
       // Update the raffleInfo state to include the new raffleWinner
       setRaffleInfo((prevRaffleInfo) =>
@@ -132,7 +133,13 @@ const RaffleActions = () => {
       if (error.code === -32603) {
         toast.error('Total sold Tickets is less than 80%');
       }
-      toast.error('Error picking winner');
+      else if (error.action === "sendTransaction") {
+        toast.dismiss(loadingToastId);
+        toast.error("Provider denied transaction")
+        }
+      else {
+        toast.error('Error picking winner');
+      }
     }
   };    
   
@@ -152,7 +159,7 @@ const RaffleActions = () => {
     } 
     catch(error) {
       console.error(error);
-      toast.error('Priezes Already sent');
+      toast.error('Cannot send prizes');
     }
   };
 

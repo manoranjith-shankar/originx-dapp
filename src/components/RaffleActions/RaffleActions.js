@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';
-import { ethers } from 'ethers';
+import { ethers, BigNumber } from 'ethers';
 import mainNftRaffle from '../contracts/mainNftRaffle.json';
 import toast, { Toaster } from 'react-hot-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -106,28 +106,25 @@ const RaffleActions = () => {
         mainNftRaffle.abi,
         provider.getSigner(account)
       );
+      const raffleIdBigNumber = BigNumber.from(raffleId);
+
       var loadingToastId = toast.loading(`Picking winner for RaffleId: ${raffleId}...`)
   
       // Check if raffleWinner is set
-      const raffleInfo = await contract.raffleInfo(raffleId);
+      const raffleInfo = await contract.raffleInfo(raffleIdBigNumber);
+      console.log(raffleInfo);
       const { winningTicket } = raffleInfo;
       console.log(raffleId._hex[3].toString())
-      console.log(winningTicket)
+      console.log(winningTicket, '1')
       
       // Call the pickWinner function in the contract
-      const transaction = await contract.pickWinner(raffleId._hex[3].toString());
+      const transaction = await contract.pickWinner(raffleIdBigNumber);
       await transaction.wait();
       toast.dismiss(loadingToastId);
       
       toast.success(`Winner picked for raffle ID ${raffleId}`);
       console.log(winningTicket)
   
-      // Update the raffleInfo state to include the new raffleWinner
-      setRaffleInfo((prevRaffleInfo) =>
-        prevRaffleInfo.map((raffle) =>
-          raffle.id === raffleId ? { ...raffle, raffleWinner: accountAddress } : raffle
-        )
-      );
     } catch (error) {
       console.error(error);
       if (error.code === -32603) {

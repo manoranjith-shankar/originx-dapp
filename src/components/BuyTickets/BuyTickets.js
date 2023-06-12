@@ -60,6 +60,7 @@ const BuyTickets = () => {
         // Fetch raffle details for the specified raffleId
         const raffleInfo = await contract.raffleInfo(raffleId);
 
+        const raffleStatus = raffleInfo.raffleCancelled; 
         const owner = shortenAddress(raffleInfo.raffleCreator);
         const price = parseEther(raffleInfo.ticketPrice);
         const availableTickets = raffleInfo.totalVolumeofTickets - raffleInfo.totalSoldTickets;
@@ -76,6 +77,7 @@ const BuyTickets = () => {
           availableTickets: availableTickets,
           volumeOfTickets: raffleInfo.totalVolumeofTickets - 0,
           totalTicketsWanted: totalTicketsWanted,
+          raffleStatus: raffleStatus
         };
 
         setRaffleData(raffleData);
@@ -103,7 +105,6 @@ const BuyTickets = () => {
     var loadingToastId;
 
     try {
-
       const networkId = await provider.getNetwork().then((network) => network.chainId);
         // Initialize ethers provider and contract instance
         const contract = new ethers.Contract(
@@ -111,7 +112,7 @@ const BuyTickets = () => {
           mainNftRaffle.abi,
           provider.getSigner(account)
         );
-        
+      
       const totalPrice = calculateTotalPrice(raffleData.unparsedPrice, totalTicketsWanted);
       console.log(totalPrice.toString());
 
@@ -128,9 +129,11 @@ const BuyTickets = () => {
       // Tickets bought successfully
       console.log(tx.hash);
     } catch (error) {
-
       if (raffleData.availableTickets === 0) {
         toast.error('Tickets Sold out');
+      }
+      else if (raffleData.raffleStatus === true) {
+        toast.error(`Raffle cancelled`)
       }
       else {
       toast.error('Could not buy tickets.');

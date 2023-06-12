@@ -122,7 +122,7 @@ contracts_build_directory: "../src/components/contracts",
       provider: () => new HDWalletProvider(MNEMONIC, `https://rpc.buildbear.io/hollow-ackbar-14753b14`),
       network_id: 9134,
       confirmations: 0,
-      timeoutBlocks: 200,
+      timeoutBlocks: 0,
       skipDryRun: true
       },
     //

@@ -4,7 +4,7 @@ import { ethers, BigNumber } from 'ethers';
 import mainNftRaffle from '../contracts/mainNftRaffle.json';
 import toast, { Toaster } from 'react-hot-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 
 const RaffleActions = () => {
@@ -79,7 +79,6 @@ const RaffleActions = () => {
         setRaffleInfo(raffleDetails);
         setTotalRafflesOwned(rafflesOwnedCount);
         setRaffleIdsOwned(raffleIdsOwned);
-
         console.log(raffleDetails);
 
       } catch (error) {
@@ -96,7 +95,7 @@ const RaffleActions = () => {
       // Clear the interval when the component is unmounted
       clearInterval(intervalId);
     };
-  }, [account, provider, accountAddress]);
+  }, [account, provider, accountAddress],[]);
 
   const handlePickWinner = async (raffleId) => {
     try {
@@ -140,7 +139,7 @@ const RaffleActions = () => {
     }
   };    
   
-  const handleSendPrize = async (raffleId) => {
+  const handleCancelRaffle = async (raffleId) => {
     try {
       const networkId = await provider.getNetwork().then((network) => network.chainId);
       const contract = new ethers.Contract(
@@ -148,15 +147,15 @@ const RaffleActions = () => {
         mainNftRaffle.abi,
         provider.getSigner(account)
       );
-      console.log(raffleId);
       // Call the pickWinner function in the contract  
-      const transaction = await contract.sendPrizePool(raffleId);
+      console.log(raffleId);
+      const transaction = await contract.cancelRaffle(raffleId);
       await transaction.wait();
-      toast.success(`Prizes successfully credited for ${raffleId}`);
+      toast.success(`Cancelled raffle: ${raffleId} successfully`);
     } 
     catch(error) {
       console.error(error);
-      toast.error('Cannot send prizes');
+      toast.error('Cannot cancel raffle');
     }
   };
 
@@ -207,10 +206,10 @@ const RaffleActions = () => {
                         <i className="fa-solid fa-CircleCheck mr-2" />
                         Pick Winner
                       </button>
-                      <button className="btn btn-bordered-white btn-smaller mt-3" onClick={() => handleSendPrize(raffleDetails.id)}>
-                        <FontAwesomeIcon icon=  {faPaperPlane} />
+                      <button className="btn btn-bordered-white btn-smaller mt-3" onClick={() => handleCancelRaffle(raffleDetails.id)}>
+                      <FontAwesomeIcon icon={faCircleXmark} />
                         <i className="fa-light fa-PaperPlane mr-2" />
-                        Send Prize
+                        Cancel Raffle
                       </button>
                     </div>
                   </div>

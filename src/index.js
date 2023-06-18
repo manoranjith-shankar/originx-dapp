@@ -24,12 +24,12 @@ export const Fantom = {
   },
     iconUrl: 'https://seeklogo.com/images/F/fantom-ftm-logo-3566C53917-seeklogo.com.png',
   rpcUrls: {
-  public: { http: ['https://rpc.buildbear.io/hollow-ackbar-14753b14'] },
-  default: { http: ['https://rpc.buildbear.io/hollow-ackbar-14753b14'] },
+  public: { http: ['https://rpc.buildbear.io/democratic-jek-tono-porkins-c77a5530'] },
+  default: { http: ['https://rpc.buildbear.io/democratic-jek-tono-porkins-c77a5530'] },
   },
   blockExplorers: {
-  etherscan: { name: 'explorer', url: 'https://explorer.buildbear.io/hollow-ackbar-14753b14/transactions' },
-  default: { name: 'explorer', url: 'https://explorer.buildbear.io/hollow-ackbar-14753b14/transactions' },
+  etherscan: { name: 'explorer', url: 'https://explorer.buildbear.io/democratic-jek-tono-porkins-c77a5530/transactions' },
+  default: { name: 'explorer', url: 'https://explorer.buildbear.io/democratic-jek-tono-porkins-c77a5530/transactions' },
   },
   contracts: {
   multicall3: {
@@ -40,7 +40,7 @@ export const Fantom = {
   }
 
   export const testnet = {
-    id: 9134,
+    id: 9289,
     name: 'Buildbear Network',
     network: 'Buildbear Network',
     nativeCurrency: {
@@ -50,12 +50,12 @@ export const Fantom = {
     },
       iconUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZsG2HQt3pYcu8zI-oZtc7CxF3gbdn906Bmr0lfTiREwxTD15yH4hBC1nOF4t8ZtHHTQY&usqp=CAU',
     rpcUrls: {
-    public: { http: ['https://rpc.buildbear.io/hollow-ackbar-14753b14'] },
-    default: { http: ['https://rpc.buildbear.io/hollow-ackbar-14753b14'] },
+    public: { http: ['https://rpc.buildbear.io/democratic-jek-tono-porkins-c77a5530'] },
+    default: { http: ['https://rpc.buildbear.io/democratic-jek-tono-porkins-c77a5530'] },
     },
     blockExplorers: {
-    etherscan: { name: 'explorer', url: 'https://explorer.buildbear.io/hollow-ackbar-14753b14/transactions' },
-    default: { name: 'explorer', url: 'https://explorer.buildbear.io/hollow-ackbar-14753b14/transactions' },
+    etherscan: { name: 'explorer', url: 'https://explorer.buildbear.io/democratic-jek-tono-porkins-c77a5530/transactions' },
+    default: { name: 'explorer', url: 'https://explorer.buildbear.io/democratic-jek-tono-porkins-c77a5530/transactions' },
     },
     contracts: {
     multicall3: {

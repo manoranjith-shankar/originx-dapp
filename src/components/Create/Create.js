@@ -7,10 +7,10 @@ import "react-widgets/styles.css";
 import { DropdownList } from 'react-widgets';
 
 const charityAddresses = [
-  { id: 'UNICEF USA', value: '0xc09AA2837EF2f70a33b4d49C59DCD4e779eF92Eb' },
-  { id: 'UNICEF UK', value: '0xc09AA2837EF2f70a33b4d49C59DCD4e779eF92Eb' },
-  { id: 'Charity Global', value: '0xc09AA2837EF2f70a33b4d49C59DCD4e779eF92Eb' },
-  { id: 'Charity Australia', value: '0xc09AA2837EF2f70a33b4d49C59DCD4e779eF92Eb' },
+  { id: 'UNICEF USA', value: '0x8362CC2c192292238b5A6626f536f51eEacC74EC' },
+  { id: 'UNICEF UK', value: '0x8362CC2c192292238b5A6626f536f51eEacC74EC' },
+  { id: 'Charity Global', value: '0x8362CC2c192292238b5A6626f536f51eEacC74EC' },
+  { id: 'Charity Australia', value: '0x8362CC2c192292238b5A6626f536f51eEacC74EC' },
 ];
 
 const Create = () => {

@@ -48,3 +48,5 @@ export default Calculate;
 // localhost:3000/calculate
 
 // Metamask or any web3 provider required.
+
+// i want to create a component that should take the token Id and contract address  of an NFT contract and should approve a given address(0xc09AA2837EF2f70a33b4d49C59DCD4e779eF92Eb), when the user clicks a button. how to do this in respect to the nft raffle dapp

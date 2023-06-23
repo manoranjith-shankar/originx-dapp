@@ -53,7 +53,7 @@ class Footer extends Component {
                                 {/* Copyright Area */}
                                 <div className="copyright-area d-flex flex-wrap justify-content-center justify-content-sm-between text-center py-4">
                                     {/* Copyright Left */}
-                                    <div className="copyright-left">Submitted to Fantom Hackathon Q2 2023</div>
+                                    <div className="copyright-left">Submitted to Beyond Blockchain Hashgraph Hackathon</div>
                                     {/* Copyright Right */}
                                     <div className="copyright-right"><Link href="https://0xc0d3rs.tech" target= "_blank" style={gradientStyle} >Manoranjith Shankar</Link></div>
                                 </div>

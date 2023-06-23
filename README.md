@@ -20,14 +20,14 @@ This should start the dApp at [localhost](https://localhost:3000)
 ### Contracts
 ```shell
 cd backend
-truffle migrate --network fantom
+truffle migrate --network Hedera
 ```
-This will deploy the smart contract on fantom
+This will deploy the smart contract on Hedera
 
 ### Approve 721 Standard
 > Deployed contract address of the 721 Standard is required.
 
-Approve the deployed contract address in the fantom network with the Id of the 
+Approve the deployed contract address in the Hedera network with the Id of the 
 721 Standard, to create raffle.
 
 After the raffle had been created successfully, it updates in [localhost/raffles](https://localhost:3000/raffles). You can buy tickets and use [localhost/raffle-owner](https://localhost:3000/raffle-owner), to pick a winner.

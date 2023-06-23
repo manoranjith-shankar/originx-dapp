@@ -13,23 +13,23 @@ import { mainnet, polygon, polygonMumbai, avalanche } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 
-export const Fantom = {
-  id: 4002,
-  name: 'Fantom Network',
-  network: 'Fantom Network',
+export const Hedera = {
+  id: 297,
+  name: 'Hedera Network',
+  network: 'Hedera Network',
   nativeCurrency: {
   decimals: 18,
-  name: 'Fantom Testnet',
-  symbol: 'FTM',
+  name: 'Hedera previewnet',
+  symbol: 'HBAR',
   },
-    iconUrl: 'https://seeklogo.com/images/F/fantom-ftm-logo-3566C53917-seeklogo.com.png',
+    iconUrl: 'https://cryptologos.cc/logos/hedera-hbar-logo.png',
   rpcUrls: {
-  public: { http: ['https://rpc.buildbear.io/democratic-jek-tono-porkins-c77a5530'] },
-  default: { http: ['https://rpc.buildbear.io/democratic-jek-tono-porkins-c77a5530'] },
+  public: { http: ['https://previewnet.hashio.io/api'] },
+  default: { http: ['https://previewnet.hashio.io/api'] },
   },
   blockExplorers: {
-  etherscan: { name: 'explorer', url: 'https://explorer.buildbear.io/democratic-jek-tono-porkins-c77a5530/transactions' },
-  default: { name: 'explorer', url: 'https://explorer.buildbear.io/democratic-jek-tono-porkins-c77a5530/transactions' },
+  etherscan: { name: 'explorer', url: 'https://hashscan.io/previewnet/dashboard' },
+  default: { name: 'explorer', url: 'https://hashscan.io/previewnet/dashboard' },
   },
   contracts: {
   multicall3: {
@@ -50,12 +50,12 @@ export const Fantom = {
     },
       iconUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZsG2HQt3pYcu8zI-oZtc7CxF3gbdn906Bmr0lfTiREwxTD15yH4hBC1nOF4t8ZtHHTQY&usqp=CAU',
     rpcUrls: {
-    public: { http: ['https://rpc.buildbear.io/democratic-jek-tono-porkins-c77a5530'] },
-    default: { http: ['https://rpc.buildbear.io/democratic-jek-tono-porkins-c77a5530'] },
+    public: { http: ['https://previewnet.hashio.io/api'] },
+    default: { http: ['https://previewnet.hashio.io/api'] },
     },
     blockExplorers: {
-    etherscan: { name: 'explorer', url: 'https://explorer.buildbear.io/democratic-jek-tono-porkins-c77a5530/transactions' },
-    default: { name: 'explorer', url: 'https://explorer.buildbear.io/democratic-jek-tono-porkins-c77a5530/transactions' },
+    etherscan: { name: 'explorer', url: 'https://hashscan.io/previewnet/dashboard' },
+    default: { name: 'explorer', url: 'https://hashscan.io/previewnet/dashboard' },
     },
     contracts: {
     multicall3: {
@@ -66,7 +66,7 @@ export const Fantom = {
     }
 
 const { chains, provider } = configureChains(
-  [mainnet, Fantom, polygonMumbai, polygon, avalanche, testnet],
+  [mainnet, Hedera, polygonMumbai, polygon, avalanche, testnet],
   [
     alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
     publicProvider()

@@ -20,7 +20,8 @@ This should start the dApp at [localhost](https://localhost:3000)
 ### Contracts
 ```shell
 cd backend
-truffle migrate --network Hedera
+truffle compile
+truffle deploy
 ```
 This will deploy the smart contract on Hedera
 

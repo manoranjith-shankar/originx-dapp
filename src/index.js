@@ -40,7 +40,7 @@ export const Hedera = {
   }
 
   export const testnet = {
-    id: 9289,
+    id: 9668,
     name: 'Buildbear Network',
     network: 'Buildbear Network',
     nativeCurrency: {
@@ -50,12 +50,12 @@ export const Hedera = {
     },
       iconUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZsG2HQt3pYcu8zI-oZtc7CxF3gbdn906Bmr0lfTiREwxTD15yH4hBC1nOF4t8ZtHHTQY&usqp=CAU',
     rpcUrls: {
-    public: { http: ['https://previewnet.hashio.io/api'] },
-    default: { http: ['https://previewnet.hashio.io/api'] },
+    public: { http: ['https://rpc.buildbear.io/many-kit-fisto-79977820'] },
+    default: { http: ['https://rpc.buildbear.io/many-kit-fisto-79977820'] },
     },
     blockExplorers: {
-    etherscan: { name: 'explorer', url: 'https://hashscan.io/previewnet/dashboard' },
-    default: { name: 'explorer', url: 'https://hashscan.io/previewnet/dashboard' },
+    etherscan: { name: 'explorer', url: 'https://explorer.buildbear.io/many-kit-fisto-79977820/transactions' },
+    default: { name: 'explorer', url: 'https://explorer.buildbear.io/many-kit-fisto-79977820/transactions' },
     },
     contracts: {
     multicall3: {

@@ -52,8 +52,8 @@ module.exports = {
     testnet: {
       networkCompleteTimeout: 3000000000,
       provider: () =>
-        new HDWalletProvider(privKey1, "https://rpc.buildbear.io/democratic-jek-tono-porkins-c77a5530"),
-      network_id: 9289,
+        new HDWalletProvider(privKey1, "https://rpc.buildbear.io/many-kit-fisto-79977820"),
+      network_id: 9668,
       confirmations: 0,
       timeoutBlocks: 0,
       skipDryRun: true

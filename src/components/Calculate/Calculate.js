@@ -1,52 +1,69 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+const roundToDecimalPlaces = (value, decimalPlaces) => {
+  const factor = 10 ** decimalPlaces;
+  return Math.round(value * factor) / factor;
+};
 
 const Calculate = () => {
+  const [nftPrice, setNFTPrice] = useState('');
+  const [rafflePool, setRafflePool] = useState(null);
+  const [raffleCreatorPrize, setRaffleCreatorPrize] = useState(null);
+  const [developmentTeamPrize, setDevelopmentTeamPrize] = useState(null);
+  const [minusPrize, setMinusPrize] = useState(null);
+  const [charityPrize, setCharityPrize] = useState(null);
 
-  const nftPrice = 0.2564
+  const handleNFTPriceChange = (e) => {
+    const price = e.target.value;
+    setNFTPrice(price);
 
-  const handleClick = () => {
-  
-    const rafflePool = ((nftPrice * 50) / 100) + nftPrice
+    if (price) {
+      const parsedNFTPrice = parseFloat(price);
 
-    const raffleCreatorPrize = nftPrice + ((nftPrice * 5) / 100)
-    const developementTeamPrize = (nftPrice * 5) / 100
-    const minusPrize = raffleCreatorPrize + developementTeamPrize
-    const charityPrize = rafflePool - minusPrize
+      const calculatedRafflePool = roundToDecimalPlaces((parsedNFTPrice * 50) / 100 + parsedNFTPrice, 2);
+      const calculatedRaffleCreatorPrize = roundToDecimalPlaces(parsedNFTPrice + (parsedNFTPrice * 5) / 100, 2);
+      const calculatedDevelopmentTeamPrize = roundToDecimalPlaces((parsedNFTPrice * 5) / 100, 2);
+      const calculatedMinusPrize = roundToDecimalPlaces(calculatedRaffleCreatorPrize + calculatedDevelopmentTeamPrize, 2);
+      const calculatedCharityPrize = roundToDecimalPlaces(calculatedRafflePool - calculatedMinusPrize, 2);
 
-    console.log(rafflePool)
-    console.log(raffleCreatorPrize)
-    console.log(developementTeamPrize)
-    console.log(minusPrize)
-    console.log(charityPrize)
-  }
+      setRafflePool(calculatedRafflePool);
+      setRaffleCreatorPrize(calculatedRaffleCreatorPrize);
+      setDevelopmentTeamPrize(calculatedDevelopmentTeamPrize);
+      setMinusPrize(calculatedMinusPrize);
+      setCharityPrize(calculatedCharityPrize);
+    } else {
+      setRafflePool(null);
+      setRaffleCreatorPrize(null);
+      setDevelopmentTeamPrize(null);
+      setMinusPrize(null);
+      setCharityPrize(null);
+    }
+  };
 
   return (
-    <section className={`author-area`}>
-      <div>
-        <button onClick={handleClick}>Txt</button>
+    <section className="author-area">
+      <div className="container">
+        <h2>Calculate Raffle Prizes</h2>
+        <div className="form-group">
+          <label htmlFor="nftPrice">NFT Price:</label>
+          <input
+            type="number"
+            id="nftPrice"
+            value={nftPrice}
+            onChange={handleNFTPriceChange}
+          />
+        </div>
+        {rafflePool && (
+          <div>
+            <p>Raffle Pool: {rafflePool}</p>
+            <p>Raffle Creator Prize: {raffleCreatorPrize}</p>
+            <p>Development Team Prize: {developmentTeamPrize}</p>
+            <p>Charity Prize: {charityPrize}</p>
+          </div>
+        )}
       </div>
     </section>
   );
 };
 
 export default Calculate;
-
-
-// Doesn't make any difference from opensea, rarible and any other NFT MarketPlace out there?
-// we're going to act as an intermediate platform for nft sellers and also buyers.
-// nft owner lists their NFT (ERC721[for now]) and sets the NFT Price.
-// We increment the price by 50% and that will be our RafflePool.
-// The raffleCretor also sets the the totalTicketsPrice for the raffleId. from this point,
-// the raffle Becomes live, participants can buy tickets, once ticketsSold>=(80% of totalRaffleTickets.)
-// A random winner is picked, and awarded the NFT(ERC721[for now]), NFT Price + 5% of rafflePool,
-// the rest goes to the charity of the raffleCreator choice. Given at the time of creation of raffle.
-
-// imp. links: [clone and run]
-// localhost:3000/create
-// localhost:3000/open-raffles
-// localhost:3000/my-raffles
-// localhost:3000/calculate
-
-// Metamask or any web3 provider required.
-
-// i want to create a component that should take the token Id and contract address  of an NFT contract and should approve a given address(0xc09AA2837EF2f70a33b4d49C59DCD4e779eF92Eb), when the user clicks a button. how to do this in respect to the nft raffle dapp

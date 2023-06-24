@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 
-import NFTApproval from '../components/Approve/NFTApproval';
+import Calculate from '../components/Calculate/Calculate';
 class CalculateTheme extends Component {
     render() {
         return (
             <div className="main">
-                <NFTApproval />
+                <Calculate />
             </div>
         );
     }

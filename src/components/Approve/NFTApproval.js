@@ -3,11 +3,10 @@ import { ethers } from 'ethers';
 import toast from 'react-hot-toast';
 
 const NFTApproval = () => {
-  const raffleContractAddress = "0x2Be21151Ea927ff465768e635cad99C9Ef51E105"
   const [nftContractAddress, setNFTContractAddress] = useState('');
-  const [nftId, setNFTId] = useState('');
-  const [approving, setApproving] = useState(false);
+  const [tokenId, setTokenId] = useState('');
   const [nftContract, setNFTContract] = useState(null);
+  const [approving, setApproving] = useState(false);
 
   useEffect(() => {
     const fetchContractABI = async () => {
@@ -16,12 +15,11 @@ const NFTApproval = () => {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
 
         // Fetch the contract ABI using the contract address
-        const abi = await provider.getCode(nftContractAddress);
-        console.log(abi);
+        const abi = await provider.getContractAbi(nftContractAddress);
 
         // Check if the contract ABI is valid
-        if (abi === '0x') {
-          console.log('Invalid contract address');
+        if (!abi) {
+          throw new Error('Invalid contract address');
         }
 
         // Create the contract instance for the NFT
@@ -41,6 +39,9 @@ const NFTApproval = () => {
   }, [nftContractAddress]);
 
   const handleNFTApproval = async () => {
+    
+    const raffleContractAddress = "0xB059d9EDd4255aa20372471ce7F3ECf5376dF444";
+    
     try {
       setApproving(true);
 
@@ -49,7 +50,7 @@ const NFTApproval = () => {
       }
 
       // Approve the raffle contract address to spend the NFT
-      const approvalTx = await nftContract.approve(raffleContractAddress, nftId);
+      const approvalTx = await nftContract.approve(raffleContractAddress, tokenId);
 
       // Wait for the approval transaction to be mined
       await approvalTx.wait();
@@ -75,18 +76,18 @@ const NFTApproval = () => {
         />
       </div>
       <div>
-        <label htmlFor="nftId">NFT ID:</label>
+        <label htmlFor="tokenId">Token ID:</label>
         <input
           type="text"
-          id="nftId"
-          value={nftId}
-          onChange={(e) => setNFTId(e.target.value)}
+          id="tokenId"
+          value={tokenId}
+          onChange={(e) => setTokenId(e.target.value)}
         />
       </div>
       <button
         className="btn btn-primary"
         onClick={handleNFTApproval}
-        disabled={approving || !nftContract || !nftId}
+        disabled={!nftContract || !tokenId || approving}
       >
         {approving ? 'Approving NFT...' : 'Approve NFT'}
       </button>
@@ -95,3 +96,83 @@ const NFTApproval = () => {
 };
 
 export default NFTApproval;
+
+// import React, { useState, useEffect } from 'react';
+// import { ethers, providers } from 'ethers';
+// import toast from 'react-hot-toast';
+
+// const NFTApproval = () => {
+//   const [nftContract, setNFTContract] = useState(null);
+//   const [approving, setApproving] = useState(false);
+//   const [nftContractAddress, setNFTContractAddress] = useState('');
+//   const [tokenId, setTokenId] = useState('');
+
+//   useEffect(() => {
+//     const fetchContractABI = async () => {
+//       try {
+//         // Get the provider from the current Ethereum provider
+//         const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+//         // Fetch the contract ABI using the contract address
+//         const abi = await provider.getContractAbi(nftContractAddress);
+
+//         // Check if the contract ABI is valid
+//         if (!abi) {
+//           throw new Error('Invalid contract address');
+//         }
+
+//         // Create the contract instance for the NFT
+//         const contract = new ethers.Contract(nftContractAddress, abi, provider);
+//         setNFTContract(contract);
+//       } catch (error) {
+//         console.error(error);
+//         toast.error('Failed to fetch contract ABI');
+//       }
+//     };
+
+//     if (nftContractAddress) {
+//       fetchContractABI();
+//     } else {
+//       setNFTContract(null);
+//     }
+//   }, [nftContractAddress]);
+
+//   const handleNFTApproval = async () => {
+
+//     const raffleContractAddress = "0xB059d9EDd4255aa20372471ce7F3ECf5376dF444";
+//     try {
+//       setApproving(true);
+
+//       if (!nftContract) {
+//         throw new Error('Contract not available');
+//       }
+
+//       // Approve the raffle contract address to spend the NFT
+//       const approvalTx = await nftContract.approve(raffleContractAddress, tokenId);
+
+//       // Wait for the approval transaction to be mined
+//       await approvalTx.wait();
+
+//       toast.success('NFT Approved successfully');
+//     } catch (error) {
+//       console.error(error);
+//       toast.error('Failed to approve NFT');
+//     } finally {
+//       setApproving(false);
+//     }
+//   };
+
+//   return (
+//     <div>
+//       <button
+//         className="btn btn-primary"
+//         onClick={handleNFTApproval}
+//         disabled={!nftContract || approving}
+//       >
+//         {approving ? 'Approving NFT...' : 'Approve NFT'}
+//       </button>
+//     </div>
+//   );
+// };
+
+// export default NFTApproval;

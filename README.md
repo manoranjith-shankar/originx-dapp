@@ -18,6 +18,10 @@ npm start
 This should start the dApp at [localhost](https://localhost:3000)
 
 ### Contracts
+## Add Mnemonic
+> In the backend directory, rename env.example to .env and add your MNEMONIC
+
+## Deploy
 ```shell
 cd backend
 truffle compile

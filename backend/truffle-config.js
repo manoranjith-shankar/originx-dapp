@@ -21,6 +21,7 @@
 const dotenv = require("dotenv");
 dotenv.config();
 const privKey = process.env.ETH_PRIVATE_KEY.replace("0x", "");
+const privKey1 = process.env.PRIV_KEY_TEST;
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 
 module.exports = {
@@ -48,6 +49,15 @@ module.exports = {
       gas: 4000000, // gaslimit
       gasPrice: 2000000000000, // set gas price to 2000 gwei
     },
+    testnet: {
+      networkCompleteTimeout: 3000000000,
+      provider: () =>
+        new HDWalletProvider(privKey1, "https://rpc.buildbear.io/democratic-jek-tono-porkins-c77a5530"),
+      network_id: 9289,
+      confirmations: 0,
+      timeoutBlocks: 0,
+      skipDryRun: true
+      },
     //
     // An additional network, but with some advanced options…
     // advanced: {

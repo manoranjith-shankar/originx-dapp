@@ -14,6 +14,9 @@
 # testing
 /coverage
 
+#env
+*env
+
 # backup components
 /src/components/BuyTickets/backup.js
 /src/components/BuyTickets/buy.js

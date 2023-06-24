@@ -17,11 +17,13 @@ npm start
 
 This should start the dApp at [localhost](https://localhost:3000)
 
-### Contracts
-## Add Mnemonic
-> In the backend directory, rename env.example to .env and add your MNEMONIC
+## Contracts
+### Add Mnemonic
+> In the backend directory, rename env.example to .env and add your Private key.
 
-## Deploy
+### Deploy
+
+After adding the private key in .env, you can deploy the contract.
 ```shell
 cd backend
 truffle compile
@@ -29,7 +31,7 @@ truffle deploy
 ```
 This will deploy the smart contract on Hedera
 
-### Approve 721 Standard
+### Approve NFT
 > Deployed contract address of the 721 Standard is required.
 
 Approve the deployed contract address in the Hedera network with the Id of the 

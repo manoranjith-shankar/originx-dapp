@@ -15,7 +15,7 @@
 /coverage
 
 #env
-dotenv.config({path: "/backend/.env"}
+*.env
 
 # backup components
 /src/components/BuyTickets/backup.js

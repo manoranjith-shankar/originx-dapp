@@ -19,7 +19,7 @@ This should start the dApp at [localhost](https://localhost:3000)
 
 ## Contracts
 ### Add Mnemonic
-> In the backend directory, rename env.example to .env and add your Private key.
+> In the backend directory, rename .env.example to .env and add your Private key.
 
 ### Deploy
 

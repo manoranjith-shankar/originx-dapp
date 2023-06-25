@@ -10,6 +10,8 @@ const Calculate = () => {
   const [rafflePool, setRafflePool] = useState(null);
   const [raffleCreatorPrize, setRaffleCreatorPrize] = useState(null);
   const [developmentTeamPrize, setDevelopmentTeamPrize] = useState(null);
+  const [ticketPrice, setTicketPrice] = useState(null);
+  const [totalTickets, setTotalTickets] = useState(null);
   const [minusPrize, setMinusPrize] = useState(null);
   const [charityPrize, setCharityPrize] = useState(null);
 
@@ -40,12 +42,24 @@ const Calculate = () => {
     }
   };
 
+  const handleTicketChange = (e) => {
+    const totalTickets = parseFloat(e.target.value);
+    setTotalTickets(totalTickets);
+
+    if (totalTickets) {
+      const ticketPrice = rafflePool / totalTickets;
+      setTicketPrice(ticketPrice);
+    } else {
+      setTicketPrice(null);
+    }
+  };
+
   return (
     <section className="author-area">
       <div className="container">
         <h2>Calculate Raffle Prizes</h2>
         <div className="form-group">
-          <label htmlFor="nftPrice">NFT Price:</label>
+          <label htmlFor="nftPrice">NFT Price: (in ETH)</label>
           <input
             type="number"
             id="nftPrice"
@@ -53,12 +67,26 @@ const Calculate = () => {
             onChange={handleNFTPriceChange}
           />
         </div>
+        <div className="form-group">
+          <label htmlFor="nftPrice">Total Ticket Supply:</label>
+          <input
+            type="number"
+            id="ticketPrice"
+            value={totalTickets}
+            onChange={handleTicketChange}
+          />
+        </div>
         {rafflePool && (
           <div>
-            <p>Raffle Pool: {rafflePool}</p>
-            <p>Raffle Creator Prize: {raffleCreatorPrize}</p>
-            <p>Development Team Prize: {developmentTeamPrize}</p>
-            <p>Charity Prize: {charityPrize}</p>
+            <p>Raffle Pool: {rafflePool} ETH</p>
+            <p>Raffle Creator: {raffleCreatorPrize} ETH</p>
+            <p>Development Team: {developmentTeamPrize} ETH</p>
+            <p>Charity: {charityPrize} ETH</p>
+            {(rafflePool, totalTickets) && (
+              <div>
+                <p>Each Ticket Price: {ticketPrice} ETH</p>
+              </div>
+            )}
           </div>
         )}
       </div>

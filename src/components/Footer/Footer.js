@@ -58,6 +58,23 @@ class Footer extends Component {
                   </div>
                 </div>
               </div>
+              <div className="roadmap-section">
+                    <div className="container py-4">
+                        <div className="row">
+                        <div className="col-lg-12">
+                            {/* Roadmap Title */}
+                            <h5>Roadmap:</h5>
+                            {/* Roadmap Content */}
+                            <ul>
+                            <li>Q1 2023: Launch of the NFT raffle platform</li>
+                            <li>Q2 2023: Integration of additional blockchain networks</li>
+                            <li>Q3 2023: Introduction of advanced raffle features</li>
+                            <li>Q4 2023: Expansion of partnerships and community outreach</li>
+                            </ul>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
               <div className="col-12 col-sm-6 col-lg-3">
                 {/* Footer Items */}
                 <div className="footer-items">
@@ -71,7 +88,6 @@ class Footer extends Component {
                           type="text"
                           className="form-control"
                           placeholder="Your Name"
-                          required = "required"
                           value={this.state.name}
                           onChange={this.handleNameChange}
                         />
@@ -81,7 +97,6 @@ class Footer extends Component {
                           type="email"
                           className="form-control"
                           placeholder="Your Email"
-                          required = "required"
                           value={this.state.email}
                           onChange={this.handleEmailChange}
                         />
@@ -98,30 +113,20 @@ class Footer extends Component {
         </div>
         {/* Footer Bottom */}
         <div className="footer-bottom">
-          <div className="container">
-            <div className="row">
-              <div className="col-12">
-                {/* Copyright Area */}
-                <div className="copyright-area d-flex flex-wrap justify-content-center justify-content-sm-between text-center py-4">
-                  {/* Copyright Left */}
-                  <div className="copyright-left">
-                    Submitted to Beyond Blockchain Hashgraph Hackathon
-                  </div>
-                  {/* Copyright Right */}
-                  <div className="copyright-right">
-                    <Link
-                      href="https://0xc0d3rs.tech"
-                      target="_blank"
-                      style={gradientStyle}
-                    >
-                      Manoranjith Shankar
-                    </Link>
-                  </div>
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-12">
+                                {/* Copyright Area */}
+                                <div className="copyright-area d-flex flex-wrap justify-content-center justify-content-sm-between text-center py-4">
+                                    {/* Copyright Left */}
+                                    <div className="copyright-left">Submitted to Beyond Blockchain Hashgraph Hackathon</div>
+                                    {/* Copyright Right */}
+                                    <div className="copyright-right"><Link href="https://0xc0d3rs.tech" target= "_blank" style={gradientStyle} >Manoranjith Shankar</Link></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </footer>
     );
   }

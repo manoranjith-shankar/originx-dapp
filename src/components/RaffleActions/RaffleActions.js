@@ -125,7 +125,7 @@ const RaffleActions = () => {
       console.log(winningTicket)
   
     } catch (error) {
-      console.error(error);
+      console.log(error);
       if (error.code === -32603) {
         toast.error('Total sold Tickets is less than 80%');
       }

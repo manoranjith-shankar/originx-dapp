@@ -27,8 +27,8 @@ const Header = () => {
                             </ul>
                         </li>
                         <li className="nav-item">
-                            <Link to="/activity" className="nav-link">Activity</Link>
-                            <Link to="/mint" className="nav-link">Mint NFT</Link>
+                            <Link to="https://originx-docs.gitbook.io" className="nav-link">Docs</Link>
+                            <Link to="/404" className="nav-link">Mint NFT</Link>
                         </li>
                     </ul>
                     {/* Navbar Toggler */}

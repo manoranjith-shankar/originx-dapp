@@ -14,7 +14,7 @@ class RaffleActionsTheme extends Component {
     // Simulating data retrieval or other asynchronous tasks
     setTimeout(() => {
       this.setState({ isLoading: false });
-    }, 20000);
+    }, 2500);
   }
 
   render() {
@@ -23,7 +23,7 @@ class RaffleActionsTheme extends Component {
     return (
       <div className="main">
         <Header />
-        {isLoading ? <LoadingAnimation /> : <RaffleActions />}
+        <RaffleActions />
         <Footer />
       </div>
     );

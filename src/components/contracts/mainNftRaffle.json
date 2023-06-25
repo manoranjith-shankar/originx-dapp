@@ -32210,8 +32210,8 @@
     "9668": {
       "events": {},
       "links": {},
-      "address": "0xB059d9EDd4255aa20372471ce7F3ECf5376dF444",
-      "transactionHash": "0x2c3d37c6d807d6110314d05f11432393e532bfb89ef182a0e94f754628b6bb7c"
+      "address": "0x46025aFCEa9627943aa1aa009BA827eC95D201b6",
+      "transactionHash": "0x9ec061cbf5e2c383747607d6f9249761987bf11b716f7d24a8f22058e30234eb"
     },
     "80001": {
       "events": {
@@ -32260,7 +32260,7 @@
     }
   },
   "schemaVersion": "3.4.13",
-  "updatedAt": "2023-06-24T11:19:46.791Z",
+  "updatedAt": "2023-06-25T16:15:52.375Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

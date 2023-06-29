@@ -13,23 +13,23 @@ import { mainnet, polygon, polygonMumbai, avalanche } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 
-export const Hedera = {
-  id: 297,
-  name: 'Hedera Network',
-  network: 'Hedera Network',
+export const Fantom = {
+  id: 250,
+  name: 'Fantom Opera',
+  network: 'Fantom Opera',
   nativeCurrency: {
   decimals: 18,
-  name: 'Hedera previewnet',
-  symbol: 'HBAR',
+  name: 'Fantom Opera',
+  symbol: 'FTM',
   },
-    iconUrl: 'https://cryptologos.cc/logos/hedera-hbar-logo.png',
+    iconUrl: 'https://icons.llamao.fi/icons/chains/rsz_fantom.jpg',
   rpcUrls: {
-  public: { http: ['https://previewnet.hashio.io/api'] },
-  default: { http: ['https://previewnet.hashio.io/api'] },
+  public: { http: ['https://fantom.publicnode.com'] },
+  default: { http: ['https://fantom.publicnode.com'] },
   },
   blockExplorers: {
-  etherscan: { name: 'explorer', url: 'https://hashscan.io/previewnet/dashboard' },
-  default: { name: 'explorer', url: 'https://hashscan.io/previewnet/dashboard' },
+  etherscan: { name: 'explorer', url: 'https://ftmscan.com/' },
+  default: { name: 'explorer', url: 'https://ftmscan.com/' },
   },
   contracts: {
   multicall3: {
@@ -40,7 +40,7 @@ export const Hedera = {
   }
 
   export const testnet = {
-    id: 9668,
+    id: 9710,
     name: 'Buildbear Network',
     network: 'Buildbear Network',
     nativeCurrency: {
@@ -50,12 +50,12 @@ export const Hedera = {
     },
       iconUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZsG2HQt3pYcu8zI-oZtc7CxF3gbdn906Bmr0lfTiREwxTD15yH4hBC1nOF4t8ZtHHTQY&usqp=CAU',
     rpcUrls: {
-    public: { http: ['https://rpc.buildbear.io/many-kit-fisto-79977820'] },
-    default: { http: ['https://rpc.buildbear.io/many-kit-fisto-79977820'] },
+    public: { http: ['https://rpc.buildbear.io/primary-anakin-skywalker-21e02ba8'] },
+    default: { http: ['https://rpc.buildbear.io/primary-anakin-skywalker-21e02ba8'] },
     },
     blockExplorers: {
-    etherscan: { name: 'explorer', url: 'https://explorer.buildbear.io/many-kit-fisto-79977820/transactions' },
-    default: { name: 'explorer', url: 'https://explorer.buildbear.io/many-kit-fisto-79977820/transactions' },
+    etherscan: { name: 'explorer', url: 'https://explorer.buildbear.io/primary-anakin-skywalker-21e02ba8/transactions' },
+    default: { name: 'explorer', url: 'https://explorer.buildbear.io/primary-anakin-skywalker-21e02ba8/transactions' },
     },
     contracts: {
     multicall3: {
@@ -66,7 +66,7 @@ export const Hedera = {
     }
 
 const { chains, provider } = configureChains(
-  [mainnet, Hedera, polygonMumbai, polygon, avalanche, testnet],
+  [mainnet, Fantom, polygonMumbai, polygon, avalanche, testnet],
   [
     alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
     publicProvider()

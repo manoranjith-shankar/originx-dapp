@@ -20,8 +20,8 @@
 
 const dotenv = require("dotenv");
 dotenv.config();
-const privKey = process.env.ETH_PRIVATE_KEY.replace("0x", "");
-const privKey1 = process.env.PRIV_KEY_TEST;
+const priv_key = process.env.PRIV_KEY;
+const testnetMnemonic = "primary stumble torch ritual kangaroo mistake october kitchen inspire wrap butter grain"
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 
 module.exports = {
@@ -42,23 +42,36 @@ module.exports = {
     // tab if you use this network and you must also set the `host`, `port` and `network_id`
     // options below to some value.
     //
-    development: {
-      network_id: process.env.NETWORK_ID, // Any network (default: none)
-      provider: () =>
-        new HDWalletProvider(privKey, process.env.JSON_RPC_RELAY_URL),
-      gas: 4000000, // gaslimit
-      gasPrice: 2000000000000, // set gas price to 2000 gwei
-    },
     testnet: {
       networkCompleteTimeout: 3000000000,
       provider: () =>
-        new HDWalletProvider(privKey1, "https://rpc.buildbear.io/many-kit-fisto-79977820"),
-      network_id: 9668,
+        new HDWalletProvider(priv_key, "https://rpc.buildbear.io/primary-anakin-skywalker-21e02ba8"),
+      network_id: 9710,
       confirmations: 0,
       timeoutBlocks: 0,
       skipDryRun: true
       },
-    //
+
+    fantom: {
+      networkCompleteTimeout: 3000000000,
+      provider: () =>
+        new HDWalletProvider(priv_key, "https://rpc.fantom.network"),
+      network_id: 250,
+      confirmations: 0,
+      timeoutBlocks: 0,
+      skipDryRun: true
+      },
+
+    fantomtestnet: {
+      networkCompleteTimeout: 3000000000,
+      provider: () =>
+        new HDWalletProvider(priv_key, "https://fantom-testnet.publicnode.com"),
+      network_id: 4002,
+      confirmations: 0,
+      timeoutBlocks: 0,
+      skipDryRun: true
+      },
+
     // An additional network, but with some advanced options…
     // advanced: {
     //   port: 8777,             // Custom port

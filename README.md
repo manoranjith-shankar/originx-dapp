@@ -34,10 +34,10 @@ truffle compile
 truffle deploy --network fantom
 ```
 
-To deploy the contract on fantom mainnet forked private testnet (buildbear testnet).
+To deploy the contract on fantom testnet.
 
 ```shell
-truffle migrate --network testnet
+truffle migrate --network fantomtestnet
 ```
 
 ### Approve NFT

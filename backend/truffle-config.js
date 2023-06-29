@@ -43,7 +43,7 @@ module.exports = {
     // options below to some value.
     //
     testnet: {
-      networkCompleteTimeout: 3000000000,
+      networkCompleteTimeout: 1000000,
       provider: () =>
         new HDWalletProvider(priv_key, "https://rpc.buildbear.io/primary-anakin-skywalker-21e02ba8"),
       network_id: 9710,

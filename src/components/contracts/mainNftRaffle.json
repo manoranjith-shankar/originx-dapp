@@ -32170,84 +32170,21 @@
     "version": "0.8.14+commit.80d49f37.Emscripten.clang"
   },
   "networks": {
-    "297": {
-      "events": {},
-      "links": {},
-      "address": "0x4DC6B9F3A12A680145525C30F6D5fA48C3BefD54",
-      "transactionHash": "0xe007c9259544d8af6f1b2adbd23902860ac13ffc4d1f2c97864423c2adc1d6d9"
-    },
     "4002": {
       "events": {},
       "links": {},
-      "address": "0xaA6C4317979148FE2291B214e77099503095DcDe",
-      "transactionHash": "0xbf8ee075ad7cf5ff269cdfebf8d563daffd3594ff0693da14cf64b3bacc15461"
+      "address": "0x18A4BF6FecA5FF0599d124dF8aDe75B215A54BeF",
+      "transactionHash": "0xb500afb4468b40fbde75b431658850fd2787495736ea57b07acad48a72a891e1"
     },
-    "9134": {
+    "9710": {
       "events": {},
       "links": {},
-      "address": "0x6eca49f92C2a1dB3C8900c415C3f216Be1a68d0A",
-      "transactionHash": "0xb84f772bbdda6be8fd6bdf6beeb263791e264b7e5e2ee4cca9a78dab9ce3a048"
-    },
-    "9289": {
-      "events": {},
-      "links": {},
-      "address": "0x091e7DCb292688a97a97914b2D828693B6647A9A",
-      "transactionHash": "0xf5022b3a76ed1573f40abab2927f0c73a418af179e244ac5039681aa1ff4d0ff"
-    },
-    "9668": {
-      "events": {},
-      "links": {},
-      "address": "0x46025aFCEa9627943aa1aa009BA827eC95D201b6",
-      "transactionHash": "0x9ec061cbf5e2c383747607d6f9249761987bf11b716f7d24a8f22058e30234eb"
-    },
-    "80001": {
-      "events": {
-        "0x37a30a31c187f323329351db43159a5b3c2dde95e0f21f061360aa03aa5415b7": {
-          "anonymous": false,
-          "inputs": [
-            {
-              "indexed": true,
-              "internalType": "uint256",
-              "name": "raffleId",
-              "type": "uint256"
-            },
-            {
-              "indexed": false,
-              "internalType": "uint256",
-              "name": "winningTicketNumber",
-              "type": "uint256"
-            },
-            {
-              "indexed": false,
-              "internalType": "address",
-              "name": "winningTicketOwner",
-              "type": "address"
-            }
-          ],
-          "name": "WinnerSelected",
-          "type": "event"
-        },
-        "0x1de299c7214202a224cf78dcd7adac60eac743ba8a2cc84012e96c5a048edfd6": {
-          "anonymous": false,
-          "inputs": [
-            {
-              "indexed": true,
-              "internalType": "uint256",
-              "name": "raffleId",
-              "type": "uint256"
-            }
-          ],
-          "name": "raffleEnded",
-          "type": "event"
-        }
-      },
-      "links": {},
-      "address": "0x5c81D92bEED0DE841FfE982CF1963242c83C9DdD",
-      "transactionHash": "0x79e8bd9f9a2c6be3807de13b7e0132533aac80da20a891383ebe66c47c310940"
+      "address": "0xB059d9EDd4255aa20372471ce7F3ECf5376dF444",
+      "transactionHash": "0x4951532d10f41712bc1efdbb91fbea4b7548a07b0cad8895537c1c4328efc2c9"
     }
   },
   "schemaVersion": "3.4.13",
-  "updatedAt": "2023-06-29T07:48:37.087Z",
+  "updatedAt": "2023-06-29T08:02:56.104Z",
   "devdoc": {
     "kind": "dev",
     "methods": {

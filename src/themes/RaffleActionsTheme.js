@@ -4,11 +4,13 @@ import LoadingAnimation from '../components/LoadingAnimation/LoadingAnimation';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import RaffleActions from '../components/RaffleActions/RaffleActions';
+import NotFoundPage from '../components/Error/Error';
 
 class RaffleActionsTheme extends Component {
   state = {
     isLoading: true,
     isWalletConnected: false,
+    hasError: false, // Added state variable for tracking errors
   };
 
   componentDidMount() {
@@ -25,11 +27,27 @@ class RaffleActionsTheme extends Component {
     }, 2500);
   }
 
+  // Error boundary method to catch errors in the child component
+  componentDidCatch(error, info) {
+    console.log('Error:', error);
+    this.setState({ hasError: true });
+
+    // Display alert message
+    alert('An error occurred. Please try again.');
+
+    // Redirect to /404 page
+    window.location.href = '/404';
+  }
+
   render() {
-    const { isLoading, isWalletConnected } = this.state;
+    const { isLoading, isWalletConnected, hasError } = this.state;
 
     if (isLoading) {
       return <LoadingAnimation />;
+    }
+
+    if (hasError) {
+      return null; // Render nothing if an error occurs (to prevent further errors)
     }
 
     return (
@@ -38,7 +56,7 @@ class RaffleActionsTheme extends Component {
         {isWalletConnected ? (
           <RaffleActions />
         ) : (
-          <button onClick={this.connectWallet}>Connect Wallet</button>
+          <NotFoundPage />
         )}
         <Footer />
       </div>

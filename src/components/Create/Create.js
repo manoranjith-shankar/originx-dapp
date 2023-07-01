@@ -4,17 +4,10 @@ import { ethers } from 'ethers';
 import mainNftRaffle from '../contracts/mainNftRaffle.json';
 import toast, { Toaster } from 'react-hot-toast';
 import "react-widgets/styles.css";
-import { DropdownList } from 'react-widgets';
-
-const charityAddresses = [
-  { id: 'UNICEF USA', value: '0x8362CC2c192292238b5A6626f536f51eEacC74EC' },
-  { id: 'UNICEF UK', value: '0x8362CC2c192292238b5A6626f536f51eEacC74EC' },
-  { id: 'Charity Global', value: '0x8362CC2c192292238b5A6626f536f51eEacC74EC' },
-  { id: 'Charity Australia', value: '0x8362CC2c192292238b5A6626f536f51eEacC74EC' },
-];
+import DropdownList from '../test/DropDownList';
 
 const Create = () => {
-  const { account } = useAccount();
+  const { account, isConnected } = useAccount();
   const [raffleName, setRaffleName] = useState('');
   const [nftPrice, setNftPrice] = useState('');
   const [totalVolumeofTickets, setTotalVolumeofTickets] = useState('');
@@ -23,16 +16,16 @@ const Create = () => {
   const [nftId, setNftId] = useState('');
   const [nftContractAddress, setNftContractAddress] = useState('');
   const [nftSourceLink, setNftSourceLink] = useState('');
-  const [charityAddress, setCharityAddress] = useState(''); 
+  const [charityAddress, setCharityAddress] = useState('');
+
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  console.log(account, '0');
 
   const handlePlaceDateChange = (event) => {
     const inputDate = event.target.value;
     handleEndTimeChange(inputDate);
     setPlaceDate(inputDate);
   };
-  console.log(ethers.utils.parseUnits("2"));
-  const a = ethers.utils.parseUnits("2")
-  console.log(a._hex, "1")
 
   const handleEndTimeChange = (inputDate) => {
     const date = new Date(inputDate);
@@ -40,18 +33,33 @@ const Create = () => {
     setEndTime(unixTime);
   };
 
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const notifyLoading = () => {
+    toast.loading('Creating....')
+  }
 
   const notify = () => {
     toast.success(`Raffle created successfully`);
   };
 
   const notifyError = () => {
+    toast.dismiss(notifyLoading);
     toast.error(`Approve of NFT or ownership error`);
+  };
+
+  const notifyProviderError = () => {
+    toast.dismiss(notifyLoading);
+    toast.error(`Please Connect your wallet`);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log(account, '1');
+    console.log(provider, '2');
+
+    if (isConnected === false) {
+      notifyProviderError();
+      return;
+    }
 
     const networkId = await provider.getNetwork().then((network) => network.chainId);
     // Initialize ethers provider and contract instance
@@ -61,9 +69,8 @@ const Create = () => {
       provider.getSigner(account)
     );
 
-    var loadingToastId = toast.loading('Creating....')
-
     try {
+      notifyLoading();
       const result = await contract.createRaffle(
         raffleName,
         ethers.utils.parseUnits(nftPrice),
@@ -72,28 +79,30 @@ const Create = () => {
         nftId,
         nftContractAddress,
         nftSourceLink,
-        charityAddress.value
+        charityAddress
       );
       console.log(result);
-      toast.dismiss(loadingToastId);
+      toast.dismiss(notifyLoading);
       notify();
     } catch (err) {
       console.log(err);
-      console.log(charityAddress.value)
+      console.log(charityAddress)
       console.log(err.action);
 
-      if(charityAddress.value === undefined) {
-        toast.dismiss(loadingToastId)
-        toast.error("Please select a charity address")
+      if (err.action === "sendTransaction") {
+      toast.dismiss(notifyLoading);
+      toast.error("Provider denied transaction")
       }
-      else if (err.action === "sendTransaction") {
-        toast.dismiss(loadingToastId);
-        toast.error("Provider denied transaction")
-        }
+      
       else if (err.reason === "execution reverted: ERC721: caller is not token owner or approved") {
-      toast.dismiss(loadingToastId);
+      toast.dismiss(notifyLoading);
       toast.error("You are not the owner of this token or you haven't approved it yet");
       }
+
+      else if (err.reason === "execution reverted: ERC721: caller is not token owner or approved") {
+        toast.dismiss(notifyLoading);
+        toast.error("You are not the owner of this token or you haven't approved it yet");
+        }
       else {
       notifyError();
       }
@@ -219,11 +228,6 @@ const Create = () => {
                 <div className="col-12">
                   <div className="dropdown-wrapper">
                     <DropdownList
-                      placeholder="Select Address"
-                      data={charityAddresses}
-                      dataKey='id'
-                      required="required"
-                      textField='id'
                       onChange={(value) => setCharityAddress(value)}
                     />
                   </div>

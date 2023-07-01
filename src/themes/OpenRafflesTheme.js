@@ -13,7 +13,7 @@ class OpenRafflesTheme extends Component {
     // Simulate loading delay
     setTimeout(() => {
       this.setState({ loading: false });
-    }, 2500);
+    }, 3500);
   }
 
   render() {

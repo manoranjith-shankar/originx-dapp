@@ -12,6 +12,7 @@ import ApproveTheme from "../themes/ApproveTheme";
 import ComingSoonTheme from "../themes/ComingSoonTheme";
 import OopsComponent from '../components/SomethingWentWrong/SomethingWentWrong';
 import NFTMetadata from "../components/test/test";
+import DropdownList from "../components/test/DropDownList";
 
 class MyRouts extends React.Component {
   render() {
@@ -29,6 +30,7 @@ class MyRouts extends React.Component {
             <Route path="/404" element={<ComingSoonTheme />} />
             <Route path="/405" element={<OopsComponent />} />
             <Route path="/test" element={<NFTMetadata />} />
+            <Route path="/test1" element={<DropdownList />} />
           </Routes>
         </Router>
       </div>

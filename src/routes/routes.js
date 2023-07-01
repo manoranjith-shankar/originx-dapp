@@ -10,6 +10,8 @@ import RaffleActionsTheme from "../themes/RaffleActionsTheme";
 import CalculateTheme from "../themes/CalculateTheme";
 import ApproveTheme from "../themes/ApproveTheme";
 import ComingSoonTheme from "../themes/ComingSoonTheme";
+import OopsComponent from '../components/SomethingWentWrong/SomethingWentWrong';
+import NFTMetadata from "../components/test/test";
 
 class MyRouts extends React.Component {
   render() {
@@ -25,6 +27,8 @@ class MyRouts extends React.Component {
             <Route path="/calculate" element={<CalculateTheme />} />
             <Route path="/approve" element={<ApproveTheme />} />
             <Route path="/404" element={<ComingSoonTheme />} />
+            <Route path="/405" element={<OopsComponent />} />
+            <Route path="/test" element={<NFTMetadata />} />
           </Routes>
         </Router>
       </div>

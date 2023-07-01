@@ -5,6 +5,7 @@ import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import RaffleActions from '../components/RaffleActions/RaffleActions';
 import NotFoundPage from '../components/Error/Error';
+import OopsComponent from '../components/SomethingWentWrong/SomethingWentWrong';
 
 class RaffleActionsTheme extends Component {
   state = {
@@ -32,11 +33,8 @@ class RaffleActionsTheme extends Component {
     console.log('Error:', error);
     this.setState({ hasError: true });
 
-    // Display alert message
-    alert('An error occurred. Please try again.');
-
     // Redirect to /404 page
-    window.location.href = '/404';
+    window.location.href = '/405';
   }
 
   render() {
@@ -56,7 +54,7 @@ class RaffleActionsTheme extends Component {
         {isWalletConnected ? (
           <RaffleActions />
         ) : (
-          <NotFoundPage />
+          <OopsComponent />
         )}
         <Footer />
       </div>

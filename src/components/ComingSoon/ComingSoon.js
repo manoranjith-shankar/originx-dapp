@@ -25,7 +25,7 @@ const ComingSoon = () => {
       >
         <h1 style={{ fontSize: '32px', marginBottom: '20px' }}>Coming Soon</h1>
         <p style={{ fontSize: '18px', marginBottom: '40px' }}>
-          working hard to bring you an amazing experience. Stay tuned! check back later
+          A NFTMint Component is being minted.
         </p>
       </div>
     </div>

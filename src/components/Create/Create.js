@@ -4,14 +4,14 @@ import { ethers } from 'ethers';
 import mainNftRaffle from '../contracts/mainNftRaffle.json';
 import toast, { Toaster } from 'react-hot-toast';
 import "react-widgets/styles.css";
-import DropdownList from '../test/DropDownList';
+import DropdownList from './DropDownList';
+import DatePickerComponent from './DatePickerComponent';
 
 const Create = () => {
   const { account, isConnected } = useAccount();
   const [raffleName, setRaffleName] = useState('');
   const [nftPrice, setNftPrice] = useState('');
   const [totalVolumeofTickets, setTotalVolumeofTickets] = useState('');
-  const [placeDate, setPlaceDate] = useState('End Date');
   const [endTime, setEndTime] = useState('');
   const [nftId, setNftId] = useState('');
   const [nftContractAddress, setNftContractAddress] = useState('');
@@ -21,15 +21,8 @@ const Create = () => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   console.log(account, '0');
 
-  const handlePlaceDateChange = (event) => {
-    const inputDate = event.target.value;
-    handleEndTimeChange(inputDate);
-    setPlaceDate(inputDate);
-  };
-
-  const handleEndTimeChange = (inputDate) => {
-    const date = new Date(inputDate);
-    const unixTime = Math.floor(date.getTime() / 1000); // convert to Unix timestamp
+  const handleDateSelect = (unixTime) => {
+    console.log('Selected Unix time:', unixTime);
     setEndTime(unixTime);
   };
 
@@ -151,17 +144,12 @@ const Create = () => {
                 </div>
                 <div className="col-12 col-md-6">
                   <div className="form-group">
-                    <input
-                      type="number"
-                      className="form-control"
-                      name="royality"
-                      placeholder="Total Ticket Supply"
-                      required="required"
-                      value={totalVolumeofTickets}
-                      onChange={(e) => setTotalVolumeofTickets(e.target.value)}
+                    <DatePickerComponent 
+                      onDateSelect={handleDateSelect}
                     />
                   </div>
                 </div>
+                
                 <div className="col-12 col-md-6">
                   <div className="form-group">
                     <input
@@ -177,25 +165,19 @@ const Create = () => {
                 <div className="col-12 col-md-6">
                   <div className="form-group">
                     <input
-                      type="date"
+                      type="number"
                       className="form-control"
-                      placeholder="Date"
+                      name="ticket"
+                      placeholder="Total Ticket Supply"
                       required="required"
-                      value={placeDate}
-                      onChange={handlePlaceDateChange}
-                    />
-                  </div>
-                </div>
-                <div className="col-12">
-                  <div className="form-group">
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="end date"
-                      placeholder="End Time"
-                      required="required"
-                      value={endTime}
-                      onChange={(e) => setEndTime(e.target.value)}
+                      min="1"
+                      max="10000"
+                      step="1"
+                      value={totalVolumeofTickets}
+                      onChange={(e) => {
+                        const input = Math.max(1, Math.min(10000, parseInt(e.target.value))) || '';
+                        setTotalVolumeofTickets(input);
+                      }}
                     />
                   </div>
                 </div>

@@ -6,18 +6,22 @@ import toast, { Toaster } from 'react-hot-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import CreateRaffleBox from '../Misc/CreateRaffleBox';
 
 const RaffleActions = () => {
-  const { account } = useAccount();
+  const { account, isConnected } = useAccount();
   const accountAddress = useAccount().address;
   const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const accountAddressSliced = accountAddress.slice(0, 6);
   const [initData] = useState({
     preHeading: "Explore",
     heading: "My Raffles",
     btnText: "Load More"
   });
-
+  
+  const [totalRafflesOwned, setTotalRafflesOwned] = useState(null);
+  const [raffleIdsOwned, setRaffleIdsOwned] = useState([]);
+  const [raffleInfo, setRaffleInfo] = useState([]);
+  
   const shortenAddress = (address) => {
     if (address.length <= 8) {
       return address;
@@ -25,12 +29,18 @@ const RaffleActions = () => {
     return `${address.slice(0, 5)}...${address.slice(-3)}`;
   };
 
-  const [totalRafflesOwned, setTotalRafflesOwned] = useState(null);
-  const [raffleIdsOwned, setRaffleIdsOwned] = useState([]);
-  const [raffleInfo, setRaffleInfo] = useState([]);
+  const notifyProviderError = () => {
+    toast.error(`Please Connect your wallet`);
+  };
 
   useEffect(() => {
     const fetchRafflesOwned = async () => {
+      
+      if (isConnected === false) {
+        notifyProviderError();
+        return;
+      }
+
       try {
         const networkId = await provider.getNetwork().then((network) => network.chainId);
         const contract = new ethers.Contract(
@@ -43,10 +53,10 @@ const RaffleActions = () => {
         const rafflesOwnedCount = rafflesOwned[0];
         const raffleIdsOwned = rafflesOwned[1];
 
-        if (rafflesOwnedCount === 0) {
-          toast.error("You don't have any raffles owned");
-        }
-    
+        const rafflesOwnedCountNumber = Number(rafflesOwnedCount._hex);
+        setTotalRafflesOwned(rafflesOwnedCountNumber.toString());
+        console.log(rafflesOwnedCountNumber.toString(), '1');
+
         const raffleDetails = [];
         for (let i = 0; i < rafflesOwnedCount; i++) {
           const raffleId = raffleIdsOwned[i];
@@ -77,13 +87,11 @@ const RaffleActions = () => {
         }
         
         setRaffleInfo(raffleDetails);
-        setTotalRafflesOwned(rafflesOwnedCount);
-        setRaffleIdsOwned(raffleIdsOwned);
-        console.log(raffleDetails);
+        setRaffleIdsOwned(raffleIdsOwned);  
 
       } catch (error) {
         console.log('Error:', error);
-      }    
+      }
     };
 
     fetchRafflesOwned();
@@ -159,8 +167,16 @@ const RaffleActions = () => {
     }
   };
 
+  if (totalRafflesOwned === 0) {
+    <div>
+      <CreateRaffleBox />
+    </div>
+  }
+
+  console.log(totalRafflesOwned, '2')
+
   return (
-    <section className="explore-area load-more">
+    <section className="explore-area">
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-12 col-md-8 col-lg-7">
@@ -173,57 +189,54 @@ const RaffleActions = () => {
           </div>
         </div>
         <div className="row items">
-          {raffleInfo.map((raffleDetails, idx) => (
-            <div key={`raffle_${idx}`} className="col-12 col-sm-6 col-lg-3 item">
-              <div className="card">
-                <div className="image-over">
-                  <a href={`/raffle/${raffleDetails.id}`}>
-                    <img className="card-img-top" src={raffleDetails.img} alt="" />
-                  </a>
-                </div>
-                {/* Card Caption */}
-                <div className="card-caption col-12 p-0">
-                  {/* Card Body */}
-                  <div className="card-body">
-                    <a href={`/raffles/${raffleDetails.id}`}>
-                      <h5 className="mb-0">{raffleDetails.title}</h5>
+          {totalRafflesOwned === 0 ? (
+            <CreateRaffleBox />
+          ) : (
+            raffleInfo.map((raffleDetails, idx) => (
+              <div key={`raffle_${idx}`} className="col-12 col-sm-6 col-lg-3 item">
+                <div className="card">
+                  <div className="image-over">
+                    <a href={`/raffle/${raffleDetails.id}`}>
+                      <img className="card-img-top" src={raffleDetails.img} alt="" />
                     </a>
-                    <div className="seller d-flex align-items-center my-3">
-                      <span>Tickets sold</span> 
-                      <a href={`https://${raffleDetails.owner}`}>
-                        <h6 className="ml-2 mb-0">{raffleDetails.ticketsSold}</h6>
+                  </div>
+                  {/* Card Caption */}
+                  <div className="card-caption col-12 p-0">
+                    {/* Card Body */}
+                    <div className="card-body">
+                      <a href={`/raffles/${raffleDetails.id}`}>
+                        <h5 className="mb-0">{raffleDetails.title}</h5>
                       </a>
-                    </div>
-                    <div className="seller d-flex align-items-center my-3">
-                      <span>Prize Share</span>
-                      <a href={`https://${raffleDetails.owner}`}>
-                        <h6 className="ml-2 mb-0">{raffleDetails.creator} ETH</h6>
-                      </a>
-                    </div>
-                    <div className="row items">
-                      <button className="btn btn-bordered-white btn-smaller mt-3" onClick={() => handlePickWinner(raffleDetails.id)}>
-                        <FontAwesomeIcon icon={faCircleCheck} />
-                        <i className="fa-solid fa-CircleCheck mr-2" />
-                        Pick Winner
-                      </button>
-                      <button className="btn btn-bordered-white btn-smaller mt-3" onClick={() => handleCancelRaffle(raffleDetails.id)}>
-                      <FontAwesomeIcon icon={faCircleXmark} />
-                        <i className="fa-light fa-PaperPlane mr-2" />
-                        Cancel Raffle
-                      </button>
+                      <div className="seller d-flex align-items-center my-3">
+                        <span>Tickets sold</span> 
+                        <a href={`https://${raffleDetails.owner}`}>
+                          <h6 className="ml-2 mb-0">{raffleDetails.ticketsSold}</h6>
+                        </a>
+                      </div>
+                      <div className="seller d-flex align-items-center my-3">
+                        <span>Prize Share</span>
+                        <a href={`https://${raffleDetails.owner}`}>
+                          <h6 className="ml-2 mb-0">{raffleDetails.creator} FTM</h6>
+                        </a>
+                      </div>
+                      <div className="row items">
+                        <button className="btn btn-bordered-white btn-smaller mt-3" onClick={() => handlePickWinner(raffleDetails.id)}>
+                          <FontAwesomeIcon icon={faCircleCheck} />
+                          <i className="fa-solid fa-CircleCheck mr-2" />
+                          Pick Winner
+                        </button>
+                        <button className="btn btn-bordered-white btn-smaller mt-3" onClick={() => handleCancelRaffle(raffleDetails.id)}>
+                        <FontAwesomeIcon icon={faCircleXmark} />
+                          <i className="fa-light fa-PaperPlane mr-2" />
+                          Cancel Raffle
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-        <div className="row">
-        <div className="col-12 text-center">
-              <a id="load-btn" className="btn btn-bordered-white mt-5" href="#">
-                {initData.btnText}
-              </a>
-          </div>
+            ))
+          )}
         </div>
       </div>
       <Toaster position="bottom-right" reverseOrder={true} toastOptions={{ className: '', duration: 5000, style: { background: '#363636', color: '#fff' } }} />

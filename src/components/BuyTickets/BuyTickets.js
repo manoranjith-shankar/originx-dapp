@@ -2,18 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';
 import { ethers } from 'ethers';
 import mainNftRaffle from '../contracts/mainNftRaffle.json';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
+import LoadingAnimation from '../LoadingAnimation/LoadingAnimation'
+import CountdownTimer from './countdown';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 
 const BuyTickets = () => {
   const { raffleId } = useParams();
   const { account } = useAccount();
   const [raffleData, setRaffleData] = useState(null);
   const [totalTicketsWanted, setTotalTicketsWanted] = useState(1);
+  const [endDate, setEndDate] = useState(null);
   const [charityInfo, setCharityInfo] = useState('');
   const [showToast, setShowToast] = useState(false);
 
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
   const shortenAddress = (address) => {
     if (address.length <= 8) {
       return address;
@@ -25,32 +29,12 @@ const BuyTickets = () => {
     return ethers.utils.formatEther(amount);
   };
 
-  const formatDate = (unixTimestamp) => {
-    const date = new Date(unixTimestamp * 1000);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `"${year}-${month}-${day}"`;
-  };
-  
-  const notify = () => {
-    toast.promise(
-      notify(),
-       {
-         loading: 'Transacting',
-         success: <b>Tickets bought successfully</b>,
-         error: <b>Could not buy tickets</b>,
-       }
-     );
-     setShowToast(true);
-  };
-
   useEffect(() => {
     const fetchRaffleData = async () => {
       try {
 
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
         const networkId = await provider.getNetwork().then((network) => network.chainId);
-        // Initialize ethers provider and contract instance
         const contract = new ethers.Contract(
           mainNftRaffle.networks[networkId].address,
           mainNftRaffle.abi,
@@ -64,7 +48,6 @@ const BuyTickets = () => {
         const owner = shortenAddress(raffleInfo.raffleCreator);
         const price = parseEther(raffleInfo.ticketPrice);
         const availableTickets = raffleInfo.totalVolumeofTickets - raffleInfo.totalSoldTickets;
-        const endDate = formatDate(raffleInfo.endTime);
 
         const raffleData = {
           id: raffleInfo.raffleId,
@@ -72,25 +55,31 @@ const BuyTickets = () => {
           title: raffleInfo.raffleName,
           owner: owner,
           price: price,
-          unparsedPrice: raffleInfo.ticketPrice, // Store the unparsed ticket price
-          date: endDate,
+          unparsedPrice: raffleInfo.ticketPrice,
           availableTickets: availableTickets,
           volumeOfTickets: raffleInfo.totalVolumeofTickets - 0,
           totalTicketsWanted: totalTicketsWanted,
           raffleStatus: raffleStatus
         };
 
+        if(!endDate){
+          const endTime = raffleInfo.endTime;
+          setEndDate(endTime);
+        }
+
         setRaffleData(raffleData);
+        console.log(raffleData.date);
+        console.log(endDate);
       } catch (error) {
         console.log('Error:', error);
       }
     };
 
     fetchRaffleData();
-  }, [raffleId, account, provider, totalTicketsWanted],[]);
+  }, [raffleId, account, totalTicketsWanted],[]);
 
   if (!raffleData) {
-    return <div>Loading...</div>;
+    return <div><LoadingAnimation /></div>;
   }
 
   const calculateTotalPrice = (unparsedPrice, totalTicketsWanted) => {
@@ -102,9 +91,9 @@ const BuyTickets = () => {
 
   const handleBuyTickets = async (event) => {
     event.preventDefault();
-    var loadingToastId;
 
     try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
       const networkId = await provider.getNetwork().then((network) => network.chainId);
         // Initialize ethers provider and contract instance
         const contract = new ethers.Contract(
@@ -159,7 +148,8 @@ const BuyTickets = () => {
                 <img src={raffleData.img} alt="" />
               </div>
               <div className="card no-hover countdown-times my-4">
-                <div className="countdown d-flex justify-content-center" data-date="2023-10-7" />
+                <div className="countdown d-flex justify-content-center"/>
+                  <CountdownTimer date={endDate} />
               </div>
             </div>
           </div>
@@ -168,26 +158,39 @@ const BuyTickets = () => {
               <h3 className="m-0">{raffleData.title}</h3>
               <div className="owner d-flex align-items-center">
                 <span>Created By</span>
-                <a className="owner-meta d-flex align-items-center ml-3" href="/">
+                <Link className="owner-meta d-flex align-items-center ml-3" to="/">
                   <h6 className="ml-2">{raffleData.owner}</h6>
-                </a>
+                </Link>
               </div>
-              <div className="row items">
+            <div className="col-12 item px-lg-2">
               <div className="card no-hover">
-                <div className="single-seller d-flex align-items-center">
-                  <div className="seller-info ml-3">
-                      <a className="seller mb-2" href="/">Charity Information</a>
-                      <span>Creator</span>
+                  <h4 className="mt-0 mb-2">Raffle Info</h4>
+                  <div className="price d-flex justify-content-between align-items-center">
+                  <div className="row items">
+                      <div className="card no-hover">
+                        <div className="single-seller d-flex align-items-center">
+                          <div className="seller-info ml-3">
+                            <Link className="seller mb-2" to="/test1" target='_blank'>
+                              <FontAwesomeIcon icon={faExternalLinkAlt} style={{ marginRight: '0.5rem' }} />
+                              Charity Information
+                            </Link>
+                            <Link className="seller mb-2" to={`${raffleData.img}`} target='_blank'>
+                              <FontAwesomeIcon icon={faExternalLinkAlt} style={{ marginRight: '0.5rem' }} />
+                                NFT Source link
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
               </div>
-            </div>
+          </div>
               <div className="row items">
                 <div className="col-12 item px-lg-2">
                   <div className="card no-hover">
                     <h4 className="mt-0 mb-2">Available Tickets</h4>
                     <div className="price d-flex justify-content-between align-items-center">
-                    <span>{raffleData.price} ETH</span>
+                    <span>{raffleData.price} FTM</span>
                         {raffleData.availableTickets === 0 ? (
                           <span>Sold Out</span>
                         ) : (
@@ -207,11 +210,11 @@ const BuyTickets = () => {
                   </div>
                 </div>
               </div>
-              <a className="d-block btn btn-bordered-white mt-4" href={''} onClick={handleBuyTickets}>
-                Pay {raffleData.price * totalTicketsWanted} ETH for {totalTicketsWanted} Ticket(s)
+              <Link className="d-block btn btn-bordered-white mt-4" onClick={handleBuyTickets}>
+                Pay {raffleData.price * totalTicketsWanted} FTM for {totalTicketsWanted} Ticket(s)
                 <Toaster position="bottom-right" reverseOrder={true} toastOptions={{ className: '',duration: 5000, style: {background: '#363636',color: '#fff',}
                                         }}/>
-              </a>
+              </Link>
             </div>
           </div>
         </div>

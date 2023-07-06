@@ -12,20 +12,20 @@ const data = [
         icon: "icon icon-note text-effect",
         title: "Creating",
         content: "Learn how to create your very first NFT and how to create your NFT collections so you can begin selling and sharing",
-        href: "#"
+        href: "https://originx-docs.gitbook.io/product-docs/"
     },
     {
         id: "2",
         icon: "icon icon-info text-effect",
         title: "About",
         content: "Get to know about originX and the raffler backend",
-        href: "#"
+        href: "https://originx-docs.gitbook.io/product-docs/overview/raffle-pool"
     },
     {
         id: "3",
         icon: "icon icon-flag text-effect",
         title: "Partners",
-        content: "Learn how you can partner with us to showcase your NFT drops & collections",
+        content: "Learn how you can partner with originX to showcase your NFT drops & collections",
         href: "#"
     }
 ]

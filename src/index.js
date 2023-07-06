@@ -46,7 +46,7 @@ export const Fantom = {
     nativeCurrency: {
     decimals: 18,
     name: 'Buildbear Testnet',
-    symbol: 'BB',
+    symbol: 'FTM',
     },
       iconUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZsG2HQt3pYcu8zI-oZtc7CxF3gbdn906Bmr0lfTiREwxTD15yH4hBC1nOF4t8ZtHHTQY&usqp=CAU',
     rpcUrls: {

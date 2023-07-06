@@ -59,7 +59,7 @@ const Calculate = () => {
       <div className="container">
         <h2>Calculate Raffle Prizes</h2>
         <div className="form-group">
-          <label htmlFor="nftPrice">NFT Price: (in ETH)</label>
+          <label htmlFor="nftPrice">NFT Price: (in FTM)</label>
           <input
             type="number"
             id="nftPrice"
@@ -78,13 +78,13 @@ const Calculate = () => {
         </div>
         {rafflePool && (
           <div>
-            <p>Raffle Pool: {rafflePool} ETH</p>
-            <p>Raffle Creator: {raffleCreatorPrize} ETH</p>
-            <p>Development Team: {developmentTeamPrize} ETH</p>
-            <p>Charity: {charityPrize} ETH</p>
+            <p>Raffle Pool: {rafflePool} FTM</p>
+            <p>Raffle Creator: {raffleCreatorPrize} FTM</p>
+            <p>Development Team: {developmentTeamPrize} FTM</p>
+            <p>Charity: {charityPrize} FTM</p>
             {(rafflePool, totalTickets) && (
               <div>
-                <p>Each Ticket Price: {ticketPrice} ETH</p>
+                <p>Each Ticket Price: {ticketPrice} FTM</p>
               </div>
             )}
           </div>

@@ -5,7 +5,7 @@ import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import RaffleActions from '../components/RaffleActions/RaffleActions';
 import NotFoundPage from '../components/Error/Error';
-import OopsComponent from '../components/SomethingWentWrong/SomethingWentWrong';
+import CreateRaffleBox from '../components/Misc/CreateRaffleBox';
 
 class RaffleActionsTheme extends Component {
   state = {
@@ -40,10 +40,6 @@ class RaffleActionsTheme extends Component {
   render() {
     const { isLoading, isWalletConnected, hasError } = this.state;
 
-    if (isLoading) {
-      return <LoadingAnimation />;
-    }
-
     if (hasError) {
       return null; // Render nothing if an error occurs (to prevent further errors)
     }
@@ -51,10 +47,16 @@ class RaffleActionsTheme extends Component {
     return (
       <div className="main">
         <Header />
-        {isWalletConnected ? (
-          <RaffleActions />
+        {isLoading ? (
+          <LoadingAnimation />
         ) : (
-          <OopsComponent />
+          <>
+            {isWalletConnected ? (
+              <RaffleActions />
+            ) : (
+              <CreateRaffleBox />
+            )}
+          </>
         )}
         <Footer />
       </div>

@@ -66,9 +66,9 @@ class Footer extends Component {
                             <h5>Roadmap:</h5>
                             {/* Roadmap Content */}
                             <ul>
-                            <li>Q1 2023: Launch of the NFT raffle platform</li>
-                            <li>Q2 2023: Integration of additional blockchain networks</li>
-                            <li>Q3 2023: Introduction of advanced raffle features</li>
+                            <li>Q1 2023: Initial Development & Idea Shaping</li>
+                            <li>Q2 2023: Patent and Community Publishing (Current)</li>
+                            <li>Q3 2023: Introduction of advanced features & Mainnet Launch</li>
                             <li>Q4 2023: Expansion of partnerships and community outreach</li>
                             </ul>
                         </div>
@@ -119,9 +119,9 @@ class Footer extends Component {
                                 {/* Copyright Area */}
                                 <div className="copyright-area d-flex flex-wrap justify-content-center justify-content-sm-between text-center py-4">
                                     {/* Copyright Left */}
-                                    <div className="copyright-left">Submitted to Beyond Blockchain Hashgraph Hackathon</div>
+                                    <div className="copyright-left"><Link to="https://github.com/manoranjith-shankar/originx-dapp" target= "_blank" >Source</Link></div>
                                     {/* Copyright Right */}
-                                    <div className="copyright-right"><Link href="https://0xc0d3rs.tech" target= "_blank" style={gradientStyle} >Manoranjith Shankar</Link></div>
+                                    <div className="copyright-right"><Link to="https://0xc0d3rs.tech" target= "_blank" style={gradientStyle} >Manoranjith Shankar</Link></div>
                                 </div>
                             </div>
                         </div>

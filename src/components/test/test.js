@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Moralis from 'moralis';
-//0xD0664568C474cebf15a8bA5DBe61b8A1475aBB78
 
 const NFTMetadataFetcher = () => {
   const [contractAddress, setContractAddress] = useState('');
@@ -40,36 +39,63 @@ const NFTMetadataFetcher = () => {
   };
 
   return (
-    <div>
-      <h2>NFT Metadata Fetcher</h2>
-      <div>
-        <label>Contract Address:</label>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+      <h2 style={{ fontSize: '24px', fontWeight: 'bold' }}>NFT Metadata Fetcher</h2>
+      <div style={{ marginBottom: '10px' }}>
+        <label style={{ fontWeight: 'bold' }}>Contract Address:</label>
         <input
           type="text"
           value={contractAddress}
           onChange={(e) => setContractAddress(e.target.value)}
+          style={{ marginLeft: '10px', padding: '5px' }}
         />
       </div>
-      <div>
-        <label>NFT ID:</label>
+      <div style={{ marginBottom: '10px' }}>
+        <label style={{ fontWeight: 'bold' }}>NFT ID:</label>
         <input
           type="text"
           value={tokenIdNft}
           onChange={(e) => setTokenIdNft(e.target.value)}
+          style={{ marginLeft: '10px', padding: '5px' }}
         />
       </div>
-      <button onClick={fetchMetadata}>Fetch Metadata</button>
+      <button
+        onClick={fetchMetadata}
+        style={{
+          marginTop: '10px',
+          padding: '10px 20px',
+          backgroundColor: '#007bff',
+          color: '#fff',
+          border: 'none',
+          borderRadius: '5px',
+          cursor: 'pointer',
+        }}
+      >
+        Fetch Metadata
+      </button>
       {metadata && (
-        <div>
-          <h3>Metadata:</h3>
-          <img src={nftImage} alt="NFT" />
-          <p>Name: {metadata.name}</p>
-          <p>Token Type: {metadata.token_type}</p>
-          <p>ID: {metadata.id}</p>
-          <p>Description: {metadata.description}</p>
+        <div style={{ marginTop: '20px' }}>
+          <h3 style={{ fontSize: '20px', fontWeight: 'bold' }}>Metadata:</h3>
+          <img src={nftImage} alt="NFT" style={{ maxWidth: '300px', marginBottom: '10px' }} />
+          <p>
+            <span style={{ fontWeight: 'bold' }}>Name:</span> {metadata.name}
+          </p>
+          <p>
+            <span style={{ fontWeight: 'bold' }}>Token Type:</span> {metadata.token_type}
+          </p>
+          <p>
+            <span style={{ fontWeight: 'bold' }}>ID:</span> {metadata.id}
+          </p>
+          <p>
+            <span style={{ fontWeight: 'bold' }}>Description:</span> {metadata.description}
+          </p>
         </div>
       )}
-      {error && <p>Error: {error}</p>}
+      {error && (
+        <p style={{ color: 'red', marginTop: '20px' }}>
+          <span style={{ fontWeight: 'bold' }}>Error:</span> {error}
+        </p>
+      )}
     </div>
   );
 };

@@ -4,16 +4,16 @@ import { ethers } from 'ethers';
 import mainNftRaffle from '../contracts/mainNftRaffle.json';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTicket } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 const OpenRaffles = () => {
   const [initData] = useState({
-    preHeading: "Open Raffles",
-    heading: "Explore",
+    preHeading: "Explore",
+    heading: "Open Raffles",
     btnText: "Explore More"
   });
   const [exploreData, setExploreData] = useState([]);
   const { account } = useAccount();
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
 
   const shortenAddress = (address) => {
     if (address.length <= 8) {
@@ -28,6 +28,7 @@ const OpenRaffles = () => {
 
   useEffect(() => {
     const fetchRaffles = async () => {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
       try {
         const networkId = await provider.getNetwork().then((network) => network.chainId);
         // Initialize ethers provider and contract instance
@@ -68,15 +69,7 @@ const OpenRaffles = () => {
     };
 
     fetchRaffles();
-  }, [account, provider], []);
-
-  if (!exploreData || exploreData.length === 0) {
-    return (
-      <div className="overlay-container">
-        <div className="overlay-spinner"></div>
-      </div>
-    );
-  }
+  }, [account], []);
 
   return (
     <section className="explore-area">
@@ -88,11 +81,6 @@ const OpenRaffles = () => {
               <div className="intro-content">
                 <span>{initData.preHeading}</span>
                 <h3 className="mt-3 mb-0">{initData.heading}</h3>
-              </div>
-              <div className="intro-btn">
-                <a className="btn content-btn" href="/">
-                  {initData.btnText}
-                </a>
               </div>
             </div>
           </div>
@@ -120,14 +108,14 @@ const OpenRaffles = () => {
                       </a>
                     </div>
                     <div className="card-bottom d-flex justify-content-between">
-                      <span>{item.price} ETH</span>
+                      <span>{item.price} FTM</span>
                       <span>{item.availableTickets}</span>
                     </div>
-                    <a className="btn btn-bordered-white btn-smaller mt-3" href={`/buytickets/${idx + 1}`}>
+                    <Link className= "btn btn-bordered-white btn-smaller mt-3" to={`/buytickets/${idx + 1}`}>
                       <FontAwesomeIcon icon={faTicket} />
-                      <i className="fa-solid fa-ticket mr-2" />
+                        <i className="fa-solid fa-ticket mr-2" />
                       {item.btnText}
-                    </a>
+                      </Link>
                   </div>
                 </div>
               </div>

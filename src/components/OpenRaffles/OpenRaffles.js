@@ -47,6 +47,7 @@ const OpenRaffles = () => {
           const raffleInfo = await contract.raffleInfo(i);
           
           const owner = shortenAddress(raffleInfo.raffleCreator);
+          const address = (raffleInfo.raffleCreator)
           const price = parseEther(raffleInfo.ticketPrice);
           const availableTickets = `${raffleInfo.totalVolumeofTickets - raffleInfo.totalSoldTickets} of ${raffleInfo.totalVolumeofTickets}`;
 
@@ -55,6 +56,7 @@ const OpenRaffles = () => {
             img: raffleInfo.nftSourceLink,
             title: raffleInfo.raffleName,
             owner: owner,
+            owner1: address,
             price: price.slice(0,8),
             availableTickets: availableTickets,
             btnText: "Buy Tickets"
@@ -103,7 +105,7 @@ const OpenRaffles = () => {
                     </a>
                     <div className="seller d-flex align-items-center my-3">
                       <span>Owned By</span>
-                      <a href={`https://mumbai.polygonscan.com/address/`}>
+                      <a href={`https://explorer.buildbear.io/primary-anakin-skywalker-21e02ba8/address/${item.owner1}`}>
                         <h6 className="ml-2 mb-0">{item.owner}</h6>
                       </a>
                     </div>

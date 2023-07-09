@@ -4,7 +4,6 @@ import LoadingAnimation from '../components/LoadingAnimation/LoadingAnimation';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import RaffleActions from '../components/RaffleActions/RaffleActions';
-import NotFoundPage from '../components/Error/Error';
 import CreateRaffleBox from '../components/Misc/CreateRaffleBox';
 
 class RaffleActionsTheme extends Component {

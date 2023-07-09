@@ -103,7 +103,7 @@ const RaffleActions = () => {
       // Clear the interval when the component is unmounted
       clearInterval(intervalId);
     };
-  }, [account, provider, accountAddress],[]);
+  }, [isConnected, account, provider, accountAddress]);
 
   const handlePickWinner = async (raffleId) => {
     try {
@@ -168,10 +168,11 @@ const RaffleActions = () => {
   };
 
   if (totalRafflesOwned === 0) {
+    return(
     <div>
       <CreateRaffleBox />
     </div>
-  }
+  )};
 
   console.log(totalRafflesOwned, '2')
 
@@ -189,10 +190,7 @@ const RaffleActions = () => {
           </div>
         </div>
         <div className="row items">
-          {totalRafflesOwned === 0 ? (
-            <CreateRaffleBox />
-          ) : (
-            raffleInfo.map((raffleDetails, idx) => (
+          {raffleInfo.map((raffleDetails, idx) => (
               <div key={`raffle_${idx}`} className="col-12 col-sm-6 col-lg-3 item">
                 <div className="card">
                   <div className="image-over">
@@ -236,7 +234,7 @@ const RaffleActions = () => {
                 </div>
               </div>
             ))
-          )}
+          }
         </div>
       </div>
       <Toaster position="bottom-right" reverseOrder={true} toastOptions={{ className: '', duration: 5000, style: { background: '#363636', color: '#fff' } }} />

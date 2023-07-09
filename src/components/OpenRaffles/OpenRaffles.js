@@ -110,7 +110,7 @@ const OpenRaffles = () => {
                       </a>
                     </div>
                     <div className="card-bottom d-flex justify-content-between">
-                      <span>{item.price} FTM</span>
+                      <span>{item.price} ETH</span>
                       <span>{item.availableTickets}</span>
                     </div>
                     <Link className= "btn btn-bordered-white btn-smaller mt-3" to={`/buytickets/${idx + 1}`}>

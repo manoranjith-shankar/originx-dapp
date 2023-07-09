@@ -46,7 +46,7 @@ export const Fantom = {
     nativeCurrency: {
     decimals: 18,
     name: 'Buildbear Testnet',
-    symbol: 'FTM',
+    symbol: 'ETH',
     },
       iconUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZsG2HQt3pYcu8zI-oZtc7CxF3gbdn906Bmr0lfTiREwxTD15yH4hBC1nOF4t8ZtHHTQY&usqp=CAU',
     rpcUrls: {
@@ -66,7 +66,7 @@ export const Fantom = {
     }
 
 const { chains, provider } = configureChains(
-  [mainnet, Fantom, polygonMumbai, polygon, avalanche, testnet],
+  [mainnet, polygonMumbai, polygon, avalanche, testnet],
   [
     alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
     publicProvider()

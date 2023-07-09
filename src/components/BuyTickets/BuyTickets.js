@@ -190,7 +190,7 @@ const BuyTickets = () => {
                   <div className="card no-hover">
                     <h4 className="mt-0 mb-2">Available Tickets</h4>
                     <div className="price d-flex justify-content-between align-items-center">
-                    <span>{raffleData.price} FTM</span>
+                    <span>{raffleData.price} ETH</span>
                         {raffleData.availableTickets === 0 ? (
                           <span>Sold Out</span>
                         ) : (
@@ -211,7 +211,7 @@ const BuyTickets = () => {
                 </div>
               </div>
               <Link className="d-block btn btn-bordered-white mt-4" onClick={handleBuyTickets}>
-                Pay {raffleData.price * totalTicketsWanted} FTM for {totalTicketsWanted} Ticket(s)
+                Pay {raffleData.price * totalTicketsWanted} ETH for {totalTicketsWanted} Ticket(s)
                 <Toaster position="bottom-right" reverseOrder={true} toastOptions={{ className: '',duration: 5000, style: {background: '#363636',color: '#fff',}
                                         }}/>
               </Link>

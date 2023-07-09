@@ -214,7 +214,7 @@ const RaffleActions = () => {
                       <div className="seller d-flex align-items-center my-3">
                         <span>Prize Share</span>
                         <a href={`https://${raffleDetails.owner}`}>
-                          <h6 className="ml-2 mb-0">{raffleDetails.creator} FTM</h6>
+                          <h6 className="ml-2 mb-0">{raffleDetails.creator} ETH</h6>
                         </a>
                       </div>
                       <div className="row items">

@@ -7,6 +7,7 @@ class RaffleDetailsTheme extends Component {
     render() {
         return (
             <div className="main">
+                <Header />
                 <BuyTickets />
             </div>
         );

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';
-import { ethers, BigNumber } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import mainNftRaffle from '../contracts/mainNftRaffle.json';
 import toast, { Toaster } from 'react-hot-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -69,12 +69,12 @@ const RaffleActions = () => {
           const price = raffle.ticketPrice;
           const Id = raffle.raffleId
           const availableTickets = `${raffle.totalVolumeofTickets - raffle.totalSoldTickets} of ${raffle.totalVolumeofTickets}`;
-          const totalSoldTickets = `${raffle.totalSoldTickets}/${raffle.totalVolumeofTickets}`;
+          const totalSoldTickets = `${raffle.totalSoldTickets} of ${raffle.totalVolumeofTickets}`;
     
           raffleDetails.push({
             id: Id,
             img: raffle.nftSourceLink,
-            title: raffle.raffleName,
+            title: raffle.raffleName, 
             creator: creatorPrizeinEth,
             owner: owner,
             ticketsSold: totalSoldTickets,

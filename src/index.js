@@ -9,7 +9,7 @@ import {
   RainbowKitProvider,
 } from '@rainbow-me/rainbowkit';
 import { configureChains, createClient, WagmiConfig } from 'wagmi';
-import { mainnet, polygon, polygonMumbai, avalanche } from 'wagmi/chains';
+import { mainnet, polygon, polygonMumbai } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 
@@ -40,7 +40,7 @@ export const Fantom = {
   }
 
   export const testnet = {
-    id: 9710,
+    id: 9816,
     name: 'Buildbear Network',
     network: 'Buildbear Network',
     nativeCurrency: {
@@ -50,12 +50,12 @@ export const Fantom = {
     },
       iconUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZsG2HQt3pYcu8zI-oZtc7CxF3gbdn906Bmr0lfTiREwxTD15yH4hBC1nOF4t8ZtHHTQY&usqp=CAU',
     rpcUrls: {
-    public: { http: ['https://rpc.buildbear.io/primary-anakin-skywalker-21e02ba8'] },
-    default: { http: ['https://rpc.buildbear.io/primary-anakin-skywalker-21e02ba8'] },
+    public: { http: ['https://rpc.buildbear.io/experimental-shmi-skywalker-ea650ee3'] },
+    default: { http: ['https://rpc.buildbear.io/experimental-shmi-skywalker-ea650ee3'] },
     },
     blockExplorers: {
-    etherscan: { name: 'explorer', url: 'https://explorer.buildbear.io/primary-anakin-skywalker-21e02ba8/transactions' },
-    default: { name: 'explorer', url: 'https://explorer.buildbear.io/primary-anakin-skywalker-21e02ba8/transactions' },
+    etherscan: { name: 'explorer', url: 'https://explorer.buildbear.io/experimental-shmi-skywalker-ea650ee3/' },
+    default: { name: 'explorer', url: 'https://explorer.buildbear.io/experimental-shmi-skywalker-ea650ee3/' },
     },
     contracts: {
     multicall3: {
@@ -66,7 +66,7 @@ export const Fantom = {
     }
 
 const { chains, provider } = configureChains(
-  [mainnet, polygonMumbai, polygon, avalanche, testnet],
+  [mainnet, polygon, polygonMumbai, testnet],
   [
     alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
     publicProvider()

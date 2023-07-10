@@ -137,7 +137,6 @@ const Create = () => {
                       name="price"
                       placeholder="NFT Price"
                       required="required"
-                      min="1"
                       value={nftPrice}
                       onChange={(e) => setNftPrice(e.target.value)}
                     />

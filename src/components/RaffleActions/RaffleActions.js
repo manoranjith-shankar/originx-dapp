@@ -69,7 +69,7 @@ const RaffleActions = () => {
           const price = raffle.ticketPrice;
           const Id = raffle.raffleId
           const availableTickets = `${raffle.totalVolumeofTickets - raffle.totalSoldTickets} of ${raffle.totalVolumeofTickets}`;
-          const totalSoldTickets = `${raffle.totalSoldTickets} of ${raffle.totalVolumeofTickets}`;
+          const totalSoldTickets = `${raffle.totalSoldTickets}/${raffle.totalVolumeofTickets}`;
     
           raffleDetails.push({
             id: Id,

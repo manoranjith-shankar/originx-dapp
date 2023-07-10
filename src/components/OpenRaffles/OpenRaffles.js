@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useAccount } from 'wagmi';
+import { useAccount, useNetwork } from 'wagmi';
 import { ethers } from 'ethers';
 import mainNftRaffle from '../Contracts/mainNftRaffle.json';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,7 +13,9 @@ const OpenRaffles = () => {
     btnText: "Explore More"
   });
   const [exploreData, setExploreData] = useState([]);
-  const { account } = useAccount();
+  const { address } = useAccount();
+  const { chain } = useNetwork();
+  console.log(address, '1');
 
   const shortenAddress = (address) => {
     if (address.length <= 8) {
@@ -30,12 +32,12 @@ const OpenRaffles = () => {
     const fetchRaffles = async () => {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       try {
-        const networkId = await provider.getNetwork().then((network) => network.chainId);
+        const networkId = await chain.id;
         // Initialize ethers provider and contract instance
         const contract = new ethers.Contract(
           mainNftRaffle.networks[networkId].address,
           mainNftRaffle.abi,
-          provider.getSigner(account)
+          provider.getSigner(address)
         );
 
         // Retrieve the total number of raffles from the contract
@@ -53,6 +55,7 @@ const OpenRaffles = () => {
 
           exploreData.push({
             id: raffleInfo.raffleID,
+            description: raffleInfo.description,
             img: raffleInfo.nftSourceLink,
             title: raffleInfo.raffleName,
             owner: owner,
@@ -71,7 +74,7 @@ const OpenRaffles = () => {
     };
 
     fetchRaffles();
-  }, [account], []);
+  }, [address, chain.id], []);
 
   return (
     <section className="explore-area">
@@ -102,6 +105,7 @@ const OpenRaffles = () => {
                   <div className="card-body">
                     <a rel="noreferrer" target={"_blank"} href={`${item.img}`}>
                       <h5 className="mb-0">{item.title}</h5>
+                      <h5 className="mb-0">{item.description}</h5>
                     </a>
                     <div className="seller d-flex align-items-center my-3">
                       <span>Owned By</span>

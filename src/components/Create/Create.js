@@ -11,7 +11,7 @@ import { useNetwork } from 'wagmi'
 const Create = () => {
 
   const { chain } = useNetwork();
-  const { account, isConnected } = useAccount();
+  const { address, isConnected } = useAccount();
   const [raffleName, setRaffleName] = useState('');
   const [description, setDescription] = useState('');
   const [nftPrice, setNftPrice] = useState('');
@@ -24,7 +24,7 @@ const Create = () => {
 
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   console.log(chain.id, '1');
-  console.log(account, '0');
+  console.log(address, '0');
 
   const handleDateSelect = (unixTime) => {
     console.log('Selected Unix time:', unixTime);
@@ -48,10 +48,11 @@ const Create = () => {
     toast.dismiss(notifyLoading);
     toast.error(`Please Connect your wallet`);
   };
+  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(account, '1');
+    console.log(address, '1');
     console.log(provider, '2');
 
     if (isConnected === false) {
@@ -64,7 +65,7 @@ const Create = () => {
     const contract = new ethers.Contract(
       mainNftRaffle.networks[networkId].address,
       mainNftRaffle.abi,
-      provider.getSigner(account)
+      provider.getSigner(address)
     );
 
     try {

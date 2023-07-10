@@ -13,23 +13,23 @@ import { mainnet, polygon, polygonMumbai } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 
-export const Fantom = {
-  id: 250,
-  name: 'Fantom Opera',
-  network: 'Fantom Opera',
+export const linea = {
+  id: 59140,
+  name: 'Linea',
+  network: 'Linea',
   nativeCurrency: {
   decimals: 18,
-  name: 'Fantom Opera',
-  symbol: 'FTM',
+  name: 'Linea',
+  symbol: 'ETH',
   },
-    iconUrl: 'https://icons.llamao.fi/icons/chains/rsz_fantom.jpg',
+    iconUrl: 'https://pbs.twimg.com/profile_images/1639402103486521344/erDLnbwE_400x400.jpg',
   rpcUrls: {
-  public: { http: ['https://fantom.publicnode.com'] },
-  default: { http: ['https://fantom.publicnode.com'] },
+  public: { http: ['https://rpc.goerli.linea.build'] },
+  default: { http: ['https://rpc.goerli.linea.build'] },
   },
   blockExplorers: {
-  etherscan: { name: 'explorer', url: 'https://ftmscan.com/' },
-  default: { name: 'explorer', url: 'https://ftmscan.com/' },
+  etherscan: { name: 'explorer', url: 'https://explorer.goerli.linea.build/' },
+  default: { name: 'explorer', url: 'https://explorer.goerli.linea.build/' },
   },
   contracts: {
   multicall3: {
@@ -66,7 +66,7 @@ export const Fantom = {
     }
 
 const { chains, provider } = configureChains(
-  [mainnet, polygon, polygonMumbai, testnet],
+  [mainnet,linea, polygon, polygonMumbai, testnet],
   [
     alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
     publicProvider()

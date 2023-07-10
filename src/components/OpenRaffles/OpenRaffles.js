@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';
 import { ethers } from 'ethers';
-import mainNftRaffle from '../contracts/mainNftRaffle.json';
+import mainNftRaffle from '../Contracts/mainNftRaffle.json';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTicket } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';

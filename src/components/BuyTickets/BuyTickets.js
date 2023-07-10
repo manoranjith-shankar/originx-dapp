@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';
 import { ethers } from 'ethers';
-import mainNftRaffle from '../contracts/mainNftRaffle.json';
+import mainNftRaffle from '../Contracts/mainNftRaffle.json';
 import { Link, useParams } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import LoadingAnimation from '../LoadingAnimation/LoadingAnimation'

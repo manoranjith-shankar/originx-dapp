@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 import { useAccount } from 'wagmi';
 import { ethers } from 'ethers';
-import mainNftRaffle from '../contracts/mainNftRaffle.json';
+import mainNftRaffle from '../Contracts/mainNftRaffle.json'
 import toast, { Toaster } from 'react-hot-toast';
 import "react-widgets/styles.css";
 import DropdownList from './DropDownList';
 import DatePickerComponent from './DatePickerComponent';
+import { useNetwork } from 'wagmi'
 
 const Create = () => {
+
+  const { chain } = useNetwork();
   const { account, isConnected } = useAccount();
   const [raffleName, setRaffleName] = useState('');
+  const [description, setDescription] = useState('');
   const [nftPrice, setNftPrice] = useState('');
   const [totalVolumeofTickets, setTotalVolumeofTickets] = useState('');
   const [endTime, setEndTime] = useState('');
@@ -19,6 +23,7 @@ const Create = () => {
   const [charityAddress, setCharityAddress] = useState('');
 
   const provider = new ethers.providers.Web3Provider(window.ethereum);
+  console.log(chain.id, '1');
   console.log(account, '0');
 
   const handleDateSelect = (unixTime) => {
@@ -54,7 +59,7 @@ const Create = () => {
       return;
     }
 
-    const networkId = await provider.getNetwork().then((network) => network.chainId);
+    const networkId = await chain.id;
     // Initialize ethers provider and contract instance
     const contract = new ethers.Contract(
       mainNftRaffle.networks[networkId].address,
@@ -66,6 +71,7 @@ const Create = () => {
       notifyLoading();
       const result = await contract.createRaffle(
         raffleName,
+        description,
         ethers.utils.parseUnits(nftPrice),
         totalVolumeofTickets,
         endTime,
@@ -127,6 +133,17 @@ const Create = () => {
                       value={raffleName}
                       onChange={(e) => setRaffleName(e.target.value)}
                     />
+                  </div>
+                </div>
+                <div className="col-12">
+                  <div className="form-group">
+                      <textarea className="form-control"
+                        name="description"
+                        placeholder="Raffle Description" cols={30} rows={3} defaultValue={""} 
+                        required="required"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                      />
                   </div>
                 </div>
                 <div className="col-12 col-md-6">

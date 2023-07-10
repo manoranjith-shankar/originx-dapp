@@ -21,7 +21,7 @@
 const dotenv = require("dotenv");
 dotenv.config();
 const priv_key = process.env.PRIV_KEY;
-const testnetMnemonic = "primary stumble torch ritual kangaroo mistake october kitchen inspire wrap butter grain"
+const api_key = process.env.API_KEY;
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 
 module.exports = {
@@ -34,39 +34,40 @@ module.exports = {
    *
    * $ truffle test --network <network-name>
    */
-  contracts_build_directory: "../src/components/contracts",
+  contracts_build_directory: "../src/components/Contracts",
   networks: {
     // Useful for testing. The `development` name is special - truffle uses it by default
     // if it's defined here and no other network is specified at the command line.
     // You should run a client (like ganache, geth, or parity) in a separate terminal
     // tab if you use this network and you must also set the `host`, `port` and `network_id`
     // options below to some value.
-    //
+
+    //Polygon - Mainnet forked
     testnet: {
       networkCompleteTimeout: 1000000,
       provider: () =>
-        new HDWalletProvider(priv_key, "https://rpc.buildbear.io/primary-anakin-skywalker-21e02ba8"),
-      network_id: 9710,
+        new HDWalletProvider(priv_key, "https://rpc.buildbear.io/experimental-shmi-skywalker-ea650ee3"),
+      network_id: 9816,
       confirmations: 0,
       timeoutBlocks: 0,
       skipDryRun: true
       },
 
-    fantom: {
+    linea: {
       networkCompleteTimeout: 3000000000,
       provider: () =>
-        new HDWalletProvider(priv_key, "https://rpc.fantom.network"),
-      network_id: 250,
+        new HDWalletProvider(priv_key, `https://linea-goerli.infura.io/v3/${api_key}`),
+      network_id: 59140,
       confirmations: 0,
       timeoutBlocks: 0,
       skipDryRun: true
       },
 
-    fantomtestnet: {
+    polygonMumbai: {
       networkCompleteTimeout: 3000000000,
       provider: () =>
-        new HDWalletProvider(priv_key, "https://fantom-testnet.publicnode.com"),
-      network_id: 4002,
+        new HDWalletProvider(priv_key, "https://polygon-mumbai.g.alchemy.com/v2/demo"),
+      network_id: 80001,
       confirmations: 0,
       timeoutBlocks: 0,
       skipDryRun: true

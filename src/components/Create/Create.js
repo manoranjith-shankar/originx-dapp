@@ -27,7 +27,6 @@ const Create = () => {
   console.log(address, '0');
 
   const handleDateSelect = (unixTime) => {
-    console.log('Selected Unix time:', unixTime);
     setEndTime(unixTime);
   };
 
@@ -39,6 +38,7 @@ const Create = () => {
     toast.success(`Raffle created successfully`);
   };
 
+
   const notifyError = () => {
     toast.dismiss(notifyLoading);
     toast.error(`Approve of NFT or ownership error`);
@@ -48,10 +48,10 @@ const Create = () => {
     toast.dismiss(notifyLoading);
     toast.error(`Please Connect your wallet`);
   };
-  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    notifyLoading();
     console.log(address, '1');
     console.log(provider, '2');
 
@@ -60,7 +60,7 @@ const Create = () => {
       return;
     }
 
-    const networkId = await chain.id;
+    const networkId = chain.id;
     // Initialize ethers provider and contract instance
     const contract = new ethers.Contract(
       mainNftRaffle.networks[networkId].address,
@@ -69,7 +69,6 @@ const Create = () => {
     );
 
     try {
-      notifyLoading();
       const result = await contract.createRaffle(
         raffleName,
         description,
@@ -86,8 +85,6 @@ const Create = () => {
       notify();
     } catch (err) {
       console.log(err);
-      console.log(charityAddress)
-      console.log(err.action);
 
       if (err.action === "sendTransaction") {
       toast.dismiss(notifyLoading);

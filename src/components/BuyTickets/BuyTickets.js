@@ -11,7 +11,7 @@ import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 
 const BuyTickets = () => {
   const { raffleId } = useParams();
-  const { account } = useAccount();
+  const { address } = useAccount();
   const [raffleData, setRaffleData] = useState(null);
   const [totalTicketsWanted, setTotalTicketsWanted] = useState(1);
   const [endDate, setEndDate] = useState(null);
@@ -38,7 +38,7 @@ const BuyTickets = () => {
         const contract = new ethers.Contract(
           mainNftRaffle.networks[networkId].address,
           mainNftRaffle.abi,
-          provider.getSigner(account)
+          provider.getSigner(address)
         );
         
         // Fetch raffle details for the specified raffleId
@@ -52,6 +52,7 @@ const BuyTickets = () => {
         const raffleData = {
           id: raffleInfo.raffleId,
           img: raffleInfo.nftSourceLink,
+          description: raffleInfo.description,
           title: raffleInfo.raffleName,
           owner: owner,
           price: price,
@@ -76,7 +77,7 @@ const BuyTickets = () => {
     };
 
     fetchRaffleData();
-  }, [raffleId, account, totalTicketsWanted],[]);
+  }, [raffleId,endDate, address, totalTicketsWanted],[]);
 
   if (!raffleData) {
     return <div><LoadingAnimation /></div>;
@@ -99,7 +100,7 @@ const BuyTickets = () => {
         const contract = new ethers.Contract(
           mainNftRaffle.networks[networkId].address,
           mainNftRaffle.abi,
-          provider.getSigner(account)
+          provider.getSigner(address)
         );
       
       const totalPrice = calculateTotalPrice(raffleData.unparsedPrice, totalTicketsWanted);
@@ -156,6 +157,7 @@ const BuyTickets = () => {
           <div className="col-12 col-lg-6">
             <div className="content mt-5 mt-lg-0">
               <h3 className="m-0">{raffleData.title}</h3>
+              <p>{raffleData.description}</p>
               <div className="owner d-flex align-items-center">
                 <span>Created By</span>
                 <Link className="owner-meta d-flex align-items-center ml-3" to="/">

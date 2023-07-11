@@ -32,7 +32,7 @@ const OpenRaffles = () => {
     const fetchRaffles = async () => {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       try {
-        const networkId = await chain.id;
+        const networkId = chain.id;
         // Initialize ethers provider and contract instance
         const contract = new ethers.Contract(
           mainNftRaffle.networks[networkId].address,
@@ -105,7 +105,6 @@ const OpenRaffles = () => {
                   <div className="card-body">
                     <a rel="noreferrer" target={"_blank"} href={`${item.img}`}>
                       <h5 className="mb-0">{item.title}</h5>
-                      <h5 className="mb-0">{item.description}</h5>
                     </a>
                     <div className="seller d-flex align-items-center my-3">
                       <span>Owned By</span>

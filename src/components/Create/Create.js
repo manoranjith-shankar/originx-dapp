@@ -62,7 +62,7 @@ const Create = () => {
 
     const networkId = chain.id;
     // Initialize ethers provider and contract instance
-    const contract = new ethers.Contract(
+    const contract = new ethers.Contract  (
       mainNftRaffle.networks[networkId].address,
       mainNftRaffle.abi,
       provider.getSigner(address)

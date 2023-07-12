@@ -13,6 +13,7 @@ import ComingSoonTheme from "../themes/ComingSoonTheme";
 import OopsComponent from "../components/Misc/OopsComponent";
 import NFTMetadata from "../components/test/test";
 import CreateRaffleBox from "../components/Misc/CreateRaffleBox";
+import NFTSelectTheme from "../themes/NFTSelectTheme";
 
 class MyRouts extends React.Component {
   render() {
@@ -31,6 +32,7 @@ class MyRouts extends React.Component {
             <Route path="/405" element={<OopsComponent />} />
             <Route path="/test" element={<NFTMetadata />} />
             <Route path="/test1" element={<CreateRaffleBox /> }/>
+            <Route path="/test2" element={<NFTSelectTheme /> }/>
           </Routes>
         </Router>
       </div>

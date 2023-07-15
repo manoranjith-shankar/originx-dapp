@@ -8,7 +8,6 @@ import { useAccount } from 'wagmi';
 const NFTSelect = () => {
   const { address } = useAccount();
   const [nftData, setNftData] = useState([]);
-  const [image, setImage] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,9 +24,6 @@ const NFTSelect = () => {
         });
 
         setNftData(response.result);
-        if (response.result.length > 0) {
-          setImage(response.result[0].metadata.image.replace('ipfs://', 'https://ipfs.io/ipfs/'));
-        }
       } catch (error) {
         console.error(error);
       }
@@ -38,7 +34,6 @@ const NFTSelect = () => {
 
   console.log(address);
   console.log(nftData);
-  console.log(image);
 
   return (
     <section className="expore-area">
@@ -52,15 +47,13 @@ const NFTSelect = () => {
               <div key={`edt_${idx}`} className="col-12 col-sm-6 col-lg-3 item">
                 <div className="card">
                   <div className="image-over">
-                    <a href="/">
+                    <a href={`${item.metadata.image.replace('ipfs://', 'https://ipfs.io/ipfs/')}`} target={'_blank'}>
                       <img className="card-img-top" src={item.metadata.image.replace('ipfs://', 'https://ipfs.io/ipfs/')} alt="" />
                     </a>
                   </div>
-                  <div className="justify-content-center">
-                    <h4>{item.contractType}</h4>
-                    <div className="justify-content-center">
-                      <p>#{item.tokenId}</p>
-                    </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', margin:'0' }}>
+                    <h5>{item.name}</h5>
+                    <p style={ { margin:'-17'}}>#{item.tokenId}</p>
                   </div>
                   <div className="card-caption col-12 p-0">
                     <div className="card-body">

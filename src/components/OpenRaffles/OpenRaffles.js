@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useAccount, useNetwork } from 'wagmi';
 import { ethers } from 'ethers';
 import mainNftRaffle from '../Contracts/mainNftRaffle.json';
@@ -28,7 +28,7 @@ const OpenRaffles = () => {
     return ethers.utils.formatEther(amount);
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const fetchRaffles = async () => {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       try {

@@ -3,12 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTicket } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import Moralis from 'moralis';
-import { useAccount } from 'wagmi';
 
 const NFTSelect = () => {
-  const { address } = useAccount();
   const [nftData, setNftData] = useState([]);
-  const [image, setImage] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,14 +17,11 @@ const NFTSelect = () => {
           chain: "0x13881",
           format: "decimal",
           mediaItems: false,
-          normalizeMetadata: true,
-          address: address,
+          normalizeMetadata:true,
+          address: "0xEE8062a19bF3B9a66A222F9bc15aC8b97f56A2FA",
         });
 
         setNftData(response.result);
-        if (response.result.length > 0) {
-          setImage(response.result[0].metadata.image.replace('ipfs://', 'https://ipfs.io/ipfs/'));
-        }
       } catch (error) {
         console.error(error);
       }
@@ -36,9 +30,9 @@ const NFTSelect = () => {
     fetchData();
   }, []);
 
-  console.log(address);
-  console.log(nftData);
-  console.log(image);
+  console.log(nftData,'1');
+  const json = JSON.stringify(nftData);
+  console.log(json);
 
   return (
     <section className="expore-area">
@@ -53,7 +47,7 @@ const NFTSelect = () => {
                 <div className="card">
                   <div className="image-over">
                     <a href="/">
-                      <img className="card-img-top" src={item.metadata.image.replace('ipfs://', 'https://ipfs.io/ipfs/')} alt="" />
+                      <img className="card-img-top" src={`https://ipfs.io/${item.metadata['image']}`} alt="" />
                     </a>
                   </div>
                   <div className="justify-content-center">

@@ -1,98 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
-import toast from 'react-hot-toast';
 
-const NFTApproval = () => {
-  const [nftContractAddress, setNFTContractAddress] = useState('');
-  const [tokenId, setTokenId] = useState('');
-  const [nftContract, setNFTContract] = useState(null);
-  const [approving, setApproving] = useState(false);
-
+const NFTApprovalComponent = () => {
+  const [response, setResponse] = useState('')
   useEffect(() => {
-    const fetchContractABI = async () => {
-      try {
-        // Get the provider from the current Ethereum provider
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const fetchData = async () => {
+      const contractAddress = '0xD0664568C474cebf15a8bA5DBe61b8A1475aBB78';
+      const apiKey = 'NE3S1YVVAWHQD4U8BJQRXP85SX1INN5YVZ';
 
-        // Fetch the contract ABI using the contract address
-        const abi = await provider.getContractAbi(nftContractAddress);
+      const response = await fetch(`https://api-testnet.polygonscan.com/api?module=contract&action=getabi&address=${contractAddress}&apikey=${apiKey}`);
+      const data = await response.json();
 
-        // Check if the contract ABI is valid
-        if (!abi) {
-          throw new Error('Invalid contract address');
-        }
+      const contractABI = (data.result);
+      setResponse(contractABI);
+      if (contractABI !== '') {
+        const provider = new ethers.providers.JsonRpcProvider(); // Replace with your desired provider
+        const signer = provider.getSigner();
 
-        // Create the contract instance for the NFT
-        const contract = new ethers.Contract(nftContractAddress, abi, provider);
-        setNFTContract(contract);
-      } catch (error) {
-        console.error(error);
-        toast.error('Failed to fetch contract ABI');
-      }
+        const MyContract = new ethers.Contract(contractAddress, contractABI, signer);
+        const result1 = await MyContract.memberId('0xfe8ad7dd2f564a877cc23feea6c0a9cc2e783715');
+        console.log('result1:', result1);
+
+        const result2 = await MyContract.members(1);
+        console.log('result2:', result2);
+      } else {
+        console.log('Error');
+      } 
     };
 
-    if (nftContractAddress) {
-      fetchContractABI();
-    } else {
-      setNFTContract(null);
-    }
-  }, [nftContractAddress]);
+    fetchData();
+  }, []);
 
-  const handleNFTApproval = async () => {
-    
-    const raffleContractAddress = "0xB059d9EDd4255aa20372471ce7F3ECf5376dF444";
-    
-    try {
-      setApproving(true);
-
-      if (!nftContract) {
-        throw new Error('Contract not available');
-      }
-
-      // Approve the raffle contract address to spend the NFT
-      const approvalTx = await nftContract.approve(raffleContractAddress, tokenId);
-
-      // Wait for the approval transaction to be mined
-      await approvalTx.wait();
-
-      toast.success('NFT Approved successfully');
-    } catch (error) {
-      console.error(error);
-      toast.error('Failed to approve NFT');
-    } finally {
-      setApproving(false);
-    }
-  };
-
-  return (
-    <div>
-      <div>
-        <label htmlFor="nftContractAddress">NFT Contract Address:</label>
-        <input
-          type="text"
-          id="nftContractAddress"
-          value={nftContractAddress}
-          onChange={(e) => setNFTContractAddress(e.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor="tokenId">Token ID:</label>
-        <input
-          type="text"
-          id="tokenId"
-          value={tokenId}
-          onChange={(e) => setTokenId(e.target.value)}
-        />
-      </div>
-      <button
-        className="btn btn-primary"
-        onClick={handleNFTApproval}
-        disabled={!nftContract || !tokenId || approving}
-      >
-        {approving ? 'Approving NFT...' : 'Approve NFT'}
-      </button>
-    </div>
-  );
+  return <div>{JSON.stringify(response)}</div>;
+  
 };
 
-export default NFTApproval;
+export default NFTApprovalComponent;

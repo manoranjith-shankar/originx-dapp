@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTicket } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import Moralis from 'moralis';
 import { useAccount } from 'wagmi';
@@ -32,6 +32,9 @@ const NFTSelect = () => {
     fetchData();
   }, []);
 
+  const hanldeNftSelect = () => {
+    
+  }
   console.log(address);
   console.log(nftData);
 
@@ -51,23 +54,20 @@ const NFTSelect = () => {
                       <img className="card-img-top" src={item.metadata.image.replace('ipfs://', 'https://ipfs.io/ipfs/')} alt="" />
                     </a>
                   </div>
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', margin:'0' }}>
+                  <div className="nft-name-container">
                     <h5>{item.name}</h5>
-                    <p style={ { margin:'-17'}}>#{item.tokenId}</p>
+                    <p style={{marginTop: '-0.5rem'}}>#{item.tokenId}</p>
                   </div>
                   <div className="card-caption col-12 p-0">
                     <div className="card-body">
-                      <a rel="noreferrer" target="_blank" href={item.metadata.external_url}>
+                      <a rel="noreferrer" target="_blank" href={item.tokenAddress}>
                         <h5 className="mb-0">{item.metadata.title}</h5>
                       </a>
-                      <Link
-                        className="btn btn-bordered-white btn-smaller mt-3 justify-content-between"
-                        to={`/buytickets/${idx + 1}`}
-                      >
-                        <FontAwesomeIcon icon={faTicket} />
+                      <a className="btn btn-bordered-white btn-smaller mt-3 justify-content-between" href='' onClick={hanldeNftSelect}>
+                        <FontAwesomeIcon icon={faArrowRight} />
                         <i className="fa-solid fa-ticket mr-2" />
-                        {item.btnText}
-                      </Link>
+                        Select
+                      </a>
                     </div>
                   </div>
                 </div>

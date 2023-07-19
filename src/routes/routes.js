@@ -10,6 +10,7 @@ import RaffleActionsTheme from "../themes/RaffleActionsTheme";
 import CalculateTheme from "../themes/CalculateTheme";
 import ApproveTheme from "../themes/ApproveTheme";
 import ComingSoonTheme from "../themes/ComingSoonTheme";
+import Login from "../themes/LoginMain";
 import OopsComponent from "../components/Misc/OopsComponent";
 import NFTMetadata from "../components/test/test";
 import CreateRaffleBox from "../components/Misc/CreateRaffleBox";
@@ -23,7 +24,8 @@ class MyRouts extends React.Component {
       <div>
         <Router>
           <Routes>
-            <Route exact path="/" element={<Home />} />
+            <Route exact path="/" element={<Home  />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/create" element={<CreateRaffle />} />
             <Route path="/raffles" element={<OpenRafflesTheme />} />
             <Route path="/buytickets/:raffleId" element={<RaffleDetailsTheme />} />

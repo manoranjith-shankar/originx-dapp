@@ -2,7 +2,7 @@ import React from 'react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Link } from 'react-router-dom';
 
-const Header = () => {
+const Header = ({isConnected}) => {
     return (
         <header id="header">
             {/* Navbar */}
@@ -12,7 +12,7 @@ const Header = () => {
                     <Link className="navbar-brand" to="/">
                         <img className="navbar" src="img/originx-text-transparent.png" alt=""/>
                     </Link>
-                    <div className="ml-auto" />
+                    <div className="ml-auto"/>
                     {/* Navbar */}
                     <ul className="navbar-nav items mx-auto">
                         <li className="nav-item dropdown">

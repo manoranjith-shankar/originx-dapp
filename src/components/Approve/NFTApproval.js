@@ -25,7 +25,7 @@ const NFTApprovalComponent = () => {
         console.log('result2:', result2);
       } else {
         console.log('Error');
-      } 
+      }
     };
 
     fetchData();

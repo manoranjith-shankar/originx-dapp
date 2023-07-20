@@ -13,12 +13,12 @@ const Header = () => {
       toast.error(
         "You are disconnected, please reconnect your wallet.\n\n Redirecting....",
         {
-          duration: 1500,
+          duration: 2000,
         }
       );
       setTimeout(() => {
         navigate('/login');
-      }, 2000);
+      }, 3000);
     }
   }, [isConnected, navigate]);
 
@@ -35,7 +35,6 @@ const Header = () => {
                     {/* Navbar */}
                     <ul className="navbar-nav items mx-auto">
                         <li className="nav-item dropdown">
-                            {/* <a className="nav-link" href="/">Home</a> */}
                             <Link to="/" className="nav-link">Home</Link>
                         </li>
                         <li className="nav-item dropdown">

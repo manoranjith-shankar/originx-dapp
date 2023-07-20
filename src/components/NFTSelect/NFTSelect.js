@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
 import Moralis from 'moralis';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAccount } from 'wagmi';
 
 const NFTSelect = () => {
   const { address } = useAccount();
   const [nftData, setNftData] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,9 +33,11 @@ const NFTSelect = () => {
     fetchData();
   }, []);
 
-  const hanldeNftSelect = () => {
-    
-  }
+  const handleNftSelect = (tokenId, tokenAddress, imageSource) => {
+    // Navigate to the CreateRaffle component with URL parameters
+    navigate(`/create/${tokenId}/${tokenAddress}/${encodeURIComponent(imageSource)}`);
+  };
+
   console.log(address);
   console.log(nftData);
 
@@ -60,10 +63,17 @@ const NFTSelect = () => {
                   </div>
                   <div className="card-caption col-12 p-0">
                     <div className="card-body">
-                      <a rel="noreferrer" target="_blank" href={item.tokenAddress}>
-                        <h5 className="mb-0">{item.metadata.title}</h5>
-                      </a>
-                      <a className="btn btn-bordered-white btn-smaller mt-3 justify-content-between" href='' onClick={hanldeNftSelect}>
+                    <a
+                        className="btn btn-bordered-white btn-smaller mt-3 justify-content-between"
+                        href=""
+                        onClick={() =>
+                          handleNftSelect(
+                            item.tokenId,
+                            item.tokenAddress,
+                            item.metadata.image.replace('ipfs://', 'https://ipfs.io/ipfs/'),
+                          )
+                        }
+                      >
                         <FontAwesomeIcon icon={faArrowRight} />
                         <i className="fa-solid fa-ticket mr-2" />
                         Select

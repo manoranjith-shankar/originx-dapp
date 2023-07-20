@@ -15,7 +15,6 @@ import OopsComponent from "../components/Misc/OopsComponent";
 import NFTMetadata from "../components/test/test";
 import CreateRaffleBox from "../components/Misc/CreateRaffleBox";
 import NFTSelectTheme from "../themes/NFTSelectTheme";
-import DropTest from "../components/test/dropdowntest";
 import DatePicker from "../components/test/DateInputPicker";
 
 class MyRouts extends React.Component {
@@ -26,7 +25,7 @@ class MyRouts extends React.Component {
           <Routes>
             <Route exact path="/" element={<Home  />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/create" element={<CreateRaffle />} />
+            <Route path="/create/:tokenId/:tokenAddress/:imageSource" element={<CreateRaffle />} />
             <Route path="/raffles" element={<OpenRafflesTheme />} />
             <Route path="/buytickets/:raffleId" element={<RaffleDetailsTheme />} />
             <Route path="/raffle-owner" element={<RaffleActionsTheme />} />
@@ -35,8 +34,7 @@ class MyRouts extends React.Component {
             <Route path="/404" element={<ComingSoonTheme />} />
             <Route path="/405" element={<OopsComponent />} />
             <Route path="/test" element={<NFTMetadata />} />
-            <Route path="/test1" element={<DatePicker /> }/>
-            <Route path="/test2" element={<NFTSelectTheme /> }/>
+            <Route path="/test1" element={<NFTSelectTheme /> }/>
           </Routes>
         </Router>
       </div>

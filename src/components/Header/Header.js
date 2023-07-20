@@ -28,7 +28,7 @@ const Header = () => {
             <nav data-aos="zoom-out" data-aos-delay={800} className="navbar navbar-expand">
                 <div className="container header">
                     {/* Navbar Brand*/}
-                    <Link className="navbar-brand" to="/">
+                    <Link className="navbar-brand ml-auto" to="/">
                         <img className="navbar" src="img/originx-text-transparent.png" alt=""/>
                     </Link>
                     <div className="ml-auto"/>

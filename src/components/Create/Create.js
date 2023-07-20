@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useNavigate, useEffect } from 'react';
 import { useAccount } from 'wagmi';
 import { ethers } from 'ethers';
 import mainNftRaffle from '../contracts/mainNftRaffle.json'
@@ -7,10 +7,14 @@ import "react-widgets/styles.css";
 import DropdownList from './DropDownList';
 import DatePickerComponent from './DatePickerComponent';
 import { useNetwork } from 'wagmi'
+import { useParams } from 'react-router-dom';
 
 const Create = () => {
 
   const { chain } = useNetwork();
+  const { tokenId, tokenAddress, imageSource } = useParams();
+  const decodedTokenAddress = decodeURIComponent(tokenAddress);
+  const decodedImageSource = decodeURIComponent(imageSource);
   const { address, isConnected } = useAccount();
   const [raffleName, setRaffleName] = useState('');
   const [description, setDescription] = useState('');
@@ -23,7 +27,7 @@ const Create = () => {
   const [charityAddress, setCharityAddress] = useState('');
 
   const provider = new ethers.providers.Web3Provider(window.ethereum);
-  console.log(chain.id, '1');
+  console.log(tokenId,decodedTokenAddress,decodedImageSource, '1');
   console.log(address, '0');
 
   const handleDateSelect = (unixTime) => {

@@ -1,18 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useAccount } from 'wagmi';
 import { useNavigate } from 'react-router-dom';
 import { ConnectButton } from '@rainbow-me/rainbowkit'; // Replace 'rainbowkit/connect-button' with the correct import path for the RainbowKit Connect Button
 
 const Login = () => {
-  const [isConnected, setIsConnected] = useState(false);
+  const { isConnected } = useAccount();
   const [isRedirecting, setIsRedirecting] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    // Check if the user is already connected when the component mounts
-    if (window.ethereum && window.ethereum.selectedAddress) {
-      setIsConnected(true);
-    }
-  }, []);
 
   useEffect(() => {
     // Automatically redirect to '/home' if the user is connected
@@ -38,7 +32,7 @@ const Login = () => {
       console.log('Connected to provider:', accounts[0]);
 
       // Update connection status to true
-      setIsConnected(true);
+      isConnected(true);
     } catch (error) {
       console.error('Error connecting to provider:', error);
     }
@@ -49,13 +43,15 @@ const Login = () => {
       <div className="login-box">
         {!isConnected ? (
           <div>
-            <h1>Hi, Get Started by connecting to web3</h1>
-            <ConnectButton onClick={handleConnect} />
+            <h1>Get Started by connecting to web3.</h1>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <ConnectButton onClick={handleConnect} />
+            </div>
           </div>
         ) : (
           <div>
             <h1>You Are Connected.</h1>
-            {isRedirecting && <p>Redirecting...</p>}
+            {isRedirecting && <h2>Redirecting...</h2>}
           </div>
         )}
       </div>

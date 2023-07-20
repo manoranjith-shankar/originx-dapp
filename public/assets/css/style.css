@@ -2621,7 +2621,7 @@ header .navbar-expand .dropdown:hover > .dropdown-menu {
 }
 
 .login-box h1 {
-  font-size: 24px;
+  font-size: 48px;
   font-weight: bold;
   margin-bottom: 20px;
   color: #fff;
@@ -2638,6 +2638,10 @@ header .navbar-expand .dropdown:hover > .dropdown-menu {
   font-size: 16px;
   margin-bottom: 20px;
   color: var(--secondary-text);
+}
+
+.connect-btn {
+  justify-content: center;
 }
 
 /* #endregion Feature */

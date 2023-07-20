@@ -1,8 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { Link } from 'react-router-dom';
+import { useAccount } from 'wagmi';
+import { Link, useNavigate } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
 
-const Header = ({isConnected}) => {
+const Header = () => {
+  const { isConnected } = useAccount();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isConnected) {
+      toast.error(
+        "You are disconnected, please reconnect your wallet.\n\n Redirecting....",
+        {
+          duration: 1500,
+        }
+      );
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
+    }
+  }, [isConnected, navigate]);
+
     return (
         <header id="header">
             {/* Navbar */}
@@ -47,6 +66,7 @@ const Header = ({isConnected}) => {
                     </ul>
                 </div>
             </nav>
+            <Toaster position="top-center" reverseOrder={false} toastOptions={{ className: '', duration: 5000, style: { background: '#363636', color: '#fff' } }} />
         </header>
     );
 };

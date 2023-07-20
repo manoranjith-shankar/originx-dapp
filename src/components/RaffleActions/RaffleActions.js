@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';
 import { BigNumber, ethers } from 'ethers';
-import mainNftRaffle from '../Contracts/mainNftRaffle.json';
+import mainNftRaffle from '../contracts/mainNftRaffle.json';
 import toast, { Toaster } from 'react-hot-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';

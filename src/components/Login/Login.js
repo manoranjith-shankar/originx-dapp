@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ConnectButton } from '@rainbow-me/rainbowkit'; // Replace 'rainbowkit/connect-button' with the correct import path for the RainbowKit Connect Button
 
 const Login = () => {
   const [isConnected, setIsConnected] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Check if the user is already connected when the component mounts
@@ -10,6 +13,16 @@ const Login = () => {
       setIsConnected(true);
     }
   }, []);
+
+  useEffect(() => {
+    // Automatically redirect to '/home' if the user is connected
+    if (isConnected && !isRedirecting) {
+      setIsRedirecting(true);
+      setTimeout(() => {
+        navigate('/');
+      }, 2000); // Adjust the delay in milliseconds (e.g., 2000ms = 2 seconds)
+    }
+  }, [isConnected, isRedirecting, navigate]);
 
   const handleConnect = async () => {
     try {
@@ -34,12 +47,17 @@ const Login = () => {
   return (
     <div className={`login-page ${isConnected ? 'connected' : ''}`}>
       <div className="login-box">
-        <h1>Get Started by connecting to web3</h1>
         {!isConnected ? (
           <div>
+            <h1>Hi, Get Started by connecting to web3</h1>
             <ConnectButton onClick={handleConnect} />
           </div>
-        ) : null}
+        ) : (
+          <div>
+            <h1>You Are Connected.</h1>
+            {isRedirecting && <p>Redirecting...</p>}
+          </div>
+        )}
       </div>
     </div>
   );

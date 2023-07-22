@@ -15,7 +15,6 @@ import OopsComponent from "../components/Misc/OopsComponent";
 import NFTMetadata from "../components/test/test";
 import CreateRaffleBox from "../components/Misc/CreateRaffleBox";
 import NFTSelectTheme from "../themes/NFTSelectTheme";
-import DatePicker from "../components/test/DateInputPicker";
 
 class MyRouts extends React.Component {
   render() {
@@ -31,6 +30,7 @@ class MyRouts extends React.Component {
             <Route path="/raffle-owner" element={<RaffleActionsTheme />} />
             <Route path="/calculate" element={<CalculateTheme />} />
             <Route path="/approve" element={<ApproveTheme />} />
+            <Route path="/nftselect" element={<NFTSelectTheme /> }/>
             <Route path="/404" element={<ComingSoonTheme />} />
             <Route path="/405" element={<OopsComponent />} />
             <Route path="/test" element={<NFTMetadata />} />

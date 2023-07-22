@@ -30,7 +30,7 @@ class Hero extends Component {
                             {/* Buttons */}
                             <div className="button-group">
                             <Link to="/raffles" className="btn btn-bordered-white"><i className="icon-rocket mr-2" />{this.state.data.btn_1}</Link>
-                            <Link to="/create" className="btn btn-bordered-white"><i className="icon-note mr-2" />{this.state.data.btn_2}</Link>
+                            <Link to="/nftselect" className="btn btn-bordered-white"><i className="icon-note mr-2" />{this.state.data.btn_2}</Link>
                             {/* <a className="btn btn-bordered-white" href="/raffles"><i className="icon-rocket mr-2" />{this.state.data.btn_1}</a>
                                 <a className="btn btn-bordered-white" href="/create"><i className="icon-note mr-2" />{this.state.data.btn_2}</a> */}
                             </div>

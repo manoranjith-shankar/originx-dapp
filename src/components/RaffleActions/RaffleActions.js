@@ -160,7 +160,7 @@ const RaffleActions = () => {
       const transaction = await contract.cancelRaffle(raffleId);
       await transaction.wait();
       toast.success(`Cancelled raffle: ${raffleId} successfully`);
-    } 
+    }
     catch(error) {
       console.error(error);
       toast.error('Cannot cancel raffle');

@@ -1,7 +1,7 @@
-import React, { useState, useNavigate, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useAccount } from 'wagmi';
 import { ethers } from 'ethers';
-import mainNftRaffle from '../contracts/mainNftRaffle.json'
+import mainNftRaffle from '../contracts/mainNftRaffle.json';
 import toast, { Toaster } from 'react-hot-toast';
 import "react-widgets/styles.css";
 import DropdownList from './DropDownList';

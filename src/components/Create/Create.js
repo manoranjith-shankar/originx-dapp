@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAccount } from 'wagmi';
 import { ethers } from 'ethers';
 import mainNftRaffle from '../contracts/mainNftRaffle.json';
@@ -29,6 +29,10 @@ const Create = () => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   console.log(tokenId,decodedTokenAddress,decodedImageSource, '1');
   console.log(address, '0');
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const handleDateSelect = (unixTime) => {
     setEndTime(unixTime);
@@ -118,7 +122,7 @@ const Create = () => {
             {/* Intro */}
             <div className="intro mt-5 mt-lg-0 mb-4 mb-lg-5">
               <div className="intro-content">
-                <h3 className="mt-3 mb-0">Create Raffle</h3>
+                <h3 className="d-flex justify-content-center mb-5">Create Raffle</h3>
               </div>
             </div>
             {/* Create Raffle form */}
@@ -143,6 +147,7 @@ const Create = () => {
                         name="description"
                         placeholder="Raffle Description" cols={30} rows={3} defaultValue={""} 
                         required="required"
+                        style={{borderRadius:'7px'}}
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                       />
@@ -168,7 +173,6 @@ const Create = () => {
                     />
                   </div>
                 </div>
-                
                 <div className="col-12 col-md-6">
                   <div className="form-group">
                     <input
@@ -176,7 +180,7 @@ const Create = () => {
                       className="form-control"
                       placeholder="Token ID (NFT)"
                       required="required"
-                      value={nftId}
+                      value={tokenId}
                       onChange={(e) => setNftId(e.target.value)}
                     />
                   </div>
@@ -208,8 +212,7 @@ const Create = () => {
                       name="price"
                       placeholder="NFT Contract Address"
                       required="required"
-                      value={nftContractAddress}
-                      onChange={(e) => setNftContractAddress(e.target.value)}
+                      value={tokenAddress}
                     />
                   </div>
                 </div>
@@ -221,8 +224,7 @@ const Create = () => {
                       name="price"
                       placeholder="NFT Source Link"
                       required="required"
-                      value={nftSourceLink}
-                      onChange={(e) => setNftSourceLink(e.target.value)}
+                      value={imageSource}
                     />
                   </div>
                 </div>

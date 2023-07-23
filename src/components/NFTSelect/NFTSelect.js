@@ -41,7 +41,9 @@ const NFTSelect = () => {
   }, []);
 
   const handleNftSelect = (tokenId, tokenAddress, imageSource) => {
-    navigate(`/create/${tokenId}/${tokenAddress}/${encodeURIComponent(imageSource)}`);
+    navigate(`/create/${tokenId}/${tokenAddress}/${encodeURIComponent(imageSource)}`, {
+      state: { preserveScroll: true },
+    });
   };
 
   console.log(address);

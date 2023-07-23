@@ -530,6 +530,50 @@ td {
   padding: 10px 0;
 }
 
+.dropdown-area {
+  position: relative;
+}
+
+.dropdown-container {
+  display: flex;
+  align-items: center;
+  border-radius: 7px;
+  background-color: var(--primary-bg-color);
+  color: #afafaf;
+  cursor: pointer;
+  position: relative;
+  width: 562px;
+}
+
+.dropdown-icon {
+  font-size: 20px;
+  margin-left: auto;
+  color: #fff;
+}
+
+.dropdown-select {
+  background-color: transparent;
+  color: #afafaf;
+  border: none;
+  outline: none;
+  width: 100%;
+  appearance: none;
+}
+
+.dropdown-select option {
+  color: #afafaf;
+  background-color: #16151a;
+}
+
+/* Optional: Add hover and focus styles */
+.dropdown-container:hover {
+  border-color: #aaa;
+}
+
+.dropdown-container:focus-within {
+  box-shadow: 0 0 0 2px #16151a;
+}
+
 /* #endregion General */
 /*----------------------------------------------
 5. Section
@@ -2327,6 +2371,7 @@ header .navbar-expand .dropdown:hover > .dropdown-menu {
 
 .author-area .item-form .form-group input, .author-area .item-form .form-group .custom-file-input, .author-area .item-form .form-group .custom-file-label, .author-area .item-form .form-group .custom-file-label::after {
   height: 50px;
+  border-radius: 7px;
 }
 
 .author-area .item-form .form-group .custom-file-input:lang(en) ~ .custom-file-label::after {
@@ -2429,7 +2474,6 @@ header .navbar-expand .dropdown:hover > .dropdown-menu {
   font-weight: 900;
   font-family: 'Font Awesome 5 Free';
 }
-
 
 .badge {
   font-weight: 500;

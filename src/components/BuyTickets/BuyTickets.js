@@ -15,8 +15,6 @@ const BuyTickets = () => {
   const [raffleData, setRaffleData] = useState(null);
   const [totalTicketsWanted, setTotalTicketsWanted] = useState(1);
   const [endDate, setEndDate] = useState(null);
-  const [charityInfo, setCharityInfo] = useState('');
-  const [showToast, setShowToast] = useState(false);
 
   const shortenAddress = (address) => {
     if (address.length <= 8) {

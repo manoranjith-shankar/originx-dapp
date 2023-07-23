@@ -45,7 +45,7 @@ const Header = () => {
                             </ul>
                         </li>
                         <li className="nav-item">
-                            <Link to="https://originx-docs.gitbook.io" className="nav-link">Docs</Link>
+                            <Link to="https://originx-docs.0xc0d3rs.tech/" target={"_blank"}className="nav-link">Docs</Link>
                             <Link to="/404" className="nav-link">Mint NFT</Link>
                         </li>
                     </ul>

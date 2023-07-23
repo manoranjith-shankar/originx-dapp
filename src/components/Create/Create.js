@@ -27,8 +27,7 @@ const Create = () => {
   const [charityAddress, setCharityAddress] = useState('');
 
   const provider = new ethers.providers.Web3Provider(window.ethereum);
-  console.log(tokenId,decodedTokenAddress,decodedImageSource, '1');
-  console.log(address, '0');
+  console.log(tokenAddress, '0');
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -145,7 +144,8 @@ const Create = () => {
                   <div className="form-group">
                       <textarea className="form-control"
                         name="description"
-                        placeholder="Raffle Description" cols={30} rows={3} defaultValue={""} 
+                        maxLength={"120"}
+                        placeholder="Raffle Description" cols={30} rows={3} defaultValue={""}
                         required="required"
                         style={{borderRadius:'7px'}}
                         value={description}
@@ -182,6 +182,7 @@ const Create = () => {
                       required="required"
                       value={tokenId}
                       onChange={(e) => setNftId(e.target.value)}
+                      readOnly
                     />
                   </div>
                 </div>
@@ -213,6 +214,7 @@ const Create = () => {
                       placeholder="NFT Contract Address"
                       required="required"
                       value={tokenAddress}
+                      readOnly
                     />
                   </div>
                 </div>
@@ -225,6 +227,7 @@ const Create = () => {
                       placeholder="NFT Source Link"
                       required="required"
                       value={imageSource}
+                      readOnly
                     />
                   </div>
                 </div>

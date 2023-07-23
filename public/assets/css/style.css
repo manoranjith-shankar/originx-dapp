@@ -548,7 +548,7 @@ td {
 .dropdown-icon {
   font-size: 20px;
   margin-left: auto;
-  color: #fff;
+  color: #16151a;
 }
 
 .dropdown-select {
@@ -2243,6 +2243,11 @@ header .navbar-expand .dropdown:hover > .dropdown-menu {
   background-color: transparent;
   -webkit-box-shadow: 0 5px 10px rgba(14, 49, 139, 0.5);
           box-shadow: 0 5px 10px rgba(14, 49, 139, 0.5);
+}
+
+/* styles.css (or your custom CSS file) */
+.form-control[readOnly] {
+  cursor: not-allowed;
 }
 
 .activity-area .originx-tab.nav-tabs {

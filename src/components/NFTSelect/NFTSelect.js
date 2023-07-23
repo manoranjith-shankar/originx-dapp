@@ -41,12 +41,11 @@ const NFTSelect = () => {
   }, []);
 
   const handleNftSelect = (tokenId, tokenAddress, imageSource) => {
-    navigate(`/create/${tokenId}/${tokenAddress}/${encodeURIComponent(imageSource)}`, {
+    const tAddress = tokenAddress._value;
+    navigate(`/create/${tokenId}/${tAddress}/${encodeURIComponent(imageSource)}`, {
       state: { preserveScroll: true },
     });
   };
-
-  console.log(address);
   console.log(nftData);
 
   return (
@@ -70,9 +69,9 @@ const NFTSelect = () => {
                     <p style={{marginTop: '-0.5rem'}}>#{item.tokenId}</p>
                   </div>
                   <div className="card-caption col-12 p-0">
-                    <div className="card-body">
+                    <div className="card-body d-flex justify-content-center">
                     <div
-                        className="btn btn-bordered-white btn-smaller mt-3 justify-content-between"
+                        className="btn btn-bordered-white btn-smaller mt-3"
                         onClick={() =>
                           handleNftSelect(
                             item.tokenId,

@@ -13,8 +13,6 @@ const Create = () => {
 
   const { chain } = useNetwork();
   const { tokenId, tokenAddress, imageSource } = useParams();
-  const decodedTokenAddress = decodeURIComponent(tokenAddress);
-  const decodedImageSource = decodeURIComponent(imageSource);
   const { address, isConnected } = useAccount();
   const [raffleName, setRaffleName] = useState('');
   const [description, setDescription] = useState('');
@@ -69,7 +67,7 @@ const Create = () => {
 
     const networkId = chain.id;
     // Initialize ethers provider and contract instance
-    const contract = new ethers.Contract  (
+    const contract = new ethers.Contract (
       mainNftRaffle.networks[networkId].address,
       mainNftRaffle.abi,
       provider.getSigner(address)

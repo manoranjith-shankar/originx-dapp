@@ -65,7 +65,6 @@ const Header = () => {
                     </ul>
                 </div>
             </nav>
-            <Toaster position="top-center" reverseOrder={false} toastOptions={{ className: '', duration: 5000, style: { background: '#363636', color: '#fff' } }} />
         </header>
     );
 };

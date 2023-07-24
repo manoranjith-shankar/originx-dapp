@@ -34,7 +34,6 @@ class MyRouts extends React.Component {
             <Route path="/404" element={<ComingSoonTheme />} />
             <Route path="/405" element={<OopsComponent />} />
             <Route path="/test" element={<NFTMetadata />} />
-            <Route path="/test1" element={<NFTSelectTheme /> }/>
           </Routes>
         </Router>
       </div>

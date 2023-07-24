@@ -4,6 +4,7 @@ import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import Moralis from 'moralis';
 import { useNavigate } from 'react-router-dom';
 import { useAccount } from 'wagmi';
+import LoadingAnimation from '../LoadingAnimation/LoadingAnimation';
 
 const gradientStyle = {
   background: `linear-gradient(to right, var(--primary-color), var(--secondary-color))`,
@@ -30,7 +31,6 @@ const NFTSelect = () => {
           normalizeMetadata: true,
           address: address,
         });
-
         setNftData(response.result);
       } catch (error) {
         console.error(error);
@@ -58,7 +58,7 @@ const NFTSelect = () => {
           <div className="row items">
             {nftData.map((item, idx) => (
               <div key={`edt_${idx}`} className="col-12 col-sm-6 col-lg-3 item">
-                <div className="card">
+                <div className="card" style={{background: '#191919', boxShadow:'#fff'}}>
                   <div className="image-over">
                     <a href={`${item.metadata.image.replace('ipfs://', 'https://ipfs.io/ipfs/')}`} target={'_blank'}>
                       <img className="card-img-top" src={item.metadata.image.replace('ipfs://', 'https://ipfs.io/ipfs/')} alt="" />

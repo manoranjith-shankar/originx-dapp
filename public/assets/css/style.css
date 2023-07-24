@@ -2377,6 +2377,7 @@ header .navbar-expand .dropdown:hover > .dropdown-menu {
 .author-area .item-form .form-group input, .author-area .item-form .form-group .custom-file-input, .author-area .item-form .form-group .custom-file-label, .author-area .item-form .form-group .custom-file-label::after {
   height: 50px;
   border-radius: 7px;
+  color: #5c5c5c;
 }
 
 .author-area .item-form .form-group .custom-file-input:lang(en) ~ .custom-file-label::after {

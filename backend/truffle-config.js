@@ -34,7 +34,7 @@ module.exports = {
    *
    * $ truffle test --network <network-name>
    */
-  contracts_build_directory: "../src/components/Contracts",
+  contracts_build_directory: "../src/components/contracts",
   networks: {
     // Useful for testing. The `development` name is special - truffle uses it by default
     // if it's defined here and no other network is specified at the command line.
@@ -66,7 +66,7 @@ module.exports = {
     polygonMumbai: {
       networkCompleteTimeout: 3000000000,
       provider: () =>
-        new HDWalletProvider(priv_key, "https://polygon-mumbai.g.alchemy.com/v2/demo"),
+        new HDWalletProvider(priv_key, "https://polygon-mumbai.blockpi.network/v1/rpc/public"),
       network_id: 80001,
       confirmations: 0,
       timeoutBlocks: 0,

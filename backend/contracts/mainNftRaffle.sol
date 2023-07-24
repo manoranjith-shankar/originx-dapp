@@ -1,9 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-// 0x46025aFCEa9627943aa1aa009BA827eC95D201b6
-// https://cdn.pixabay.com/photo/2022/01/17/17/20/bored-6945309_1280.png
-
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";

@@ -1565,6 +1565,75 @@ header .navbar-expand .dropdown:hover > .dropdown-menu {
     justify-content: center; 
 }
 
+.MintNFT-css {
+  .mint-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    
+    .center-box {
+      padding: 2rem;
+      border-radius: 20px;
+      background-color: #f0f0f0;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    
+    h1 {
+      margin-bottom: 2rem;
+    }
+    
+    .cards-container {
+      display: flex;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    
+    .card {
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 250px;
+    }
+    
+    img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+    }
+    
+    button {
+      padding: 0.75rem 1.5rem;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    
+    button:hover {
+      background-color: #0056b3;
+    }
+    
+    .mint-amount {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    label {
+      margin-right: 1rem;
+    }
+  }
+
 /* #endregion Header */
 /*----------------------------------------------
 8. Feature

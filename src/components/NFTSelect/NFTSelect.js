@@ -4,7 +4,6 @@ import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import Moralis from 'moralis';
 import { useNavigate } from 'react-router-dom';
 import { useAccount } from 'wagmi';
-import LoadingAnimation from '../LoadingAnimation/LoadingAnimation';
 
 const gradientStyle = {
   background: `linear-gradient(to right, var(--primary-color), var(--secondary-color))`,

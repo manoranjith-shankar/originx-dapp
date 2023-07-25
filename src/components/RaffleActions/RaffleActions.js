@@ -202,12 +202,12 @@ const RaffleActions = () => {
                   <div className="card-caption col-12 p-0">
                     {/* Card Body */}
                     <div className="card-body">
-                      <a href={`/raffles/${raffleDetails.id}`}>
+                      <a href={`#`}>
                         <h5 className="mb-0">{raffleDetails.title}</h5>
                       </a>
                       <div className="seller d-flex align-items-center my-3">
                         <span>Tickets sold</span> 
-                        <a href={`https://${raffleDetails.owner}`}>
+                        <a href={`#`}>
                           <h6 className="ml-2 mb-0">{raffleDetails.ticketsSold}</h6>
                         </a>
                       </div>

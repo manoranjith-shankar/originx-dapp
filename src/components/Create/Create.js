@@ -7,25 +7,23 @@ import "react-widgets/styles.css";
 import DropdownList from './DropDownList';
 import DatePickerComponent from './DatePickerComponent';
 import { useNetwork } from 'wagmi'
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const Create = () => {
 
   const { chain } = useNetwork();
+  const navigate = useNavigate();
   const { tokenId, tokenAddress, imageSource } = useParams();
-  const { address, isConnected } = useAccount();
+  const { address, isConnected, account } = useAccount();
   const [raffleName, setRaffleName] = useState('');
   const [description, setDescription] = useState('');
   const [nftPrice, setNftPrice] = useState('');
   const [totalVolumeofTickets, setTotalVolumeofTickets] = useState('');
   const [endTime, setEndTime] = useState('');
-  const [nftId, setNftId] = useState('');
-  const [nftContractAddress, setNftContractAddress] = useState('');
-  const [nftSourceLink, setNftSourceLink] = useState('');
   const [charityAddress, setCharityAddress] = useState('');
 
   const provider = new ethers.providers.Web3Provider(window.ethereum);
-  console.log(tokenAddress, '0');
+  console.log(tokenId, '0');
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -70,7 +68,7 @@ const Create = () => {
     const contract = new ethers.Contract (
       mainNftRaffle.networks[networkId].address,
       mainNftRaffle.abi,
-      provider.getSigner(address)
+      provider.getSigner(account)
     );
 
     try {
@@ -80,16 +78,19 @@ const Create = () => {
         ethers.utils.parseUnits(nftPrice),
         totalVolumeofTickets,
         endTime,
-        nftId,
-        nftContractAddress,
-        nftSourceLink,
+        tokenId,
+        tokenAddress,
+        imageSource,
         charityAddress
       );
       console.log(result);
       toast.dismiss(notifyLoading);
       notify();
+      setTimeout(() => {
+        navigate('/raffles');
+      }, 3000);
     } catch (err) {
-      console.log(err);
+      console.log(err, '1');
 
       if (err.action === "sendTransaction") {
       toast.dismiss(notifyLoading);
@@ -179,7 +180,6 @@ const Create = () => {
                       placeholder="Token ID (NFT)"
                       required="required"
                       value={tokenId}
-                      onChange={(e) => setNftId(e.target.value)}
                       readOnly
                     />
                   </div>

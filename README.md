@@ -1,8 +1,10 @@
-# OriginX &middot; [![Build Status](https://img.shields.io/travis/npm/npm/latest.svg?style=flat-square)](https://travis-ci.org/npm/npm) [![npm](https://img.shields.io/npm/v/npm.svg?style=flat-square)](https://www.npmjs.com/package/npm) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/your/your-project/blob/master/LICENSE)
+# OriginX &middot; [![npm](https://img.shields.io/npm/v/npm.svg?style=flat-square)](https://www.npmjs.com/package/npm) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/your/your-project/blob/master/LICENSE)
 
-NFT Raffle Charity DApp empowers NFT creators and collectors to monetize their digital assets while supporting charitable causes. It provides a platform for NFT owners to list their digital assets for raffle tickets, and users can purchase these tickets for a chance to win unique NFTs. The DApp also ensures that part of the raffle pool goes to a chosen charity, allowing users to support a cause while participating in the raffle.
+originX empowers NFT creators and collectors to monetize their digital assets while supporting charitable causes. It provides a platform for NFT owners to list their digital assets for raffle tickets, and users can purchase these tickets for a chance to win unique NFTs. The DApp also ensures that part of the raffle pool goes to a chosen charity, allowing users to support a cause while participating in the raffle.
 
 In simple words, By listing their NFTs for raffle tickets, NFT owners can generate more interest and excitement around their digital assets, while also contributing to a good cause.
+
+## Docs: https://originx-docs.0xc0d3rs.tech/
 
 ## Getting started
 
@@ -31,16 +33,10 @@ After adding the private key in .env, you can deploy the contract.
 ```shell
 cd backend
 truffle compile
-truffle deploy --network fantom
+truffle deploy --network polygonMumbai
 ```
 
-To deploy the contract on fantom testnet.
-
-```shell
-truffle migrate --network fantomtestnet
-```
-
-### Approve NFT
+### Approve NFT (https://originx-docs.0xc0d3rs.tech/approve/approve-nft)
 
 > Deployed contract address of the ERC721 Standard is required.
 

@@ -155,8 +155,7 @@ const RaffleActions = () => {
         mainNftRaffle.abi,
         provider.getSigner(account)
       );
-      // Call the pickWinner function in the contract  
-      console.log(raffleId);
+      // Call the pickWinner function in the contract
       const transaction = await contract.cancelRaffle(raffleId);
       await transaction.wait();
       toast.success(`Cancelled raffle: ${raffleId} successfully`);

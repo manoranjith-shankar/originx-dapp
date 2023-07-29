@@ -1565,6 +1565,13 @@ header .navbar-expand .dropdown:hover > .dropdown-menu {
     justify-content: center; 
 }
 
+.gradientStyle {
+  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+  display: inline;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 /* #endregion Header */
 /*----------------------------------------------
 8. Feature

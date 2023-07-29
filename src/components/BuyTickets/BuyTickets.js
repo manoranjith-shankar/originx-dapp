@@ -102,8 +102,6 @@ const BuyTickets = () => {
         );
       
       const totalPrice = calculateTotalPrice(raffleData.unparsedPrice, totalTicketsWanted);
-      console.log(totalPrice.toString());
-
       var loadingToastId = toast.loading('Transacting...')
       // Buy tickets by calling the contract's buyTickets function
       const tx = await contract.buyTicket(raffleId, totalTicketsWanted, {

@@ -7,13 +7,14 @@ import { erc721mumbai } from './erc721mumbai';
 const Test2 = () => {
   const [mintAmount, setMintAmount] = useState(1);
   const [error, setError] = useState('');
+  const [amt1, setAmt1] = useState('');
   const account = useAccount();
   const provider = new ethers.providers.Web3Provider(window.ethereum);
 
   const handleMint = async () => {
     const networkId = await provider.getNetwork().then((network) => network.chainId);
       const contract = new ethers.Contract(
-        BoredApeYachtClub.networks['80001'].address,
+        BoredApeYachtClub.networks[networkId].address,
         BoredApeYachtClub.abi,
         provider.getSigner(account)
       );
@@ -21,14 +22,15 @@ const Test2 = () => {
       // const tx = await contract.mint({_mintAmount: 1, value: ethers.utils.parseEther(0.1)})
       // tx.wait();
       const amt = await contract.getmintCount;
-      amt.wait();
-      console.log(amt);
-      console.log('Transaction:');
+
+      console.log(amt,'1');
     } catch (err) {
       console.error('Error minting NFT:', err);
       setError(err)
     }
   };
+
+  console.log(provider, '1')
 
   return (
     <section className="expore-area">

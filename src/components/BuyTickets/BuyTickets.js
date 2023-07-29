@@ -42,7 +42,7 @@ const BuyTickets = () => {
         // Fetch raffle details for the specified raffleId
         const raffleInfo = await contract.raffleInfo(raffleId);
 
-        const raffleStatus = raffleInfo.raffleCancelled; 
+        const raffleStatus = raffleInfo.raffleCancelled;
         const owner = shortenAddress(raffleInfo.raffleCreator);
         const price = parseEther(raffleInfo.ticketPrice);
         const availableTickets = raffleInfo.totalVolumeofTickets - raffleInfo.totalSoldTickets;

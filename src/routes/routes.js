@@ -16,6 +16,7 @@ import NFTMetadata from "../components/test/test";
 import CreateRaffleBox from "../components/Misc/CreateRaffleBox";
 import NFTSelectTheme from "../themes/NFTSelectTheme";
 import MintNFT from "../components/test/MintNFT";
+import Test2 from "../components/test/test2";
 
 class MyRouts extends React.Component {
   render() {
@@ -36,6 +37,7 @@ class MyRouts extends React.Component {
             <Route path="/405" element={<OopsComponent />} />
             <Route path="/test" element={<NFTMetadata />} />
             <Route path="/test1" element={<MintNFT />} />
+            <Route path="/test2" element={<Test2 />} />
           </Routes>
         </Router>
       </div>

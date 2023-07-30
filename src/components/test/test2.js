@@ -3,7 +3,7 @@ import { ethers } from 'ethers';
 import BoredApeYachtClub from '../contracts/BoredApeYachtClub.json';
 import Doodles from '../contracts/Doodles.json';
 import InvisibleFriends from '../contracts/InvisibleFriends.json';
-import CloneX from '../contracts/clonex.json';
+import clonex from '../contracts/clonex.json';
 import { useAccount } from 'wagmi';
 import { erc721mumbai } from './erc721mumbai';
 import toast, { Toaster } from 'react-hot-toast';
@@ -11,11 +11,11 @@ import toast, { Toaster } from 'react-hot-toast';
 const Test2 = () => {
   const [mintAmount, setMintAmount] = useState(1);
   const [nftsMinted, setNftsMinted] = useState([]);
-  const [ownedNFTs, setOwnedNFTs] = useState(0);
+  const [ownedNFTs, setOwnedNFTs] = useState([]);
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const { account, address } = useAccount();
   console.log(nftsMinted, '0')
-  console.log(address, '1')
+  console.log(ownedNFTs, '1')
 
   useEffect(() => {
     const fetchNftData = async () => {
@@ -40,8 +40,8 @@ const Test2 = () => {
         );
 
         const contractCloneX = new ethers.Contract(
-          CloneX.networks[networkId].address,
-          CloneX.abi,
+          clonex.networks[networkId].address,
+          clonex.abi,
           provider.getSigner(account)
         );
 
@@ -50,11 +50,14 @@ const Test2 = () => {
           const nftsDoodles = await contractDoodles.totalSupply();
           const nftsIF = await contractIF.totalSupply();
           const nftsCloneX = await contractCloneX.totalSupply();
-          setNftsMinted(nftsBoredApe,nftsDoodles,nftsIF,nftsCloneX);
+          setNftsMinted([nftsBoredApe,nftsDoodles,nftsIF,nftsCloneX]);
 
-          const ownedNFTs = await contractBoredApe.mintCount(address)
-          setOwnedNFTs(ownedNFTs, '1');
-          console.log(ownedNFTs, '2');
+          const ownedNFTsBA = await contractBoredApe.mintCount(address)
+          const ownedNFTsDD = await contractDoodles.mintCount(address)
+          const ownedNFTsIF = await contractIF.mintCount(address)
+          const ownedNFTsCX = await contractCloneX.mintCount(address)
+          setOwnedNFTs([ownedNFTsBA,ownedNFTsDD,ownedNFTsIF,ownedNFTsCX]);
+
         } catch (error) {
           console.log(error)
         }
@@ -107,6 +110,28 @@ const Test2 = () => {
         }
   }
 
+  const handleMintingIF = async () => {
+    toast.loading('Minting your NFT', {
+      duration: 2500
+    })
+    const networkId = await provider.getNetwork().then((network) => network.chainId);
+        const contract = new ethers.Contract(
+          InvisibleFriends.networks[networkId].address,
+          InvisibleFriends.abi,
+          provider.getSigner(account)
+        );
+
+        try {
+          const tx = await contract.mint(1,{
+            value: ethers.utils.parseEther('0.1')
+          });
+          console.log(tx);
+          toast.success('Minted Successfully.')
+        } catch (error) {
+          console.log(error);
+        }
+  }
+
   const handleMintingCloneX = async () => {
     toast.loading('Minting your NFT', {
       duration: 2500
@@ -139,6 +164,7 @@ const Test2 = () => {
             </h2>
           </div>
           <div className="row items d-flex justify-content-center">
+
             <div className="col-12 col-sm-6 col-lg-3 item">
               <div className="card no-hover" style={{ background: '#191919', boxShadow: '#fff' }}>
                 <div className="image-over">
@@ -148,10 +174,10 @@ const Test2 = () => {
                   <h4>BoredApeNFT</h4>
                 </div>
                 <div className="d-flex justify-content-center">
-                  <p>Total Minted: {`${1}`}/10000</p>
+                  <p>Total Minted: {`${nftsMinted[0]}`}/10000</p>
                 </div>
                 <div className="d-flex justify-content-center">
-                  <p>owned: {`${ownedNFTs}/10`}</p>
+                  <p>owned: {`${ownedNFTs[0]}/10`}</p>
                 </div>
                 <div className="form-group">
                     <input
@@ -181,10 +207,10 @@ const Test2 = () => {
                   <h4>Doodles</h4>
                 </div>
                 <div className="d-flex justify-content-center">
-                  <p>Total Minted: {`${1}`}/10000</p>
+                  <p>Total Minted: {`${nftsMinted[1]}`}/10000</p>
                 </div>
                 <div className="d-flex justify-content-center">
-                  <p>owned: {`${ownedNFTs}/10`}</p>
+                  <p>owned: {`${ownedNFTs[1]}/10`}</p>
                 </div>
                 <div className="form-group">
                     <input
@@ -208,16 +234,48 @@ const Test2 = () => {
             <div className="col-12 col-sm-6 col-lg-3 item">
               <div className="card no-hover" style={{ background: '#191919', boxShadow: '#fff' }}>
                 <div className="image-over">
+                  <img className="card-img-top" src={`${erc721mumbai[5].pic}`} alt="" />
+                </div>
+                <div className="nft-name-container">
+                  <h4>InvisibleFriends</h4>
+                </div>
+                <div className="d-flex justify-content-center">
+                  <p>Total Minted: {`${nftsMinted[2]}`}/10000</p>
+                </div>
+                <div className="d-flex justify-content-center">
+                  <p>owned: {`${ownedNFTs[2]}/10`}</p>
+                </div>
+                <div className="form-group">
+                    <input
+                      type="number"
+                      min="1"
+                      max="2"
+                      required="required"
+                      value={mintAmount}
+                      onChange={(e) => setMintAmount(e.target.value)}
+                    />
+                  </div>
+                <div className="card-body d-flex justify-content-center">
+                  <button className="btn btn-bordered-white btn-larger mt-3" onClick={handleMintingIF}>
+                    Mint
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="col-12 col-sm-6 col-lg-3 item">
+              <div className="card no-hover" style={{ background: '#191919', boxShadow: '#fff' }}>
+                <div className="image-over">
                   <img className="card-img-top" src={`${erc721mumbai[2].pic}`} alt="" />
                 </div>
                 <div className="nft-name-container">
                   <h4>CloneX</h4>
                 </div>
                 <div className="d-flex justify-content-center">
-                  <p>Total Minted: {`${1}`}/10000</p>
+                  <p>Total Minted: {`${nftsMinted[3]}`}/10000</p>
                 </div>
                 <div className="d-flex justify-content-center">
-                  <p>owned: {`${ownedNFTs}/10`}</p>
+                  <p>owned: {`${ownedNFTs[3]}/10`}</p>
                 </div>
                 <div className="form-group">
                     <input
@@ -236,6 +294,8 @@ const Test2 = () => {
                 </div>
               </div>
             </div>
+
+
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import BoredApeYachtClub from '../contracts/BoredApeYachtClub.json';
 
-const ContractAddress = '0xb84fbf6C453ce419c9da83a5400dbA63B0aE76C9';
+const ContractAddress = '0x649B229979586D9FdA9587C379584E13703329bf';
 
 const ContractInfo = () => {
   const [contract, setContract] = useState(null);
@@ -19,11 +19,11 @@ const ContractInfo = () => {
         const contractInstance = new ethers.Contract(ContractAddress, BoredApeYachtClub.abi, signer);
         setContract(contractInstance);
 
-        const totalSupply = await contractInstance.totalSupply();
+        const totalSupply = await contractInstance.maxSupply();
         setTotalSupply(totalSupply.toNumber());
 
         const mintCount = await contractInstance.getmintCount();
-        setMintCount(mintCount.toNumber());
+        setMintCount(mintCount.toString());
 
         const walletAddress = await signer.getAddress();
         const ownedTokens = await contractInstance.walletOfOwner(walletAddress);

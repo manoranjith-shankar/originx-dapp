@@ -2,20 +2,25 @@ import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import BoredApeYachtClub from '../contracts/BoredApeYachtClub.json';
 import Doodles from '../contracts/Doodles.json';
+import InvisibleFriends from '../contracts/InvisibleFriends.json';
+import CloneX from '../contracts/clonex.json';
 import { useAccount } from 'wagmi';
 import { erc721mumbai } from './erc721mumbai';
 import toast, { Toaster } from 'react-hot-toast';
 
 const Test2 = () => {
   const [mintAmount, setMintAmount] = useState(1);
-  const [totalMinted, setTotalMinted] = useState(1);
+  const [nftsMinted, setNftsMinted] = useState([]);
   const [ownedNFTs, setOwnedNFTs] = useState(0);
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const { account, address } = useAccount();
+  console.log(nftsMinted, '0')
+  console.log(address, '1')
 
   useEffect(() => {
     const fetchNftData = async () => {
       const networkId = await provider.getNetwork().then((network) => network.chainId);
+
         const contractBoredApe = new ethers.Contract(
           BoredApeYachtClub.networks[networkId].address,
           BoredApeYachtClub.abi,
@@ -28,9 +33,24 @@ const Test2 = () => {
           provider.getSigner(account)
         );
 
+        const contractIF = new ethers.Contract(
+          InvisibleFriends.networks[networkId].address,
+          InvisibleFriends.abi,
+          provider.getSigner(account)
+        );
+
+        const contractCloneX = new ethers.Contract(
+          CloneX.networks[networkId].address,
+          CloneX.abi,
+          provider.getSigner(account)
+        );
+
         try {
-          const totalMintedNftsBoredApe = await contractBoredApe.totalSupply();
-          const totalMintedNftsDoodles = await contractDoodles.totalSupply();
+          const nftsBoredApe = await contractBoredApe.totalSupply();
+          const nftsDoodles = await contractDoodles.totalSupply();
+          const nftsIF = await contractIF.totalSupply();
+          const nftsCloneX = await contractCloneX.totalSupply();
+          setNftsMinted(nftsBoredApe,nftsDoodles,nftsIF,nftsCloneX);
 
           const ownedNFTs = await contractBoredApe.mintCount(address)
           setOwnedNFTs(ownedNFTs, '1');
@@ -128,7 +148,7 @@ const Test2 = () => {
                   <h4>BoredApeNFT</h4>
                 </div>
                 <div className="d-flex justify-content-center">
-                  <p>Total Minted: {`${totalMinted}`}/10000</p>
+                  <p>Total Minted: {`${1}`}/10000</p>
                 </div>
                 <div className="d-flex justify-content-center">
                   <p>owned: {`${ownedNFTs}/10`}</p>
@@ -161,7 +181,7 @@ const Test2 = () => {
                   <h4>Doodles</h4>
                 </div>
                 <div className="d-flex justify-content-center">
-                  <p>Total Minted: {`${totalMinted}`}/10000</p>
+                  <p>Total Minted: {`${1}`}/10000</p>
                 </div>
                 <div className="d-flex justify-content-center">
                   <p>owned: {`${ownedNFTs}/10`}</p>
@@ -194,7 +214,7 @@ const Test2 = () => {
                   <h4>CloneX</h4>
                 </div>
                 <div className="d-flex justify-content-center">
-                  <p>Total Minted: {`${totalMinted}`}/10000</p>
+                  <p>Total Minted: {`${1}`}/10000</p>
                 </div>
                 <div className="d-flex justify-content-center">
                   <p>owned: {`${ownedNFTs}/10`}</p>

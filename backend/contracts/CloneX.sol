@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: MIT
+// This is just a test NFT collections that helps decentralized Finance, NFT Finance, Social Finance and others kind Dapps building on testnet.
 // Github: https://github.com/Astr0-G/Test-NFT-Collection/tree/main
 
 pragma solidity ^0.8.14;
@@ -15,23 +16,22 @@ import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
-contract Doodles is ERC721, Ownable {
+contract clonex is ERC721, Ownable {
     using Strings for uint256;
     using Counters for Counters.Counter;
 
     Counters.Counter private supply;
 
-    string public uriPrefix =
-        "ipfs://QmPMc4tcBsMqLRuCQtPmPe84bpSjrC3Ky7t3JWuHXYB4aS/";
+    string public uriPrefix = "https://clonex-assets.rtfkt.com/";
     string public uriSuffix = "";
 
     uint256 public mintCost = 0.1 ether;
-    uint256 public maxSupply = 10000;
+    uint256 public maxSupply = 19442;
     uint256 public maxMintAmountPerTx = 2;
-    uint256 mintLimit = 10;
+    uint256 mintLimit = 500;
     mapping(address => uint256) public mintCount;
 
-    constructor() ERC721("Doodles", "DOODLE") {}
+    constructor() ERC721("CloneX", "CloneX") {}
 
     modifier mintRequire(uint256 _mintAmount) {
         require(
@@ -115,8 +115,8 @@ contract Doodles is ERC721, Ownable {
 
     function _mintLoop(address _receiver, uint256 _mintAmount) internal {
         for (uint256 i = 0; i < _mintAmount; i++) {
-            _safeMint(_receiver, supply.current());
             supply.increment();
+            _safeMint(_receiver, supply.current());
         }
     }
 

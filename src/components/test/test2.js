@@ -1,15 +1,52 @@
 import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import BoredApeYachtClub from '../contracts/BoredApeYachtClub.json';
+import Doodles from '../contracts/Doodles.json';
 import { useAccount } from 'wagmi';
 import { erc721mumbai } from './erc721mumbai';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Test2 = () => {
   const [mintAmount, setMintAmount] = useState(1);
+  const [totalMinted, setTotalMinted] = useState(1);
+  const [ownedNFTs, setOwnedNFTs] = useState(0);
   const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const { account } = useAccount();
+  const { account, address } = useAccount();
+
+  useEffect(() => {
+    const fetchNftData = async () => {
+      const networkId = await provider.getNetwork().then((network) => network.chainId);
+        const contractBoredApe = new ethers.Contract(
+          BoredApeYachtClub.networks[networkId].address,
+          BoredApeYachtClub.abi,
+          provider.getSigner(account)
+        );
+
+        const contractDoodles = new ethers.Contract(
+          Doodles.networks[networkId].address,
+          Doodles.abi,
+          provider.getSigner(account)
+        );
+
+        try {
+          const totalMintedNftsBoredApe = await contractBoredApe.totalSupply();
+          const totalMintedNftsDoodles = await contractDoodles.totalSupply();
+
+          const ownedNFTs = await contractBoredApe.mintCount(address)
+          setOwnedNFTs(ownedNFTs, '1');
+          console.log(ownedNFTs, '2');
+        } catch (error) {
+          console.log(error)
+        }
+
+      }
+      fetchNftData();
+  },[provider, account, address])
 
   const handleMinting = async () => {
+    toast.loading('Minting your NFT', {
+      duration: 2500
+    })
     const networkId = await provider.getNetwork().then((network) => network.chainId);
         const contract = new ethers.Contract(
           BoredApeYachtClub.networks[networkId].address,
@@ -18,14 +55,55 @@ const Test2 = () => {
         );
 
         try {
-          const totalMintedNfts = await contract.getmintCount();
-          const totalMinted = totalMintedNfts._hex;
-
           const tx = await contract.mint(1,{
             value: ethers.utils.parseEther('0.1')
           });
           console.log(tx);
-          console.log(totalMinted, '1')
+          toast.success('Minted Successfully.')
+        } catch (error) {
+          console.log(error);
+        }
+  }
+
+  const handleMintingDoodles = async () => {
+    toast.loading('Minting your NFT', {
+      duration: 2500
+    })
+    const networkId = await provider.getNetwork().then((network) => network.chainId);
+        const contract = new ethers.Contract(
+          Doodles.networks[networkId].address,
+          Doodles.abi,
+          provider.getSigner(account)
+        );
+
+        try {
+          const tx = await contract.mint(1,{
+            value: ethers.utils.parseEther('0.1')
+          });
+          console.log(tx);
+          toast.success('Minted Successfully.')
+        } catch (error) {
+          console.log(error);
+        }
+  }
+
+  const handleMintingCloneX = async () => {
+    toast.loading('Minting your NFT', {
+      duration: 2500
+    })
+    const networkId = await provider.getNetwork().then((network) => network.chainId);
+        const contract = new ethers.Contract(
+          BoredApeYachtClub.networks[networkId].address,
+          BoredApeYachtClub.abi,
+          provider.getSigner(account)
+        );
+
+        try {
+          const tx = await contract.mint(1,{
+            value: ethers.utils.parseEther('0.1')
+          });
+          console.log(tx);
+          toast.success('Minted Successfully.')
         } catch (error) {
           console.log(error);
         }
@@ -50,26 +128,98 @@ const Test2 = () => {
                   <h4>BoredApeNFT</h4>
                 </div>
                 <div className="d-flex justify-content-center">
-                  <p>Volume: 1000</p>
+                  <p>Total Minted: {`${totalMinted}`}/10000</p>
                 </div>
                 <div className="d-flex justify-content-center">
-                  <input type="number" min="1" max="2" value={mintAmount} onChange={(e) => setMintAmount(e.target.value)} />
+                  <p>owned: {`${ownedNFTs}/10`}</p>
                 </div>
-                <div className="card-body d-flex justify-content-center" onClick={handleMinting}>
-                  <div className="btn btn-bordered-white btn-larger mt-3">
-                    Mint
+                <div className="form-group">
+                    <input
+                      type="number"
+                      min="1"
+                      max="2"
+                      required="required"
+                      value={mintAmount}
+                      onChange={(e) => setMintAmount(e.target.value)}
+                    />
                   </div>
+                <div className="card-body d-flex justify-content-center">
+                  <button className="btn btn-bordered-white btn-larger mt-3" onClick={handleMinting}>
+                    Mint
+                  </button>
                 </div>
               </div>
             </div>
-            <div className="card">
-              <div className="image-over">
-                <img className="card-img-top" alt="" />
+
+
+            <div className="col-12 col-sm-6 col-lg-3 item">
+              <div className="card no-hover" style={{ background: '#191919', boxShadow: '#fff' }}>
+                <div className="image-over">
+                  <img className="card-img-top" src={`${erc721mumbai[3].pic}`} alt="" />
+                </div>
+                <div className="nft-name-container">
+                  <h4>Doodles</h4>
+                </div>
+                <div className="d-flex justify-content-center">
+                  <p>Total Minted: {`${totalMinted}`}/10000</p>
+                </div>
+                <div className="d-flex justify-content-center">
+                  <p>owned: {`${ownedNFTs}/10`}</p>
+                </div>
+                <div className="form-group">
+                    <input
+                      type="number"
+                      min="1"
+                      max="2"
+                      required="required"
+                      value={mintAmount}
+                      onChange={(e) => setMintAmount(e.target.value)}
+                    />
+                  </div>
+                <div className="card-body d-flex justify-content-center">
+                  <button className="btn btn-bordered-white btn-larger mt-3" onClick={handleMintingDoodles}>
+                    Mint
+                  </button>
+                </div>
+              </div>
+            </div>
+
+
+            <div className="col-12 col-sm-6 col-lg-3 item">
+              <div className="card no-hover" style={{ background: '#191919', boxShadow: '#fff' }}>
+                <div className="image-over">
+                  <img className="card-img-top" src={`${erc721mumbai[2].pic}`} alt="" />
+                </div>
+                <div className="nft-name-container">
+                  <h4>CloneX</h4>
+                </div>
+                <div className="d-flex justify-content-center">
+                  <p>Total Minted: {`${totalMinted}`}/10000</p>
+                </div>
+                <div className="d-flex justify-content-center">
+                  <p>owned: {`${ownedNFTs}/10`}</p>
+                </div>
+                <div className="form-group">
+                    <input
+                      type="number"
+                      min="1"
+                      max="2"
+                      required="required"
+                      value={mintAmount}
+                      onChange={(e) => setMintAmount(e.target.value)}
+                    />
+                  </div>
+                <div className="card-body d-flex justify-content-center">
+                  <button className="btn btn-bordered-white btn-larger mt-3" onClick={handleMintingCloneX}>
+                    Mint
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <Toaster position="bottom-right" reverseOrder={true} toastOptions={{ className: '', duration: 5000, style: { background: '#363636', color: '#fff' } }} />
     </section>
   );
 };

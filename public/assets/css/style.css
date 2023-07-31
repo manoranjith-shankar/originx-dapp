@@ -1572,6 +1572,11 @@ header .navbar-expand .dropdown:hover > .dropdown-menu {
   -webkit-text-fill-color: transparent;
 }
 
+.p-override {
+  margin-top: 10px  !important;
+  margin-bottom: 10px  !important;
+}
+
 /* #endregion Header */
 /*----------------------------------------------
 8. Feature

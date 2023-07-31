@@ -61,7 +61,6 @@ const Test2 = () => {
         } catch (error) {
           console.log(error)
         }
-
       }
       fetchNftData();
   },[provider, account, address])
@@ -171,13 +170,13 @@ const Test2 = () => {
                   <img className="card-img-top" src={`${erc721mumbai[1].pic}`} alt="" />
                 </div>
                 <div className="nft-name-container">
-                  <h4>BoredApeNFT</h4>
+                  <h4>BoredApe NFT</h4>
                 </div>
                 <div className="d-flex justify-content-center">
                   <p>Total Minted: {`${nftsMinted[0]}`}/10000</p>
                 </div>
                 <div className="d-flex justify-content-center">
-                  <p>owned: {`${ownedNFTs[0]}/10`}</p>
+                  <p className='p-override'>owned: {`${ownedNFTs[0]}/10`}</p>
                 </div>
                 <div className="form-group">
                     <input
@@ -189,14 +188,13 @@ const Test2 = () => {
                       onChange={(e) => setMintAmount(e.target.value)}
                     />
                   </div>
-                <div className="card-body d-flex justify-content-center">
+                <div className="card-body d-flex justify-content-center" style={{padding:'12px'}}>
                   <button className="btn btn-bordered-white btn-larger mt-3" onClick={handleMinting}>
                     Mint
                   </button>
                 </div>
               </div>
             </div>
-
 
             <div className="col-12 col-sm-6 col-lg-3 item">
               <div className="card no-hover" style={{ background: '#191919', boxShadow: '#fff' }}>
@@ -210,7 +208,7 @@ const Test2 = () => {
                   <p>Total Minted: {`${nftsMinted[1]}`}/10000</p>
                 </div>
                 <div className="d-flex justify-content-center">
-                  <p>owned: {`${ownedNFTs[1]}/10`}</p>
+                  <p className='p-override'>owned: {`${ownedNFTs[1]}/10`}</p>
                 </div>
                 <div className="form-group">
                     <input
@@ -222,7 +220,7 @@ const Test2 = () => {
                       onChange={(e) => setMintAmount(e.target.value)}
                     />
                   </div>
-                <div className="card-body d-flex justify-content-center">
+                <div className="card-body d-flex justify-content-center"  style={{padding:'12px'}}>
                   <button className="btn btn-bordered-white btn-larger mt-3" onClick={handleMintingDoodles}>
                     Mint
                   </button>
@@ -230,20 +228,19 @@ const Test2 = () => {
               </div>
             </div>
 
-
             <div className="col-12 col-sm-6 col-lg-3 item">
               <div className="card no-hover" style={{ background: '#191919', boxShadow: '#fff' }}>
                 <div className="image-over">
                   <img className="card-img-top" src={`${erc721mumbai[5].pic}`} alt="" />
                 </div>
                 <div className="nft-name-container">
-                  <h4>InvisibleFriends</h4>
+                  <h4>Invisible Friends</h4>
                 </div>
                 <div className="d-flex justify-content-center">
                   <p>Total Minted: {`${nftsMinted[2]}`}/10000</p>
                 </div>
                 <div className="d-flex justify-content-center">
-                  <p>owned: {`${ownedNFTs[2]}/10`}</p>
+                  <p className='p-override'>owned: {`${ownedNFTs[2]}/10`}</p>
                 </div>
                 <div className="form-group">
                     <input
@@ -255,7 +252,7 @@ const Test2 = () => {
                       onChange={(e) => setMintAmount(e.target.value)}
                     />
                   </div>
-                <div className="card-body d-flex justify-content-center">
+                <div className="card-body d-flex justify-content-center"  style={{padding:'12px'}}>
                   <button className="btn btn-bordered-white btn-larger mt-3" onClick={handleMintingIF}>
                     Mint
                   </button>
@@ -275,7 +272,7 @@ const Test2 = () => {
                   <p>Total Minted: {`${nftsMinted[3]}`}/10000</p>
                 </div>
                 <div className="d-flex justify-content-center">
-                  <p>owned: {`${ownedNFTs[3]}/10`}</p>
+                  <p className='p-override'>owned: {`${ownedNFTs[3]}/10`}</p>
                 </div>
                 <div className="form-group">
                     <input
@@ -287,7 +284,7 @@ const Test2 = () => {
                       onChange={(e) => setMintAmount(e.target.value)}
                     />
                   </div>
-                <div className="card-body d-flex justify-content-center">
+                <div className="card-body d-flex justify-content-center" style={{padding:'12px'}}>
                   <button className="btn btn-bordered-white btn-larger mt-3" onClick={handleMintingCloneX}>
                     Mint
                   </button>

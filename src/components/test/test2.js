@@ -7,15 +7,16 @@ import clonex from '../contracts/clonex.json';
 import { useAccount } from 'wagmi';
 import { erc721mumbai } from './erc721mumbai';
 import toast, { Toaster } from 'react-hot-toast';
+import Modal1 from './modal'
 
 const Test2 = () => {
   const [mintAmount, setMintAmount] = useState(1);
   const [nftsMinted, setNftsMinted] = useState([]);
   const [ownedNFTs, setOwnedNFTs] = useState([]);
+  const [mintedImageURI, setMintedImageURI] = useState('');
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const { account, address } = useAccount();
-  console.log(nftsMinted, '0')
-  console.log(ownedNFTs, '1')
+  console.log(mintedImageURI, '0')
 
   useEffect(() => {
     const fetchNftData = async () => {
@@ -80,8 +81,11 @@ const Test2 = () => {
           const tx = await contract.mint(1,{
             value: ethers.utils.parseEther('0.1')
           });
-          console.log(tx);
+
+          const imageURI = await erc721mumbai[0].pic;
+          setMintedImageURI(imageURI);
           toast.success('Minted Successfully.')
+          console.log(tx);
         } catch (error) {
           console.log(error);
         }
@@ -220,7 +224,7 @@ const Test2 = () => {
                       onChange={(e) => setMintAmount(e.target.value)}
                     />
                   </div>
-                <div className="card-body d-flex justify-content-center"  style={{padding:'12px'}}>
+                <div className="card-body d-flex justify-content-center" style={{padding:'12px'}}>
                   <button className="btn btn-bordered-white btn-larger mt-3" onClick={handleMintingDoodles}>
                     Mint
                   </button>
@@ -293,6 +297,7 @@ const Test2 = () => {
             </div>
 
 
+            {mintedImageURI && <Modal1 imageURI={mintedImageURI} />}
           </div>
         </div>
       </div>

@@ -185,6 +185,7 @@ const Test2 = () => {
                 <div className="form-group">
                     <input
                       type="number"
+                      className="form-control-overide"
                       min="1"
                       max="2"
                       required="required"
@@ -217,6 +218,7 @@ const Test2 = () => {
                 <div className="form-group">
                     <input
                       type="number"
+                      className='form-control-overide'
                       min="1"
                       max="2"
                       required="required"
@@ -249,6 +251,7 @@ const Test2 = () => {
                 <div className="form-group">
                     <input
                       type="number"
+                      className='form-control-overide'
                       min="1"
                       max="2"
                       required="required"
@@ -281,6 +284,7 @@ const Test2 = () => {
                 <div className="form-group">
                     <input
                       type="number"
+                      className='form-control-overide'
                       min="1"
                       max="2"
                       required="required"

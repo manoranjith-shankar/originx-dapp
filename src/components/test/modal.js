@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 const Modal1 = ({ imageURI }) => {
@@ -7,8 +6,6 @@ const Modal1 = ({ imageURI }) => {
 
   return (
     <>
-      {/* Remove the Button component here */}
-
       <Modal
         show={show}
         onHide={() => setShow(false)}

@@ -2958,6 +2958,41 @@ header .navbar-expand .dropdown:hover > .dropdown-menu {
           box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
+.form-control-overide {
+  border-radius: 100px;
+  background-color: transparent;
+  border: 2px solid;
+  border-radius: 4px;
+  height: 40px;
+  padding: 1.5rem;
+  margin-top: 12px;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  outline: none;
+}
+
+.btn.btn-bordered-white-overide {
+  background: transparent none repeat scroll 0 0;
+  border: 2px solid #fff;
+  border-radius: 10px;
+}
+
+.btn.btn-bordered-white-overide::after {
+  position: absolute;
+  content: "";
+  border-radius: 10px;
+  height: calc(100% + 4px);
+  width: calc(100% + 4px);
+  background-image: linear-gradient(135deg, var(--primary-color) 10%, var(--secondary-color));
+  top: -2px;
+  left: -2px;
+  border-radius: 100px;
+  opacity: 0;
+  -webkit-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  z-index: -1;
+}
+
 /* #endregion Miscellaneous */
 /*----------------------------------------------
 12. Blog

@@ -5,11 +5,11 @@ import Doodles from '../contracts/Doodles.json';
 import InvisibleFriends from '../contracts/InvisibleFriends.json';
 import clonex from '../contracts/clonex.json';
 import { useAccount } from 'wagmi';
-import { erc721mumbai } from './erc721mumbai';
+import { erc721mumbai } from '../test/erc721mumbai';
 import toast, { Toaster } from 'react-hot-toast';
 import Modal1 from './modal'
 
-const Test2 = () => {
+const MintTestNFT = () => {
   const [mintAmount, setMintAmount] = useState(1);
   const [nftsMinted, setNftsMinted] = useState([]);
   const [ownedNFTs, setOwnedNFTs] = useState([]);
@@ -300,7 +300,6 @@ const Test2 = () => {
               </div>
             </div>
 
-
             {mintedImageURI && <Modal1 imageURI={mintedImageURI} />}
           </div>
         </div>
@@ -310,4 +309,4 @@ const Test2 = () => {
   );
 };
 
-export default Test2;
+export default MintTestNFT;

@@ -119,7 +119,7 @@ class Footer extends Component {
                                 {/* Copyright Area */}
                                 <div className="copyright-area d-flex flex-wrap justify-content-center justify-content-sm-between text-center py-4">
                                     {/* Copyright Left */}
-                                    <div className="copyright-left"><Link to="https://originx-docs.gitbook.io/product-docs/" target= "_blank" >v.1.00.0</Link></div>
+                                    <div className="copyright-left"><Link to="https://originx-docs.0xc0d3rs.tech/versions-and-contact" target= "_blank" >v1. MVP</Link></div>
                                     {/* Copyright Right */}
                                     <div className="copyright-right"><Link to="https://0xc0d3rs.tech" target= "_blank" style={gradientStyle} >Team 0xc0d3rs</Link></div>
                                 </div>

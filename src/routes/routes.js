@@ -13,12 +13,8 @@ import ComingSoonTheme from "../themes/ComingSoonTheme";
 import Login from "../themes/LoginMain";
 import OopsComponent from "../components/Misc/OopsComponent";
 import NFTMetadata from "../components/test/test";
-import CreateRaffleBox from "../components/Misc/CreateRaffleBox";
 import NFTSelectTheme from "../themes/NFTSelectTheme";
-import MintNFT from "../components/test/MintNFT";
-import Test2 from "../components/test/test2";
-import Modal from "../components/test/modal";
-import Modal1 from "../components/test/modal";
+import MintTestNFTTheme from "../themes/MintTestNFTTheme";
 
 class MyRouts extends React.Component {
   render() {
@@ -35,12 +31,10 @@ class MyRouts extends React.Component {
             <Route path="/calculate" element={<CalculateTheme />} />
             <Route path="/approve" element={<ApproveTheme />} />
             <Route path="/nftselect" element={<NFTSelectTheme /> }/>
+            <Route path="/mint-test-nft" element={<MintTestNFTTheme /> }/>
             <Route path="/404" element={<ComingSoonTheme />} />
             <Route path="/405" element={<OopsComponent />} />
             <Route path="/test" element={<NFTMetadata />} />
-            <Route path="/test1" element={<MintNFT />} />
-            <Route path="/test2" element={<Test2 />} />
-            <Route path="/test3" element={<Modal1 />} />
           </Routes>
         </Router>
       </div>

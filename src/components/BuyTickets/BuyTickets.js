@@ -203,7 +203,13 @@ const BuyTickets = () => {
                   <div className="card no-hover">
                     <h4 className="mt-0 mb-2">Total Tickets Wanted</h4>
                     <div className="price d-flex justify-content-between align-items-center">
-                      <input type="number" min="1" max={raffleData.availableTickets} value={totalTicketsWanted} onChange={handleTotalTicketsChange} />
+                      <input 
+                      type="number" 
+                      className='form-control-overide'
+                      min="1" 
+                      max={raffleData.availableTickets} 
+                      value={totalTicketsWanted} 
+                      onChange={handleTotalTicketsChange} />
                     </div>
                   </div>
                 </div>

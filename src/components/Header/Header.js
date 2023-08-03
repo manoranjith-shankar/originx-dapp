@@ -46,7 +46,7 @@ const Header = () => {
                         </li>
                         <li className="nav-item">
                             <Link to="https://originx-docs.0xc0d3rs.tech/" target={"_blank"} className="nav-link">Docs</Link>
-                            <Link to="https://www.testnetmint.com/" target={"_blank"} className="nav-link">Mint NFT</Link>
+                            <Link to="/mint-test-nft" target={"_blank"} className="nav-link">Mint NFT</Link>
                         </li>
                     </ul>
                     {/* Navbar Toggler */}

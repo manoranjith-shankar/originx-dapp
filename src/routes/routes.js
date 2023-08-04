@@ -15,6 +15,8 @@ import OopsComponent from "../components/Misc/OopsComponent";
 import NFTMetadata from "../components/test/test";
 import NFTSelectTheme from "../themes/NFTSelectTheme";
 import MintTestNFTTheme from "../themes/MintTestNFTTheme";
+import BuyTest from "../components/test/buy-imp-test";
+import MultiSelectComp from "../components/Create/MultiSelect";
 
 class MyRouts extends React.Component {
   render() {
@@ -34,7 +36,8 @@ class MyRouts extends React.Component {
             <Route path="/mint-test-nft" element={<MintTestNFTTheme /> }/>
             <Route path="/404" element={<ComingSoonTheme />} />
             <Route path="/405" element={<OopsComponent />} />
-            <Route path="/test" element={<NFTMetadata />} />
+            <Route path="/test" element={<BuyTest />} />
+            <Route path="/test1" element={<MultiSelectComp />} />
           </Routes>
         </Router>
       </div>

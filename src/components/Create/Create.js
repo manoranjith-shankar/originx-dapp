@@ -8,6 +8,7 @@ import DropdownList from './DropDownList';
 import DatePickerComponent from './DatePickerComponent';
 import { useNetwork } from 'wagmi'
 import { useParams, useNavigate } from 'react-router-dom';
+import MultiSelectComp from './MultiSelect';
 
 const Create = () => {
 
@@ -144,7 +145,8 @@ const Create = () => {
                       <textarea className="form-control"
                         name="description"
                         maxLength={"120"}
-                        placeholder="Raffle Description" cols={30} rows={3} defaultValue={""}
+                        placeholder="tell us something about this raffle, the purpose, cause etc." 
+                        cols={30} rows={3} defaultValue={""}
                         required="required"
                         style={{borderRadius:'7px'}}
                         value={description}
@@ -203,7 +205,10 @@ const Create = () => {
                     />
                   </div>
                 </div>
-                <div className="col-12">
+                <div className='col-12'>
+                      <MultiSelectComp />
+                </div>
+                {/* <div className="col-12">
                   <div className="form-group">
                     <input
                       type="text"
@@ -228,7 +233,7 @@ const Create = () => {
                       readOnly
                     />
                   </div>
-                </div>
+                </div> */}
                 <div className="col-12">
                   <div className="dropdown-wrapper">
                     <DropdownList
@@ -238,7 +243,7 @@ const Create = () => {
                 </div>
                 {/* Add Fractional NFT option */}
                 <div className="col-12">
-                  <button className={`btn w-100 mt-3 mt-sm-4`} type="submit">
+                  <button className={`btn btn-indexed w-100 mt-3 mt-sm-4`} type="submit">
                     Create Raffle
                   </button>
                   <Toaster

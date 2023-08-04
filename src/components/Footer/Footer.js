@@ -121,7 +121,7 @@ class Footer extends Component {
                                     {/* Copyright Left */}
                                     <div className="copyright-left"><Link to="https://originx-docs.0xc0d3rs.tech/versions-and-contact" target= "_blank" >v1. MVP</Link></div>
                                     {/* Copyright Right */}
-                                    <div className="copyright-right"><Link to="https://0xc0d3rs.tech" target= "_blank" style={gradientStyle} >Team 0xc0d3rs</Link></div>
+                                    <div className="copyright-right"><Link to="https://0xc0d3rs.tech" target= "_blank" style={gradientStyle} >Manoranjith Shankar</Link></div>
                                 </div>
                             </div>
                         </div>

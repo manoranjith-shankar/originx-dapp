@@ -95,9 +95,9 @@ const OpenRaffles = () => {
             <div key={`edt_${idx}`} className="col-12 col-sm-6 col-lg-3 item">
               <div className="card">
                 <div className="image-over">
-                  <a href="/">
+                  <Link to={`/buytickets/${idx + 1}`}>
                     <img className="card-img-top" src={item.img} alt="" />
-                  </a>
+                  </Link>
                 </div>
                 {/* Card Caption */}
                 <div className="card-caption col-12 p-0">

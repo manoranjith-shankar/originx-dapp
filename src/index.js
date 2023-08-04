@@ -66,7 +66,7 @@ export const linea = {
     }
 
 const { chains, provider } = configureChains(
-  [mainnet,linea, polygon, polygonMumbai, testnet],
+  [ polygonMumbai, testnet],
   [
     alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
     publicProvider()

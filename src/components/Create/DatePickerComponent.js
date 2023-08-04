@@ -23,7 +23,7 @@ const DatePickerComponent = ({ onDateSelect }) => {
         onChange={handleDateChange}
         minDate={tomorrow}
         dateFormat="dd/MM/yyyy"
-        placeholderText="End date"
+        placeholderText="Raffle End date"
       />
     </div>
   );

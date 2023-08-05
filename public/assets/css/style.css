@@ -2721,9 +2721,20 @@ header .navbar-expand .dropdown:hover > .dropdown-menu {
 .custom-input-select {
   background-color: #09080D;
   border: none;
+  height: auto;
   padding: 10px;
+  min-height: 46px;
+  min-width: 563.65px;
   border-radius: 7px;
   margin-bottom: 10px;
+}
+
+.custom-select-root {
+  min-width: fit-content;
+}
+
+.custom-input-select:focus {
+  background-color: #09080D;
 }
 
 /* #endregion Feature */

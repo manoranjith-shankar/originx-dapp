@@ -17,8 +17,9 @@ export default function MultiSelectComp() {
   };
 
   return (
-    <MantineProvider theme={{ fontFamily: 'Poppins' }}>
+    <MantineProvider theme={{ fontFamily: 'Poppins', colorScheme: 'dark' }}>
       <MultiSelect
+      size='md'
       value = { value }
       onChange={setValue}
         data={[

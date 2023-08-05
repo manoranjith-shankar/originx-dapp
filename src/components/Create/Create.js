@@ -237,7 +237,7 @@ const Create = () => {
                       onSelect={(newValue) => setCharityAddress(newValue)}
                     />
                 </div>
-                <div className='col-12'>
+                <div className='col-12' style={{minWidth: '200px'}}>
                       <MultiSelectComp />
                 </div>
                 {/* Add Fractional NFT option */}

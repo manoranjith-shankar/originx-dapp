@@ -1,6 +1,7 @@
-import { Select } from '@mantine/core';
+import { Select, MantineProvider } from '@mantine/core';
 
 const customStyles = {
+    root: 'custom-select-root',
     dropdown: 'custom-dropdown',
     item: 'custom-item',
     input: 'custom-input-select',
@@ -13,7 +14,9 @@ const customStyles = {
 export default function SelectComp({ onSelect }) {
 
   return (
+    <MantineProvider theme={{ fontFamily: 'Poppins', colorScheme: 'dark' }} >
     <Select
+      size='md'
       maw={320}
       mx="auto"
       placeholder="Pick a Charity"
@@ -44,5 +47,6 @@ export default function SelectComp({ onSelect }) {
       onChange={(newValue) => onSelect(newValue)}
       classNames={customStyles}
     />
+    </MantineProvider>
   );
 }

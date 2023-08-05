@@ -4,7 +4,8 @@ import { ethers } from 'ethers';
 import mainNftRaffle from '../contracts/mainNftRaffle.json';
 import toast, { Toaster } from 'react-hot-toast';
 import "react-widgets/styles.css";
-import DropdownList from './DropDownList';
+import DropdownList from '../Misc/DropDownList';
+import SelectComp from './SelectComp';
 import DatePickerComponent from './DatePickerComponent';
 import { useNetwork } from 'wagmi'
 import { useParams, useNavigate } from 'react-router-dom';
@@ -205,9 +206,6 @@ const Create = () => {
                     />
                   </div>
                 </div>
-                <div className='col-12'>
-                      <MultiSelectComp />
-                </div>
                 {/* <div className="col-12">
                   <div className="form-group">
                     <input
@@ -235,11 +233,12 @@ const Create = () => {
                   </div>
                 </div> */}
                 <div className="col-12">
-                  <div className="dropdown-wrapper">
-                    <DropdownList
-                      onChange={(value) => setCharityAddress(value)}
+                    <SelectComp
+                      onSelect={(newValue) => setCharityAddress(newValue)}
                     />
-                  </div>
+                </div>
+                <div className='col-12'>
+                      <MultiSelectComp />
                 </div>
                 {/* Add Fractional NFT option */}
                 <div className="col-12">

@@ -1,50 +1,42 @@
-import { MultiSelect, createStyles, MantineProvider } from '@mantine/core';
+import { MultiSelect, MantineProvider } from '@mantine/core';
 import { useState } from 'react';
 
-
-const darkTheme = createStyles((theme, customTheme) => ({
-  wrapper: {
-    backgroundColor: theme.backgroundColor('#09080d'),
-    color: theme.colorScheme.darkText,
-  },
-  dropdown: {
-    backgroundColor: theme.colorScheme.dark,
-    borderColor: theme.colorScheme.darkAccent,
-  },
-  item: {
-    borderBottom: `1px solid ${theme.colorScheme.darkAccent}`,
-  },
-  values: {
-    backgroundColor: theme.colorScheme.dark,
-  },
-  value: {
-    backgroundColor: theme.colorScheme.darkAccent,
-  },
-  searchInput: {
-    backgroundColor: theme.colorScheme.darkAccent,
-    color: theme.colorScheme.darkText,
-  },
-  nothingFound: {
-    color: theme.colorScheme.darkText,
-  },
-}));
-
-// Rest of your component code
 export default function MultiSelectComp() {
   const [searchValue, onSearchChange] = useState('');
+  const [ value, setValue ] = useState([]);
+
+  // Custom styles object
+  const customStyles = {
+    dropdown: 'custom-dropdown',
+    item: 'custom-item',
+    input: 'custom-input',
+    value: 'custom-value',
+    values: 'custom-values',
+    searchInput: 'custom-searchInput',
+    itemsWrapper: 'custom-items-wrapper',
+  };
 
   return (
-      <MantineProvider theme={{ fontFamily: 'Poppins', colorScheme: 'dark', style: {darkTheme} }}>
-        <MultiSelect
-          data={['No Poverty', 'Zero Hunger', 'Quality Education', 'Clean Water & Sanitization', 'Reduce Inequalities', 'Climate Action', 'Life Below Water']}
-          placeholder="Select UN Sdgs"
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          sx={{
-            borderRadius: '100px'
-          }}
-        />
-      </MantineProvider>
+    <MantineProvider theme={{ fontFamily: 'Poppins' }}>
+      <MultiSelect
+      value = { value }
+      onChange={setValue}
+        data={[
+          {value: '1', label: 'No Poverty'},
+          {value: '2', label: 'Zero Hunger'},
+          {value: '3', label: 'Quality Education'},
+          {value: '4', label: 'Clean Water & Sanitization'},
+          {value: '5', label: 'Reduce Inequalities'},
+          {value: '6', label: 'Climate Action'},
+          {value: '7', label: 'Life Below Water'},
+        ]}
+        placeholder="Select UN Sdgs"
+        searchValue={searchValue}
+        onSearchChange={onSearchChange}
+        max='3'
+        nothingFound="Nothing found"
+        classNames={customStyles} // Pass the custom styles object to the classNames prop
+      />
+    </MantineProvider>
   );
 }

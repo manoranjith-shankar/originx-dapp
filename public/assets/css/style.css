@@ -2708,6 +2708,22 @@ header .navbar-expand .dropdown:hover > .dropdown-menu {
 
 .connect-btn {
   justify-content: center;
+} 
+
+.custom-input {
+  background-color: #09080D;
+  border: none;
+  padding: 10px;
+  border-radius: 7px;
+  margin-bottom: 10px;
+}
+
+.custom-input-select {
+  background-color: #09080D;
+  border: none;
+  padding: 10px;
+  border-radius: 7px;
+  margin-bottom: 10px;
 }
 
 /* #endregion Feature */

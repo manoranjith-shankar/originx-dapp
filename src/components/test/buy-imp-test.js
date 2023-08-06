@@ -52,12 +52,15 @@ const BuyTest = () => {
           img: raffleInfo.nftSourceLink,
           description: raffleInfo.description,
           title: raffleInfo.raffleName,
+          creator: raffleInfo.raffleCreator,
           owner: owner,
           price: price,
+          goals: raffleInfo.goals,
           unparsedPrice: raffleInfo.ticketPrice,
           availableTickets: availableTickets,
           volumeOfTickets: raffleInfo.totalVolumeofTickets - 0,
           totalTicketsWanted: totalTicketsWanted,
+          charityAddress: raffleInfo.charityAddress,
           raffleStatus: raffleStatus
         };
 
@@ -67,7 +70,7 @@ const BuyTest = () => {
         }
 
         setRaffleData(raffleData);
-        console.log(raffleData.date);
+        console.log(raffleData);
         console.log(endDate);
       } catch (error) {
         console.log('Error:', error);
@@ -156,19 +159,22 @@ const BuyTest = () => {
               <p>{raffleData.description}</p>
               <div className="owner d-flex align-items-center">
                 <span>Created By</span>
-                <Link className="owner-meta d-flex align-items-center ml-3" to="/">
+                <Link className="owner-meta d-flex align-items-center ml-3" to={`https://mumbai.polygonscan.com/address/${raffleData.creator}`} target='_blank'>
                   <h6 className="ml-2">{raffleData.owner}</h6>
                 </Link>
               </div>
             <div className="col-12 item px-lg-2">
               <div className="card no-hover">
-                  <h4 className="mt-0 mb-2">Charity Info</h4>
+                  <h4 className="mt-0 mb-2">Raffle Info</h4>
                   <div className="price d-flex justify-content-between align-items-center">
                   <div className="row items">
                     <div className='p-override'>
-                        <p>test</p>
-                        <p>test</p>
-                        <p>test</p>
+                        <p>UN Goals: {raffleData.goals[0]}, {raffleData.goals[1]}, {raffleData.goals[2]}, {raffleData.goals[3]}, {raffleData.goals[4]}, {raffleData.goals[5]} </p>
+                        <span>Charity:  </span>
+                        <Link className="owner-meta" to={`https://mumbai.polygonscan.com/address/${raffleData.charityAddress}`} target='_blank'>
+                          {raffleData.charityAddress}
+                        </Link>
+                        <p>Raffle Status: Live </p>
                     </div>
                       {/* <div className="card no-hover">
                         <div className="single-seller d-flex align-items-center">

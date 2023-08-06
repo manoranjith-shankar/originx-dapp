@@ -1,9 +1,9 @@
 import { MultiSelect, MantineProvider } from '@mantine/core';
 import { useState } from 'react';
 
-export default function MultiSelectComp() {
+export default function MultiSelectComp({ onSelectedValuesChange }) {
   const [searchValue, onSearchChange] = useState('');
-  const [ value, setValue ] = useState([]);
+  const [value, setValue] = useState([]);
 
   // Custom styles object
   const customStyles = {
@@ -16,27 +16,34 @@ export default function MultiSelectComp() {
     itemsWrapper: 'custom-items-wrapper',
   };
 
+  const handleValueChange = (newValue1) => {
+    if (newValue1.length <= 5) {
+      setValue(newValue1);
+      onSelectedValuesChange(newValue1);
+    }
+  };
+
   return (
     <MantineProvider theme={{ fontFamily: 'Poppins', colorScheme: 'dark' }}>
       <MultiSelect
-      size='md'
-      value = { value }
-      onChange={setValue}
+        size='md'
+        value={value}
+        onChange={handleValueChange}
         data={[
-          {value: '1', label: 'No Poverty'},
-          {value: '2', label: 'Zero Hunger'},
-          {value: '3', label: 'Quality Education'},
-          {value: '4', label: 'Clean Water & Sanitization'},
-          {value: '5', label: 'Reduce Inequalities'},
-          {value: '6', label: 'Climate Action'},
-          {value: '7', label: 'Life Below Water'},
+          { value: 'No Poverty', label: 'No Poverty' },
+          { value: 'Zero Hunger', label: 'Zero Hunger' },
+          { value: 'Quality Education', label: 'Quality Education' },
+          { value: 'Clean Water & Sanitization', label: 'Clean Water & Sanitization' },
+          { value: 'Reduce Inequalities', label: 'Reduce Inequalities' },
+          { value: 'Climate Action', label: 'Climate Action' },
+          { value: 'Life Below Water', label: 'Life Below Water' },
         ]}
         placeholder="Select UN Sdgs"
         searchValue={searchValue}
         onSearchChange={onSearchChange}
         max='3'
         nothingFound="Nothing found"
-        classNames={customStyles} // Pass the custom styles object to the classNames prop
+        classNames={customStyles}
       />
     </MantineProvider>
   );

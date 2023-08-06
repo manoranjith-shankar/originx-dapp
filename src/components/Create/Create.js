@@ -4,7 +4,6 @@ import { ethers } from 'ethers';
 import mainNftRaffle from '../contracts/mainNftRaffle.json';
 import toast, { Toaster } from 'react-hot-toast';
 import "react-widgets/styles.css";
-import DropdownList from '../Misc/DropDownList';
 import SelectComp from './SelectComp';
 import DatePickerComponent from './DatePickerComponent';
 import { useNetwork } from 'wagmi'
@@ -19,13 +18,17 @@ const Create = () => {
   const { address, isConnected, account } = useAccount();
   const [raffleName, setRaffleName] = useState('');
   const [description, setDescription] = useState('');
+  const [nftAddress, setNftAddress] = useState('');
+  const [goals, setGoals] = useState('');
   const [nftPrice, setNftPrice] = useState('');
   const [totalVolumeofTickets, setTotalVolumeofTickets] = useState('');
   const [endTime, setEndTime] = useState('');
   const [charityAddress, setCharityAddress] = useState('');
 
   const provider = new ethers.providers.Web3Provider(window.ethereum);
-  console.log(tokenId, '0');
+
+  console.log(goals, '0');
+  console.log(charityAddress, '0.1');
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -42,7 +45,6 @@ const Create = () => {
   const notify = () => {
     toast.success(`Raffle created successfully`);
   };
-
 
   const notifyError = () => {
     toast.dismiss(notifyLoading);
@@ -82,6 +84,7 @@ const Create = () => {
         endTime,
         tokenId,
         tokenAddress,
+        goals,
         imageSource,
         charityAddress
       );
@@ -145,7 +148,7 @@ const Create = () => {
                   <div className="form-group">
                       <textarea className="form-control"
                         name="description"
-                        maxLength={"120"}
+                        maxLength={"1000"}
                         placeholder="tell us something about this raffle, the purpose, cause etc." 
                         cols={30} rows={3} defaultValue={""}
                         required="required"
@@ -206,7 +209,7 @@ const Create = () => {
                     />
                   </div>
                 </div>
-                {/* <div className="col-12">
+                <div className="col-12">
                   <div className="form-group">
                     <input
                       type="text"
@@ -215,6 +218,7 @@ const Create = () => {
                       placeholder="NFT Contract Address"
                       required="required"
                       value={tokenAddress}
+                      onChange={()=> setNftAddress(tokenAddress) }
                       readOnly
                     />
                   </div>
@@ -231,14 +235,16 @@ const Create = () => {
                       readOnly
                     />
                   </div>
-                </div> */}
+                </div>
                 <div className="col-12">
                     <SelectComp
                       onSelect={(newValue) => setCharityAddress(newValue)}
                     />
                 </div>
                 <div className='col-12' style={{minWidth: '200px'}}>
-                      <MultiSelectComp />
+                      <MultiSelectComp
+                        onSelectedValuesChange={(newValue1) => setGoals(newValue1)}
+                      />
                 </div>
                 {/* Add Fractional NFT option */}
                 <div className="col-12">

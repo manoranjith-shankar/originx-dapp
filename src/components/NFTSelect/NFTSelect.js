@@ -7,6 +7,7 @@ import BoredApeYachtClub from '../contracts/BoredApeYachtClub.json'
 import InvisibleFriends from '../contracts/InvisibleFriends.json'
 import Doodles from '../contracts/Doodles.json'
 import clonex from '../contracts/clonex.json'
+import mainNftRaffle from '../contracts/mainNftRaffle.json';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { useAccount } from 'wagmi';
@@ -29,6 +30,9 @@ const NFTSelect = () => {
     '0x00F219B49160CeA9A00bA8856CC1544db2c92de7': Doodles.abi,
     '0x1F4A47AF4f27dd89D466BBEF4946F1179377Dc11': clonex.abi,
   };
+
+  const contractAddress = mainNftRaffle.networks['80001'].address
+  console.log(contractAddress, '1');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -69,7 +73,7 @@ const NFTSelect = () => {
       const signer = provider.getSigner();
       const contract = new ethers.Contract(tAddress, contractAbi, signer);
   
-      const approvalTx = await contract.setApprovalForAll('0x3B99e6D692298c83E8143c7FC353AF24DbfE7736', true);
+      const approvalTx = await contract.setApprovalForAll(contractAddress, true);
       await approvalTx.wait();
 
       console.log('Approval transaction:', approvalTx.hash);

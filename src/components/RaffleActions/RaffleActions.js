@@ -55,7 +55,6 @@ const RaffleActions = () => {
 
         const rafflesOwnedCountNumber = Number(rafflesOwnedCount._hex);
         setTotalRafflesOwned(rafflesOwnedCountNumber.toString());
-        console.log(rafflesOwnedCountNumber.toString(), '1');
 
         const raffleDetails = [];
         for (let i = 0; i < rafflesOwnedCount; i++) {
@@ -90,7 +89,7 @@ const RaffleActions = () => {
         setRaffleIdsOwned(raffleIdsOwned);  
 
       } catch (error) {
-        console.log('Error:', error);
+        console.log(error, '1');
       }
     };
 
@@ -172,8 +171,6 @@ const RaffleActions = () => {
       <CreateRaffleBox />
     </div>
   )};
-
-  console.log(totalRafflesOwned, '2')
 
   return (
     <section className="explore-area">

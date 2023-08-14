@@ -117,19 +117,30 @@ const RaffleActions = () => {
       var loadingToastId = toast.loading(`Picking winner for RaffleId: ${raffleId}...`)
   
       // Check if raffleWinner is set
-      const raffleInfo = await contract.raffleInfo(raffleIdBigNumber);
-      console.log(raffleInfo);
-      const { winningTicket } = raffleInfo;
-      console.log(raffleId._hex[3].toString())
-      console.log(winningTicket, '1')
+      // const raffleInfo = await contract.raffleInfo(raffleIdBigNumber);
+      // console.log(raffleInfo);
+      // const { winningTicket } = raffleInfo;
+      // console.log(raffleId._hex[3].toString())
       
       // Call the pickWinner function in the contract
-      const transaction = await contract.pickWinner(raffleIdBigNumber);
-      await transaction.wait();
-      toast.dismiss(loadingToastId);
-      
+      const transactionrequest = await contract.requestRandomTicket(raffleIdBigNumber);
+      console.log(transactionrequest, '1');
+      const transactionStatus = await contract.getRequestStatus(transactionrequest);
+
+      // if( transactionStatus[0] === false ) {
+      //   const tx = await contract.pickRandomTicket(transactionrequest, raffleIdBigNumber);
+      //   tx.wait();
+      //   console.log(tx);
+      //   }
+      //   else {
+      //     console.log("Waiting for fulfillment...");
+      //     setTimeout(async () => {
+      //       await contract.getRequestStatus(transactionrequest);
+      //     }, 10000);
+      // }
+
+      console.log(transactionStatus);
       toast.success(`Winner picked for raffle ID ${raffleId}`);
-      console.log(winningTicket)
   
     } catch (error) {
       console.log(error);

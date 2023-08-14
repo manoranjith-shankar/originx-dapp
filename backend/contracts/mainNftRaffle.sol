@@ -9,6 +9,7 @@ import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
 import "@chainlink/contracts/src/v0.8/ConfirmedOwner.sol";
 
 contract mainNftRaffle is IERC721Receiver, VRFConsumerBaseV2, ConfirmedOwner {
+
     using SafeMath for uint256;
 
     mapping(uint256 => uint256) public raffleIdToRequestId;
@@ -115,14 +116,11 @@ contract mainNftRaffle is IERC721Receiver, VRFConsumerBaseV2, ConfirmedOwner {
 
     event raffleEnded(uint256 indexed raffleId);
 
-    function requestRandomTicket(
-        uint256 _raffleId
-    ) public returns (uint256 requestId) {
+    function requestRandomTicket(uint256 _raffleId) public returns (uint256 requestId) {
         uint256 totalTicketsSold = raffles[_raffleId].totalSoldTickets;
         require(totalTicketsSold > 0, "No tickets sold yet");
         require(
-            raffles[_raffleId].totalSoldTickets >=
-                (raffles[_raffleId].totalVolumeofTickets * 80) / 100,
+            raffles[_raffleId].totalSoldTickets >= (raffles[_raffleId].totalVolumeofTickets * 80) / 100,
             "Not enough ticket sold"
         );
 
@@ -133,14 +131,14 @@ contract mainNftRaffle is IERC721Receiver, VRFConsumerBaseV2, ConfirmedOwner {
             callbackGasLimit,
             numWords
         );
-
+        
         // Create a new RequestStatus for this requestId and associate it with the raffleId
         s_requests[requestId] = RequestStatus({
             randomWords: new uint256[](0),
             exists: true,
             fulfilled: false
         });
-
+        
         // Map the raffleId to the requestId
         raffleIdToRequestId[_raffleId] = requestId;
 
@@ -148,6 +146,12 @@ contract mainNftRaffle is IERC721Receiver, VRFConsumerBaseV2, ConfirmedOwner {
         lastRequestId = requestId;
         emit RequestSent(requestId, numWords);
         return requestId;
+    }
+
+    function getRequestForRaffle(uint256 _raffleId) public view returns (uint256 requestId) {
+    requestId = raffleIdToRequestId[_raffleId];
+    require(requestId != 0, "No request for this id");
+    return requestId;
     }
 
     function fulfillRandomWords(
@@ -160,14 +164,10 @@ contract mainNftRaffle is IERC721Receiver, VRFConsumerBaseV2, ConfirmedOwner {
         emit RequestFulfilled(_requestId, _randomWords);
     }
 
-    function pickRandomTicket(
-        uint256 _raffleId,
-        uint256 requestId
-    ) private view returns (uint256) {
+    function pickRandomTicket(uint256 _raffleId, uint256 requestId) private view returns(uint256) {
         require(s_requests[requestId].fulfilled, "Request not fulfilled yet");
         uint256 randomValue = s_requests[requestId].randomWords[0];
-        uint256 randomNumber = randomValue %
-            raffles[_raffleId].totalSoldTickets;
+        uint256 randomNumber = randomValue % raffles[_raffleId].totalSoldTickets;
         uint256 winningTicket = randomNumber + 1; // Adding 1 to convert 0-based index to 1-based ticket numbers
         return winningTicket;
     }
@@ -347,13 +347,8 @@ contract mainNftRaffle is IERC721Receiver, VRFConsumerBaseV2, ConfirmedOwner {
         uint256 winningTicket = pickRandomTicket(raffleId, requestId);
 
         uint winningTicketNumber = winningTicket;
-        address winningTicketOwner = ticketToOwner[raffleId][
-            winningTicketNumber
-        ];
-        require(
-            winningTicketOwner != address(0),
-            "Winner has not been selected yet"
-        );
+        address winningTicketOwner = ticketToOwner[raffleId][winningTicketNumber];
+        require(winningTicketOwner != address(0), "Winner has not been selected yet");
 
         // Store the winning ticket information in the raffle struct
         raffle.raffleWinner = winningTicketOwner;

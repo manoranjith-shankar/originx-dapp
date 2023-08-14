@@ -25,10 +25,10 @@ const NFTSelect = () => {
   const navigate = useNavigate();
 
   const contractAbis = {
-    '0x18b73f290C3bDe2739961E498A6a212edeE7C014': BoredApeYachtClub.abi,
-    '0xBD46eb6c4852ddd3D96F6391Da260d946d52c027': InvisibleFriends.abi,
-    '0x231FA377c13A68De142af7462E4fCCC3625af430': Doodles.abi,
-    '0xc750dd6E1eF27C1C34bD4164Fc7Ee5fc79e4fDE0': clonex.abi,
+    [BoredApeYachtClub.networks['80001'].address] : BoredApeYachtClub.abi,
+    [InvisibleFriends.networks['80001'].address]: InvisibleFriends.abi,
+    [Doodles.networks['80001'].address]: Doodles.abi,
+    [clonex.networks['80001'].address]: clonex.abi,
   };
 
   const contractAddress = mainNftRaffle.networks['80001'].address

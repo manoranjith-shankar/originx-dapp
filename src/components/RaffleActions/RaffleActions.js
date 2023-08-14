@@ -113,34 +113,38 @@ const RaffleActions = () => {
         provider.getSigner(account)
       );
       const raffleIdBigNumber = BigNumber.from(raffleId);
+      const raffleIdStr = raffleIdBigNumber.toString();
 
       var loadingToastId = toast.loading(`Picking winner for RaffleId: ${raffleId}...`)
-  
-      // Check if raffleWinner is set
-      // const raffleInfo = await contract.raffleInfo(raffleIdBigNumber);
-      // console.log(raffleInfo);
-      // const { winningTicket } = raffleInfo;
-      // console.log(raffleId._hex[3].toString())
       
       // Call the pickWinner function in the contract
-      const transactionrequest = await contract.requestRandomTicket(raffleIdBigNumber);
-      console.log(transactionrequest, '1');
-      const transactionStatus = await contract.getRequestStatus(transactionrequest);
+      const transaction = await contract.requestRandomTicket(raffleIdBigNumber);
+      transaction.wait();
+      const requestId = await contract.getRequestForRaffle(raffleIdBigNumber);
+      const requestIdBigNumber = ethers.BigNumber.from(requestId);
+      const requestIdStr = requestIdBigNumber.toString();
+      console.log(requestIdStr, '1');
+      console.log(raffleIdStr, '2');
 
-      // if( transactionStatus[0] === false ) {
-      //   const tx = await contract.pickRandomTicket(transactionrequest, raffleIdBigNumber);
-      //   tx.wait();
-      //   console.log(tx);
-      //   }
-      //   else {
-      //     console.log("Waiting for fulfillment...");
-      //     setTimeout(async () => {
-      //       await contract.getRequestStatus(transactionrequest);
-      //     }, 10000);
-      // }
-
-      console.log(transactionStatus);
-      toast.success(`Winner picked for raffle ID ${raffleId}`);
+      if (requestIdStr != null ) {
+        setTimeout(async () => {
+          try {
+            console.log("into the phase of transaction")
+            const tx = await contract.pickWinner(raffleIdStr, requestIdStr, { gasLimit: ethers.utils.hexlify(300000) });
+            console.log("Executed transaction")
+            await tx.wait();
+              console.log("Picked Winner", tx);
+              toast.success(`Winner picked for raffle ID ${raffleId}`);
+          } catch (error) {
+              console.log("Error picking winner:", error);
+              toast.error('Error picking winner');
+          }
+      }, 30000);
+      }else {
+        toast.error("Cannot request VRF random ticket. please contact originX")
+      }
+    
+      // toast.success(`Winner picked for raffle ID ${raffleId}`);
   
     } catch (error) {
       console.log(error);
@@ -155,7 +159,7 @@ const RaffleActions = () => {
         toast.error('Error picking winner');
       }
     }
-  };    
+  };
   
   const handleCancelRaffle = async (raffleId) => {
     try {

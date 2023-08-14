@@ -127,11 +127,17 @@ const RaffleActions = () => {
       console.log(raffleIdStr, '2');
 
       if (requestIdStr != null ) {
+        toast.loading("Running some pre-checks")
+
+        setTimeout(() => {
+          toast.loading("Requesting a VRF Random Ticket, This might take a while", { duration: 10000});
+        }, 8000);
+
         setTimeout(async () => {
           try {
-            console.log("into the phase of transaction")
+            toast.loading("VRF request successful")
             const tx = await contract.pickWinner(raffleIdStr, requestIdStr, { gasLimit: ethers.utils.hexlify(300000) });
-            console.log("Executed transaction")
+            console.log("Picking Raffle winner...")
             await tx.wait();
               console.log("Picked Winner", tx);
               toast.success(`Winner picked for raffle ID ${raffleId}`);
@@ -139,7 +145,7 @@ const RaffleActions = () => {
               console.log("Error picking winner:", error);
               toast.error('Error picking winner');
           }
-      }, 30000);
+      }, 20000);
       }else {
         toast.error("Cannot request VRF random ticket. please contact originX")
       }

@@ -4,9 +4,63 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
+import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
+import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
+import "@chainlink/contracts/src/v0.8/ConfirmedOwner.sol";
 
-contract mainNftRaffle is IERC721Receiver {
+contract mainNftRaffle is IERC721Receiver, VRFConsumerBaseV2, ConfirmedOwner {
     using SafeMath for uint256;
+
+    mapping(uint256 => uint256) public raffleIdToRequestId;
+    event RequestSent(uint256 requestId, uint32 numWords);
+    event RequestFulfilled(uint256 requestId, uint256[] randomWords);
+
+    struct RequestStatus {
+        bool fulfilled; // whether the request has been successfully fulfilled
+        bool exists; // whether a requestId exists
+        uint256[] randomWords;
+    }
+    mapping(uint256 => RequestStatus)
+        public s_requests; /* requestId --> requestStatus */
+    VRFCoordinatorV2Interface COORDINATOR;
+
+    event WinnerSelected(
+        uint256 indexed raffleId,
+        uint256 winningTicketNumber,
+        address winningTicketOwner
+    );
+
+    // Your subscription ID.
+    uint64 s_subscriptionId = 5654;
+
+    // past requests Id.
+    uint256[] public requestIds;
+    uint256 public lastRequestId;
+
+    bytes32 keyHash =
+        0x4b09e658ed251bcafeebbc69400383d49f344ace09b9576fe248bb02c003fe9f;
+
+    uint32 callbackGasLimit = 100000;
+
+    // The default is 3, but you can set this higher.
+    uint16 requestConfirmations = 3;
+
+    // For this example, retrieve 2 random values in one request.
+    // Cannot exceed VRFCoordinatorV2.MAX_NUM_WORDS.
+    uint32 numWords = 1;
+
+    /**
+     * COORDINATOR: 0x7a1BaC17Ccc5b313516C5E16fb24f7659aA5ebed
+     */
+    constructor()
+        VRFConsumerBaseV2(0x7a1BaC17Ccc5b313516C5E16fb24f7659aA5ebed)
+        ConfirmedOwner(msg.sender)
+    {
+        COORDINATOR = VRFCoordinatorV2Interface(
+            0x7a1BaC17Ccc5b313516C5E16fb24f7659aA5ebed
+        );
+        s_subscriptionId;
+    }
 
     struct Raffle {
         uint raffleId;
@@ -59,12 +113,72 @@ contract mainNftRaffle is IERC721Receiver {
     mapping(uint256 => mapping(uint256 => address)) public ticketToOwner;
     uint256 private raffleCount = 0;
 
-    event WinnerSelected(
-        uint256 indexed raffleId,
-        uint256 winningTicketNumber,
-        address winningTicketOwner
-    );
     event raffleEnded(uint256 indexed raffleId);
+
+    function requestRandomTicket(
+        uint256 _raffleId
+    ) public returns (uint256 requestId) {
+        uint256 totalTicketsSold = raffles[_raffleId].totalSoldTickets;
+        require(totalTicketsSold > 0, "No tickets sold yet");
+        require(
+            raffles[_raffleId].totalSoldTickets >=
+                (raffles[_raffleId].totalVolumeofTickets * 80) / 100,
+            "Not enough ticket sold"
+        );
+
+        requestId = COORDINATOR.requestRandomWords(
+            keyHash,
+            s_subscriptionId,
+            requestConfirmations,
+            callbackGasLimit,
+            numWords
+        );
+
+        // Create a new RequestStatus for this requestId and associate it with the raffleId
+        s_requests[requestId] = RequestStatus({
+            randomWords: new uint256[](0),
+            exists: true,
+            fulfilled: false
+        });
+
+        // Map the raffleId to the requestId
+        raffleIdToRequestId[_raffleId] = requestId;
+
+        requestIds.push(requestId);
+        lastRequestId = requestId;
+        emit RequestSent(requestId, numWords);
+        return requestId;
+    }
+
+    function fulfillRandomWords(
+        uint256 _requestId,
+        uint256[] memory _randomWords
+    ) internal override {
+        require(s_requests[_requestId].exists, "request not found");
+        s_requests[_requestId].fulfilled = true;
+        s_requests[_requestId].randomWords = _randomWords;
+        emit RequestFulfilled(_requestId, _randomWords);
+    }
+
+    function pickRandomTicket(
+        uint256 _raffleId,
+        uint256 requestId
+    ) private view returns (uint256) {
+        require(s_requests[requestId].fulfilled, "Request not fulfilled yet");
+        uint256 randomValue = s_requests[requestId].randomWords[0];
+        uint256 randomNumber = randomValue %
+            raffles[_raffleId].totalSoldTickets;
+        uint256 winningTicket = randomNumber + 1; // Adding 1 to convert 0-based index to 1-based ticket numbers
+        return winningTicket;
+    }
+
+    function getRequestStatus(
+        uint256 _requestId
+    ) external view returns (bool fulfilled, uint256[] memory randomWords) {
+        require(s_requests[_requestId].exists, "request not found");
+        RequestStatus memory request = s_requests[_requestId];
+        return (request.fulfilled, request.randomWords);
+    }
 
     function createRaffle(
         string memory _raffleName,
@@ -216,15 +330,7 @@ contract mainNftRaffle is IERC721Receiver {
         return totalTicketPrice;
     }
 
-    // This function picks a random ticket from totalSoldTickets for a raffleId.
-    function pickRandomTicket(uint256 raffleId) private view returns (uint256) {
-        uint256 randomNumber = uint256(
-            keccak256(abi.encodePacked(block.timestamp, block.difficulty))
-        ) % raffles[raffleId].totalSoldTickets;
-        return randomNumber;
-    }
-
-    function pickWinner(uint256 raffleId) public {
+    function pickWinner(uint256 raffleId, uint256 requestId) public {
         Raffle storage raffle = raffles[raffleId];
 
         require(!raffle.raffleCancelled, "Raffle has been cancelled");
@@ -233,9 +339,14 @@ contract mainNftRaffle is IERC721Receiver {
             raffle.totalSoldTickets >= (raffle.totalVolumeofTickets * 80) / 100,
             "Raffle can't be completed yet"
         );
+        require(
+            raffle.raffleCreator == msg.sender,
+            "you are not the raffle owner"
+        );
 
-        // Pick a random ticket as the winning ticket.
-        uint256 winningTicketNumber = pickRandomTicket(raffleId);
+        uint256 winningTicket = pickRandomTicket(raffleId, requestId);
+
+        uint winningTicketNumber = winningTicket;
         address winningTicketOwner = ticketToOwner[raffleId][
             winningTicketNumber
         ];

@@ -57,7 +57,7 @@ const NFTSelect = () => {
   }, []);
 
   const handleNftSelect = async (tokenId, tokenAddress, imageSource) => {
-    toast.loading('Please confirm in your wallet', {
+    toast.loading('Selecting this NFT, Please confirm in your wallet', {
       duration: 3000,
     });
     const tAddress = tokenAddress._value;

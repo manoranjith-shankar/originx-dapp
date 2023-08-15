@@ -4,8 +4,8 @@ import { MantineProvider } from '@mantine/core';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const ShareModal = () => {
-  const [opened, { open, close }] = useDisclosure(false);
+const ShareModal = ({ isOpen }) => {
+  const [opened, { close }] = useDisclosure(isOpen);
   const [copySuccess, setCopySuccess] = useState(false);
 
   const copyToClipboard = () => {
@@ -43,7 +43,7 @@ const ShareModal = () => {
               <div style={{ display: 'flex', alignItems: 'center', marginTop: '1rem' }}>
                 <Input
                   id = "share-link"
-                  value = "https://your-raffle-link.com"
+                  value = "https://originx.0xc0d3rs.tech/raffles"
                   readOnly
                   style={{ flex: 1, marginRight: '1rem' }}
                   classNames={customStyles}
@@ -60,10 +60,6 @@ const ShareModal = () => {
             </Paper>
           </div>
         </Modal>
-
-        <Group position="center">
-          <Button onClick={open}>Open Modal</Button>
-        </Group>
       </MantineProvider>
     </>
   );

@@ -9,7 +9,7 @@ import DatePickerComponent from './DatePickerComponent';
 import { useNetwork } from 'wagmi'
 import { useParams, useNavigate } from 'react-router-dom';
 import MultiSelectComp from './MultiSelect';
-import ModalForRaffleCreation from './Modal';
+import ShareModal from './Modal';
 
 const Create = () => {
 
@@ -25,6 +25,7 @@ const Create = () => {
   const [totalVolumeofTickets, setTotalVolumeofTickets] = useState('');
   const [endTime, setEndTime] = useState('');
   const [charityAddress, setCharityAddress] = useState('');
+  const [raffleCreated, setRaffleCreated] = useState(false);
 
   const provider = new ethers.providers.Web3Provider(window.ethereum);
 
@@ -93,8 +94,11 @@ const Create = () => {
       toast.dismiss(notifyLoading);
       notify();
       setTimeout(() => {
+        setRaffleCreated(true);
+      }, 4500);
+      setTimeout(() => {
         navigate('/raffles');
-      }, 3000);
+      }, 100000);
     } catch (err) {
       console.log(err, '1');
 
@@ -267,6 +271,7 @@ const Create = () => {
           </div>
         </div>
       </div>
+         {raffleCreated && <ShareModal isOpen={true} />}
     </section>
   );
 };

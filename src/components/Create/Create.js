@@ -9,6 +9,7 @@ import DatePickerComponent from './DatePickerComponent';
 import { useNetwork } from 'wagmi'
 import { useParams, useNavigate } from 'react-router-dom';
 import MultiSelectComp from './MultiSelect';
+import ModalForRaffleCreation from './Modal';
 
 const Create = () => {
 

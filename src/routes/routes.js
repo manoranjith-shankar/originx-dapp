@@ -18,6 +18,7 @@ import MintTestNFTTheme from "../themes/MintTestNFTTheme";
 import BuyTest from "../components/test/buy-imp-test";
 import MultiSelectComp from "../components/Create/MultiSelect";
 import SelectComp from "../components/Create/SelectComp";
+import ModalForRaffleCreation from "../components/Create/Modal";
 
 class MyRouts extends React.Component {
   render() {
@@ -39,6 +40,7 @@ class MyRouts extends React.Component {
             <Route path="/405" element={<OopsComponent />} />
             <Route path="/test" element={<BuyTest />} />
             <Route path="/test1" element={<SelectComp />} />
+            <Route path="/test2" element={<ModalForRaffleCreation />} />
           </Routes>
         </Router>
       </div>

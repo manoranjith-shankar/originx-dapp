@@ -1,0 +1,72 @@
+import { useDisclosure } from '@mantine/hooks';
+import { Modal, Group, Text, Input,Button, Paper } from '@mantine/core';
+import { MantineProvider } from '@mantine/core';
+import { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+const ShareModal = () => {
+  const [opened, { open, close }] = useDisclosure(false);
+  const [copySuccess, setCopySuccess] = useState(false);
+
+  const copyToClipboard = () => {
+    const copyText = document.getElementById('share-link');
+    copyText.select();
+    document.execCommand('copy');
+    setCopySuccess(true);
+  };
+
+  const customStyles = {
+    content: 'custom-content',
+    item: 'custom-item',
+    input: 'custom-modal-input',
+    value: 'custom-value',
+    values: 'custom-values',
+    searchInput: 'custom-searchInput',
+    itemsWrapper: 'custom-items-wrapper',
+  };
+
+  return (
+    <>
+      <MantineProvider theme={{ fontFamily: 'Jost', colorScheme: 'dark' }}>
+        <Modal opened={opened} onClose={close} withCloseButton={false} centered classNames={customStyles}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <h2>Raffle Created Successfully. Spread the Word!</h2>
+            <Paper padding="lg" shadow="xs" style={{ width: '100%' }}>
+              <Text
+                sx={{ fontFamily: 'Poppins', fontSize: '0.99rem'}}
+                ta="center"
+                fz="xl"
+                
+              >
+                Share this link with your friends:
+              </Text>
+              <div style={{ display: 'flex', alignItems: 'center', marginTop: '1rem' }}>
+                <Input
+                  id = "share-link"
+                  value = "https://your-raffle-link.com"
+                  readOnly
+                  style={{ flex: 1, marginRight: '1rem' }}
+                  classNames={customStyles}
+                />
+                <Button
+                  size="xs"
+                  onClick={copyToClipboard}
+                  disabled={copySuccess}
+                  sx={{border: "0.0625rem solid #373a40", backgroundColor: "#1a1b1e"}}
+                >
+                  <FontAwesomeIcon icon="fa-regular fa-clone" />
+                </Button>
+              </div>
+            </Paper>
+          </div>
+        </Modal>
+
+        <Group position="center">
+          <Button onClick={open}>Open Modal</Button>
+        </Group>
+      </MantineProvider>
+    </>
+  );
+};
+
+export default ShareModal;

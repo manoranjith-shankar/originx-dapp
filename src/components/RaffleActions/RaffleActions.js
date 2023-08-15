@@ -127,11 +127,11 @@ const RaffleActions = () => {
       console.log(raffleIdStr, '2');
 
       if (requestIdStr != null ) {
-        toast.loading("Running some pre-checks")
+        toast.loading("Running some pre-checks", { duration: 8500 });
 
         setTimeout(() => {
           toast.loading("Requesting a VRF Random Ticket, This might take a while", { duration: 10000});
-        }, 8000);
+        }, 8500);
 
         setTimeout(async () => {
           try {

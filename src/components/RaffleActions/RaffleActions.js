@@ -149,8 +149,6 @@ const RaffleActions = () => {
       }else {
         toast.error("Cannot request VRF random ticket. please contact originX")
       }
-    
-      // toast.success(`Winner picked for raffle ID ${raffleId}`);
   
     } catch (error) {
       console.log(error);
@@ -168,6 +166,7 @@ const RaffleActions = () => {
   };
   
   const handleCancelRaffle = async (raffleId) => {
+    toast.loading("Cancelling the raffle...");
     try {
       const networkId = await provider.getNetwork().then((network) => network.chainId);
       const contract = new ethers.Contract(
@@ -211,7 +210,7 @@ const RaffleActions = () => {
               <div key={`raffle_${idx}`} className="col-12 col-sm-6 col-lg-3 item">
                 <div className="card">
                   <div className="image-over">
-                    <a href={`/raffle/${raffleDetails.id}`}>
+                    <a href={`${raffleDetails.img}`} target='_blank'>
                       <img className="card-img-top" src={raffleDetails.img} alt="" />
                     </a>
                   </div>

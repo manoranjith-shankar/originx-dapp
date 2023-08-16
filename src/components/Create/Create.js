@@ -92,13 +92,14 @@ const Create = () => {
       );
       console.log(result);
       toast.dismiss(notifyLoading);
+      result.wait();
       notify();
       setTimeout(() => {
         setRaffleCreated(true);
-      }, 4500);
+      }, 3500);
       setTimeout(() => {
         navigate('/raffles');
-      }, 100000);
+      }, 6000);
     } catch (err) {
       console.log(err, '1');
 

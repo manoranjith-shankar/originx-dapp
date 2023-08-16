@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { useAccount, useNetwork } from 'wagmi';
 import { ethers } from 'ethers';
 import mainNftRaffle from '../contracts/mainNftRaffle.json';
@@ -108,7 +108,7 @@ const OpenRaffles = () => {
                     </a>
                     <div className="seller d-flex align-items-center my-3">
                       <span>Owned By</span>
-                      <a href={`https://explorer.buildbear.io/primary-anakin-skywalker-21e02ba8/address/${item.owner1}`}>
+                      <a href={`https://mumbai.polygonscan.com/address/${item.owner1}`} target={"_blank"} rel="noreferrer">
                         <h6 className="ml-2 mb-0">{item.owner}</h6>
                       </a>
                     </div>

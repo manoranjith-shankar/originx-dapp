@@ -12,13 +12,11 @@ import ApproveTheme from "../themes/ApproveTheme";
 import ComingSoonTheme from "../themes/ComingSoonTheme";
 import Login from "../themes/LoginMain";
 import OopsComponent from "../components/Misc/OopsComponent";
-import NFTMetadata from "../components/test/test";
 import NFTSelectTheme from "../themes/NFTSelectTheme";
 import MintTestNFTTheme from "../themes/MintTestNFTTheme";
 import BuyTest from "../components/test/buy-imp-test";
-import MultiSelectComp from "../components/Create/MultiSelect";
 import SelectComp from "../components/Create/SelectComp";
-import ModalForRaffleCreation from "../components/Create/Modal";
+import PrizeModal from "../components/RaffleActions/PrizeModal";
 
 class MyRouts extends React.Component {
   render() {
@@ -40,7 +38,7 @@ class MyRouts extends React.Component {
             <Route path="/405" element={<OopsComponent />} />
             <Route path="/test" element={<BuyTest />} />
             <Route path="/test1" element={<SelectComp />} />
-            <Route path="/test2" element={<ModalForRaffleCreation />} />
+            <Route path="/test2" element={<PrizeModal />} />
           </Routes>
         </Router>
       </div>

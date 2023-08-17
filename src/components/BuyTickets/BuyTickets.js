@@ -6,6 +6,7 @@ import { Link, useParams } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import LoadingAnimation from '../LoadingAnimation/LoadingAnimation'
 import CountdownTimer from '../BuyTickets/countdown';
+import { Badge, MantineProvider } from '@mantine/core';
 
 const BuyTickets = () => {
     const { raffleId } = useParams();
@@ -150,6 +151,7 @@ const BuyTickets = () => {
             <div className="item-info">
               <div className="item-thumb text-center">
                 <img src={raffleData.img} alt="" />
+                <h5 className='justify-content-center'>BoredApeYacthClub #9999</h5>
               </div>
               <div className="card no-hover countdown-times my-4">
                 <div className="countdown d-flex justify-content-center"/>
@@ -161,6 +163,15 @@ const BuyTickets = () => {
             <div className="content mt-5 mt-lg-0">
               <h3 className="m-0">{raffleData.title}</h3>
               <p className='p-overide-buytickets'>{raffleData.description}</p>
+                <p style={ {marginBottom: "4px"}}>
+                  <MantineProvider>
+                    <Badge size="lg" radius="md" sx={{ fontFamily: "Jost", marginBottom: "10px", marginRight: "7px" }}>{raffleData.goals[0]}</Badge>
+                    <Badge size="lg" radius="md" sx={{ fontFamily: "Jost", marginBottom: "10px", marginRight: "7px" }}>{raffleData.goals[1]}</Badge>
+                    <Badge size="lg" radius="md" sx={{ fontFamily: "Jost", marginBottom: "10px", marginRight: "7px" }}>{raffleData.goals[2]}</Badge>
+                    <Badge size="lg" radius="md" sx={{ fontFamily: "Jost", marginBottom: "10px", marginRight: "7px" }}>{raffleData.goals[3]}</Badge>  
+                    <Badge size="lg" radius="md" sx={{ fontFamily: "Jost", marginBottom: "10px", marginRight: "7px" }}>{raffleData.goals[4]}</Badge>
+                  </MantineProvider>
+                </p>
               <div className="owner d-flex align-items-center">
                 <span>Created By</span>
                 <Link className="owner-meta d-flex align-items-center ml-3" to={`https://mumbai.polygonscan.com/address/${raffleData.creator}`} target='_blank'>
@@ -172,8 +183,7 @@ const BuyTickets = () => {
                   <h4 className="mt-0 mb-2">Raffle Info</h4>
                   <div className="price d-flex justify-content-between align-items-center">
                   <div className="row items">
-                    <div className='p-override'>
-                        <p>UN Goals: {raffleData.goals[0]}, {raffleData.goals[1]}, {raffleData.goals[2]}, {raffleData.goals[3]}, {raffleData.goals[4]}, {raffleData.goals[5]} </p>
+                    <div>
                         <span>Charity:  </span>
                         <Link className="owner-meta" to={`https://mumbai.polygonscan.com/address/${raffleData.charityAddress}`} target='_blank'>
                           {raffleData.charityAddress}

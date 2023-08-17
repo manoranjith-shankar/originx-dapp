@@ -76,6 +76,12 @@ const BuyTickets = () => {
     };
 
     fetchRaffleData();
+
+    const intervalId = setInterval(fetchRaffleData, 10000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
   }, [raffleId,endDate, address, totalTicketsWanted],[]);
 
   if (!raffleData) {
@@ -154,7 +160,7 @@ const BuyTickets = () => {
           <div className="col-12 col-lg-6">
             <div className="content mt-5 mt-lg-0">
               <h3 className="m-0">{raffleData.title}</h3>
-              <p>{raffleData.description}</p>
+              <p className='p-overide-buytickets'>{raffleData.description}</p>
               <div className="owner d-flex align-items-center">
                 <span>Created By</span>
                 <Link className="owner-meta d-flex align-items-center ml-3" to={`https://mumbai.polygonscan.com/address/${raffleData.creator}`} target='_blank'>

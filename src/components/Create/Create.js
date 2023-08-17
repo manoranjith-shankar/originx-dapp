@@ -93,13 +93,14 @@ const Create = () => {
       console.log(result);
       toast.dismiss(notifyLoading);
       result.wait();
-      notify();
+      toast.loading("Creating an impactful raffle...", { duration: 3500 });
       setTimeout(() => {
         setRaffleCreated(true);
-      }, 3500);
+        notify();
+      }, 3750);
       setTimeout(() => {
         navigate('/raffles');
-      }, 6000);
+      }, 30000);
     } catch (err) {
       console.log(err, '1');
 
@@ -154,8 +155,8 @@ const Create = () => {
                   <div className="form-group">
                       <textarea className="form-control"
                         name="description"
-                        maxLength={"1000"}
-                        placeholder="tell us something about this raffle, the purpose, cause etc." 
+                        maxLength={"200"}
+                        placeholder="tell us something about this raffle, the purpose, cause etc. (in about 200 letters max)" 
                         cols={30} rows={3} defaultValue={""}
                         required="required"
                         style={{borderRadius:'7px'}}

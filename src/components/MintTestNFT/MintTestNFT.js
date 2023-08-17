@@ -141,8 +141,8 @@ const MintTestNFT = () => {
     })
     const networkId = await provider.getNetwork().then((network) => network.chainId);
         const contract = new ethers.Contract(
-          BoredApeYachtClub.networks[networkId].address,
-          BoredApeYachtClub.abi,
+          clonex.networks[networkId].address,
+          clonex.abi,
           provider.getSigner(account)
         );
 

@@ -1581,6 +1581,10 @@ header .navbar-expand .dropdown:hover > .dropdown-menu {
   margin-bottom: 10px  !important;
 }
 
+.p-overide-buytickets {
+  margin-bottom: 11px;
+}
+
 /* #endregion Header */
 /*----------------------------------------------
 8. Feature

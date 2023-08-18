@@ -1,12 +1,13 @@
 import { useDisclosure } from '@mantine/hooks';
 import { Modal, Text, Input,Button, Paper } from '@mantine/core';
-import { MantineProvider } from '@mantine/core';
+import { MantineProvider, useMantineTheme } from '@mantine/core';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const ShareModal = ({ isOpen }) => {
   const [opened, { close }] = useDisclosure(isOpen);
   const [copySuccess, setCopySuccess] = useState(false);
+  const theme = useMantineTheme();
 
   const copyToClipboard = () => {
     const copyText = document.getElementById('share-link');
@@ -28,7 +29,12 @@ const ShareModal = ({ isOpen }) => {
   return (
     <>
       <MantineProvider theme={{ fontFamily: 'Jost', colorScheme: 'dark' }}>
-        <Modal opened={opened} onClose={close} withCloseButton={false} centered classNames={customStyles}>
+        <Modal opened={opened} onClose={close} withCloseButton={false} centered classNames={customStyles} overlayProps={{
+          opacity: 0.55,
+          blur: 3,
+        }}
+        transitionProps={{ transition: 'fade', duration: 200 }}
+        >
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <h2>Raffle Created. Spread the Word!</h2>
             <Paper padding="lg" shadow="xs" style={{ width: '100%' }}>

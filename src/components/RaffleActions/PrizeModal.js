@@ -1,10 +1,9 @@
 import { useDisclosure } from '@mantine/hooks';
-import { Modal, Table, Group, Button} from '@mantine/core';
+import { Modal, Table } from '@mantine/core';
 import { MantineProvider } from '@mantine/core';
-import { useState } from 'react';
 
-const PrizeModal = ({ isOpen }) => {
-  const [opened, { open, close }] = useDisclosure(false);
+const PrizeModal = ({ isOpen, onClose }) => {
+  const [ opened ] = useDisclosure(isOpen);
 
   const customStyles = {
     content: 'custom-content',
@@ -19,11 +18,16 @@ const PrizeModal = ({ isOpen }) => {
   return (
     <>
       <MantineProvider theme={{ fontFamily: 'Poppins', colorScheme: 'dark' }}>
-        <Modal opened={opened} onClose={close} withCloseButton={false} centered classNames={customStyles}>
-          <div className='justify-content-center'>
-            <h2>Raffle Prize Pool</h2>
+        <Modal opened={opened} onClose={onClose} withCloseButton={false} centered classNames={customStyles} overlayProps={{
+          opacity: 0.55,
+          blur: 3,
+        }}
+        transitionProps={{ transition: 'fade', duration: 600, timingFunction: 'linear' }}
+        >
+          <div className='justify-content-center' style={{marginTop: "1px"}}>
+            <h3>Raffle Prize Pool</h3>
           </div>
-          <Table withBorder withColumnBorders>
+          <Table withBorder withColumnBorders fontSize='md'>
             <thead>
               <tr>
                 <th>Entity</th>
@@ -33,7 +37,7 @@ const PrizeModal = ({ isOpen }) => {
             <tbody>
               <tr>
                 <td>Raffle Creator (R1)</td>
-                <td>1.075 FTM</td>
+                <td>1.075 ETH</td>
               </tr>
               <tr>
                 <td>Raffle Winner</td>
@@ -41,19 +45,15 @@ const PrizeModal = ({ isOpen }) => {
               </tr>
               <tr>
                 <td>Development Team (R2)</td>
-                <td>0.075 FTM</td>
+                <td>0.075 ETH</td>
               </tr>
               <tr>
                 <td>Charity</td>
-                <td>0.35 FTM</td>
+                <td>0.35 ETH</td>
               </tr>
             </tbody>
           </Table>
         </Modal>
-
-        <Group position="center">
-        <Button onClick={open}>Open Modal</Button>
-      </Group>
       </MantineProvider>
     </>
   );

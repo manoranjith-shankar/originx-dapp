@@ -431,7 +431,7 @@ contract mainNftRaffle is IERC721Receiver, VRFConsumerBaseV2, ConfirmedOwner {
             charityPrize
         );
     }
-
+    
     function getRaffleWinner(
         uint256 raffleId
     ) public view returns (address winner, uint256 winningTicket) {

@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import CreateRaffleBox from '../Misc/CreateRaffleBox';
+import PrizeModal from './PrizeModal';
 
 const RaffleActions = () => {
   const { account, isConnected } = useAccount();
@@ -20,7 +21,12 @@ const RaffleActions = () => {
   
   const [totalRafflesOwned, setTotalRafflesOwned] = useState(null);
   const [raffleIdsOwned, setRaffleIdsOwned] = useState([]);
+  const [modalDisplay, setModalDisplay] = useState(false);
   const [raffleInfo, setRaffleInfo] = useState([]);
+
+  const closeModal = () => {
+    setModalDisplay(false);
+  };
   
   const shortenAddress = (address) => {
     if (address.length <= 8) {
@@ -73,7 +79,7 @@ const RaffleActions = () => {
           raffleDetails.push({
             id: Id,
             img: raffle.nftSourceLink,
-            title: raffle.raffleName, 
+            title: raffle.raffleName,
             creator: creatorPrizeinEth,
             owner: owner,
             ticketsSold: totalSoldTickets,
@@ -229,7 +235,7 @@ const RaffleActions = () => {
                       </div>
                       <div className="seller d-flex align-items-center my-3">
                         <span>Prize Share</span>
-                        <a href={`https://${raffleDetails.owner}`}>
+                        <a onClick={() => setModalDisplay(true)} >
                           <h6 className="ml-2 mb-0">{raffleDetails.creator} ETH</h6>
                         </a>
                       </div>
@@ -253,6 +259,7 @@ const RaffleActions = () => {
           }
         </div>
       </div>
+      {modalDisplay && <PrizeModal isOpen={true} onClose={closeModal}/>}
       <Toaster position="bottom-right" reverseOrder={true} toastOptions={{ className: '', duration: 5000, style: { background: '#363636', color: '#fff' } }} />
     </section>
   );

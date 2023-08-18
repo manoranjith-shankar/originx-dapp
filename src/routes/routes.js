@@ -18,6 +18,7 @@ import BuyTest from "../components/test/buy-imp-test";
 import SelectComp from "../components/Create/SelectComp";
 import PrizeModal from "../components/RaffleActions/PrizeModal";
 import { Stats } from "../components/test/Stats";
+import ShareModal from "../components/Create/Modal";
 
 class MyRouts extends React.Component {
   render() {
@@ -38,7 +39,7 @@ class MyRouts extends React.Component {
             <Route path="/404" element={<ComingSoonTheme />} />
             <Route path="/405" element={<OopsComponent />} />
             <Route path="/test" element={<BuyTest />} />
-            <Route path="/test1" element={<SelectComp />} />
+            <Route path="/test1" element={<ShareModal isOpen={true} />} />
             <Route path="/test2" element={<PrizeModal />} />
             <Route path="/test3" element={<Stats />} />
           </Routes>

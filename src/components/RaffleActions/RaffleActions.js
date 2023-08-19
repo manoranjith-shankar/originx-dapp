@@ -22,6 +22,7 @@ const RaffleActions = () => {
   const [totalRafflesOwned, setTotalRafflesOwned] = useState(null);
   const [raffleIdsOwned, setRaffleIdsOwned] = useState([]);
   const [modalDisplay, setModalDisplay] = useState(false);
+  const [modalRaffleId, setModalRaffleId] = useState('');
   const [raffleInfo, setRaffleInfo] = useState([]);
 
   const closeModal = () => {
@@ -234,8 +235,10 @@ const RaffleActions = () => {
                         </a>
                       </div>
                       <div className="seller d-flex align-items-center my-3">
-                        <span>Prize Share</span>
-                        <a onClick={() => setModalDisplay(true)} >
+                        <span>Raffle Pool</span>
+                        <a onClick={() => { setModalDisplay(true); 
+                          setModalRaffleId(raffleDetails.id) }
+                          }>
                           <h6 className="ml-2 mb-0">{raffleDetails.creator} ETH</h6>
                         </a>
                       </div>
@@ -259,7 +262,7 @@ const RaffleActions = () => {
           }
         </div>
       </div>
-      {modalDisplay && <PrizeModal isOpen={true} onClose={closeModal}/>}
+      {modalDisplay && <PrizeModal isOpen={true} onClose={closeModal} raffleId={modalRaffleId}/>}
       <Toaster position="bottom-right" reverseOrder={true} toastOptions={{ className: '', duration: 5000, style: { background: '#363636', color: '#fff' } }} />
     </section>
   );

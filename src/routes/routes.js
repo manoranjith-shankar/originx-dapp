@@ -28,7 +28,7 @@ class MyRouts extends React.Component {
           <Routes>
             <Route exact path="/" element={<Home  />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/create/:tokenId/:tokenAddress/:imageSource" element={<CreateRaffle />} />
+            <Route path="/create/:tokenId/:tokenAddress/:name/:imageSource" element={<CreateRaffle />} />
             <Route path="/raffles" element={<OpenRafflesTheme />} />
             <Route path="/buytickets/:raffleId" element={<RaffleDetailsTheme />} />
             <Route path="/raffle-owner" element={<RaffleActionsTheme />} />

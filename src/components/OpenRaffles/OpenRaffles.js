@@ -1,10 +1,11 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAccount, useNetwork } from 'wagmi';
 import { ethers } from 'ethers';
 import mainNftRaffle from '../contracts/mainNftRaffle.json';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTicket } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
+import originxRaffler from '../contracts/originxRaffler.json'
 
 const OpenRaffles = () => {
   const [initData] = useState({
@@ -15,7 +16,7 @@ const OpenRaffles = () => {
   const [exploreData, setExploreData] = useState([]);
   const [ routeAddress, setRouteAddress] = useState('');
   const [ contractInstance, setContractInstance] = useState('');
-  const { address } = useAccount();
+  const { address, account } = useAccount();
   const { chain } = useNetwork();
   console.log(address, '1');
 
@@ -31,36 +32,44 @@ const OpenRaffles = () => {
     return ethers.utils.formatEther(amount);
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const fetchRaffles = async () => {
       const networkId = chain.id;
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      if(networkId === 'linea') {
-        setRouteAddress('https://explorer.goerli.linea.build/')
-        setContractInstance(mainNftRaffle)
-      }
-      else if(networkId === 'sepolia') {
-        setRouteAddress('https://sepolia.etherscan.io/')
-        setContractInstance(mainNftRaffle)
-      }
-      else if(networkId === 'polygonMumbai') {
-        setRouteAddress('https://mumbai.polygonscan.com/')
-      }
-      try {
-        // Initialize ethers provider and contract instance
-        const contract = new ethers.Contract(
-          contractInstance.networks[networkId].address,
-          contractInstance.abi,
-          provider.getSigner(address)
-        );
 
+      if(networkId === 11155111) {
+        const contract = new ethers.Contract (
+          originxRaffler.networks[networkId].address,
+          originxRaffler.abi,
+          provider.getSigner(account)
+        );
+        setContractInstance(contract);
+        setRouteAddress('https://sepolia.etherscan.io/')
+      }
+      else {
+        // Initialize ethers provider and contract instance
+        const contract = new ethers.Contract (
+          mainNftRaffle.networks[networkId].address,
+          mainNftRaffle.abi,
+          provider.getSigner(account)
+        );
+        setContractInstance(contract);
+        if(networkId === 80001) {
+          setRouteAddress('https://mumbai.polygonscan.com/')
+        }
+        else {
+          setRouteAddress('https://explorer.goerli.linea.build/')
+        }
+      }
+      
+      try {
         // Retrieve the total number of raffles from the contract
-        const totalRaffles = await contract.getTotalRaffles();
+        const totalRaffles = await contractInstance.getTotalRaffles();
       
         // Fetch raffle details for each raffle
         const exploreData = [];
         for (let i = 1; i <= totalRaffles; i++) {
-          const raffleInfo = await contract.raffleInfo(i);
+          const raffleInfo = await contractInstance.raffleInfo(i);
           
           const owner = shortenAddress(raffleInfo.raffleCreator);
           const address = (raffleInfo.raffleCreator)

@@ -11,6 +11,7 @@ import mainNftRaffle from '../contracts/mainNftRaffle.json';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { useAccount, useNetwork } from 'wagmi';
+import originxRaffler from '../contracts/originxRaffler.json';
 
 const gradientStyle = {
   background: `linear-gradient(to right, var(--primary-color), var(--secondary-color))`,
@@ -20,7 +21,8 @@ const gradientStyle = {
 };
 
 const NFTSelect = () => {
-  const { address } = useAccount();
+  const { address, account } = useAccount();
+  const [ contractInstance, setContractInstance] = useState('');
   const [nftData, setNftData] = useState([]);
   const navigate = useNavigate();
   const { chain } = useNetwork();
@@ -32,8 +34,6 @@ const NFTSelect = () => {
     [Doodles.networks[networkId].address]: Doodles.abi,
     [clonex.networks[networkId].address]: clonex.abi,
   };
-
-  const contractAddress = mainNftRaffle.networks[networkId].address
 
   useEffect(() => {
     
@@ -58,7 +58,7 @@ const NFTSelect = () => {
     fetchData();
   }, []);
 
-  const handleNftSelect = async (tokenId, tokenAddress, imageSource) => {
+  const handleNftSelect = async (tokenId, tokenAddress, name, imageSource) => {
     toast.loading('Selecting this NFT, Please confirm in your wallet', {
       duration: 3000,
     });
@@ -73,16 +73,28 @@ const NFTSelect = () => {
   
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
+      console.log(networkId, contractInstance, '1');
+
+      if(networkId === '11155111') {
+        const contractAddressSepolia = originxRaffler.networks['11155111'].address
+        setContractInstance(contractAddressSepolia);
+      }
+      else {
+        const contractAddress = mainNftRaffle.networks[networkId].address
+        setContractInstance(contractAddress);
+      }
+      
       const contract = new ethers.Contract(tAddress, contractAbi, signer);
   
-      const approvalTx = await contract.setApprovalForAll(contractAddress, true);
+      const approvalTx = await contract.setApprovalForAll(contractInstance, true);
       await approvalTx.wait();
 
       console.log('Approval transaction:', approvalTx.hash);
-      navigate(`/create/${tokenId}/${tAddress}/${encodeURIComponent(imageSource)}`, {
+      navigate(`/create/${tokenId}/${tAddress}/${name}/${encodeURIComponent(imageSource)}`, {
         state: { preserveScroll: true },
       });
     } catch (error) {
+      console.log(error);
       toast.error('Error Approving NFT, Please try again')
     }
   }
@@ -117,6 +129,7 @@ const NFTSelect = () => {
                           handleNftSelect(
                             item.tokenId,
                             item.tokenAddress,
+                            item.name,
                             item.metadata.image.replace('ipfs://', 'https://ipfs.io/ipfs/'),
                           )
                         }

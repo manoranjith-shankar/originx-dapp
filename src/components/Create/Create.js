@@ -10,13 +10,15 @@ import { useNetwork } from 'wagmi'
 import { useParams, useNavigate } from 'react-router-dom';
 import MultiSelectComp from './MultiSelect';
 import ShareModal from './Modal';
+import originxRaffler from '../contracts/originxRaffler.json';
 
 const Create = () => {
 
   const { chain } = useNetwork();
   const navigate = useNavigate();
-  const { tokenId, tokenAddress, imageSource } = useParams();
-  const { address, isConnected, account } = useAccount();
+  const { tokenId, tokenAddress, name , imageSource } = useParams();
+  const { isConnected, account } = useAccount();
+  const [ contractInstance, setContractInstance] = useState();
   const [raffleName, setRaffleName] = useState('');
   const [description, setDescription] = useState('');
   const [nftAddress, setNftAddress] = useState('');
@@ -61,29 +63,39 @@ const Create = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     notifyLoading();
-    console.log(address, '1');
-    console.log(provider, '2');
 
     if (isConnected === false) {
       notifyProviderError();
       return;
     }
-
     const networkId = chain.id;
-    // Initialize ethers provider and contract instance
-    const contract = new ethers.Contract (
-      mainNftRaffle.networks[networkId].address,
-      mainNftRaffle.abi,
-      provider.getSigner(account)
-    );
+
+    if(networkId === 11155111) {
+      const contract = new ethers.Contract (
+        originxRaffler.networks[networkId].address,
+        originxRaffler.abi,
+        provider.getSigner(account)
+      );
+      setContractInstance(contract);
+    }
+    else {
+      // Initialize ethers provider and contract instance
+      const contract = new ethers.Contract (
+        mainNftRaffle.networks[networkId].address,
+        mainNftRaffle.abi,
+        provider.getSigner(account)
+      );
+      setContractInstance(contract);
+    }
 
     try {
-      const result = await contract.createRaffle(
+      const result = await contractInstance.createRaffle(
         raffleName,
         description,
         ethers.utils.parseUnits(nftPrice),
         totalVolumeofTickets,
         endTime,
+        name,
         tokenId,
         tokenAddress,
         goals,

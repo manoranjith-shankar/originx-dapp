@@ -38,13 +38,13 @@ const NFTSelect = () => {
   console.log(contractAddress, '1');
 
   if(chainId === '80001') {
-    setChainId(0x8111)
+    setChainId(0x13881)
+  }
+  else if(chainId === '59140') {
+    setChainId(0xe704);
   }
   else if(chainId === '11155111') {
-    setChainId(0x123);
-  }
-  else if(chainId === '11221') {
-    setChainId(0x122);
+    setChainId(0xaa36a7);
   }
 
   useEffect(() => {

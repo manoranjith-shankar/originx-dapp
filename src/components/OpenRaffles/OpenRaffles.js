@@ -13,12 +13,15 @@ const OpenRaffles = () => {
     btnText: "Explore More"
   });
   const [exploreData, setExploreData] = useState([]);
+  const [ routeAddress, setRouteAddress] = useState('');
+  const [ contractInstance, setContractInstance] = useState('');
   const { address } = useAccount();
   const { chain } = useNetwork();
   console.log(address, '1');
 
   const shortenAddress = (address) => {
-    if (address.length <= 8) {
+    if (address.length <= 8) 
+    {
       return address;
     }
     return `${address.slice(0, 5)}...${address.slice(-3)}`;
@@ -30,13 +33,24 @@ const OpenRaffles = () => {
 
   useLayoutEffect(() => {
     const fetchRaffles = async () => {
+      const networkId = chain.id;
       const provider = new ethers.providers.Web3Provider(window.ethereum);
+      if(networkId === 'linea') {
+        setRouteAddress('https://explorer.goerli.linea.build/')
+        setContractInstance(mainNftRaffle)
+      }
+      else if(networkId === 'sepolia') {
+        setRouteAddress('https://sepolia.etherscan.io/')
+        setContractInstance(mainNftRaffle)
+      }
+      else if(networkId === 'polygonMumbai') {
+        setRouteAddress('https://mumbai.polygonscan.com/')
+      }
       try {
-        const networkId = chain.id;
         // Initialize ethers provider and contract instance
         const contract = new ethers.Contract(
-          mainNftRaffle.networks[networkId].address,
-          mainNftRaffle.abi,
+          contractInstance.networks[networkId].address,
+          contractInstance.abi,
           provider.getSigner(address)
         );
 
@@ -108,7 +122,7 @@ const OpenRaffles = () => {
                     </a>
                     <div className="seller d-flex align-items-center my-3">
                       <span>Owned By</span>
-                      <a href={`https://mumbai.polygonscan.com/address/${item.owner1}`} target={"_blank"} rel="noreferrer">
+                      <a href={`${routeAddress}address/${item.owner1}`} target={"_blank"} rel="noreferrer">
                         <h6 className="ml-2 mb-0">{item.owner}</h6>
                       </a>
                     </div>

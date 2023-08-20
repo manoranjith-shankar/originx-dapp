@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-// untested final.
+// polygonMumbai and linea deployment.
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
@@ -51,7 +51,7 @@ contract mainNftRaffle is IERC721Receiver, VRFConsumerBaseV2, ConfirmedOwner {
     uint32 numWords = 1;
 
     /**
-     * COORDINATOR: 0x7a1BaC17Ccc5b313516C5E16fb24f7659aA5ebed
+     * COORDINATOR PolygonMumbai: 0x7a1BaC17Ccc5b313516C5E16fb24f7659aA5ebed
      */
     constructor()
         VRFConsumerBaseV2(0x7a1BaC17Ccc5b313516C5E16fb24f7659aA5ebed)

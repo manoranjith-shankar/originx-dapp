@@ -2,12 +2,12 @@
 
 ## originX
 
-originX is a NFT Charitable Raffler, a decentralized application that allows users to 
+originX is a Charitable NFT Raffler, a decentralized application that allows users to 
 participate in raffles where the prizes are non-fungible tokens (NFTs). The raffles are 
 organized with the purpose of raising funds for charitable causes, making it a unique 
-and impactful way to engage the community and support philanthropic initiatives.
+and impactful way to engage with the community and support philanthropic initiatives.
 
-In simple words, originX is a collaboration of opensea for NFT ethusiasts and GoFundMe for donators who raise funds for a cause. By listing their assests, NFT owners get an incentive of 5% of their set selling price (no bidding nor bargaining). while, the users buys tickets for raffles to get a chance to be a random winner of the NFT. On an average of **0.3 ETH** goes to charity for every **1 ETH** being raffled.
+In simple words, originX is a combination of opensea for NFT ethusiasts and GoFundMe for donators who raise funds for a cause. By listing their assests, NFT owners get an incentive of 5% of their set selling price (no bidding nor bargaining). while, the users buys tickets for raffles to get a chance to be a random winner of the NFT. On an average of **0.3 ETH** goes to charity for every **1 ETH** being raffled.
 
 - refer. [Raffle Information](https://originx-docs.0xc0d3rs.tech/overview/raffle-pool)
 
@@ -29,7 +29,6 @@ In simple words, originX is a collaboration of opensea for NFT ethusiasts and Go
 - npm
 
 ### Installation
-> You must have [node.js](https://nodejs.org/en/download) installed
 
 A quick introduction of the minimal setup you need to get a hello world up &
 running.

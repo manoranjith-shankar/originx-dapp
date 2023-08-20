@@ -21329,6 +21329,12 @@
       "address": "0x0b7D0Fc2D710bfCE1a69cfFF9958134Ea814D4f0",
       "transactionHash": "0x58d14ca265aa63dd771c4be933908948220afd97dab059b8227eb3c736b1a6c8"
     },
+    "59140": {
+      "events": {},
+      "links": {},
+      "address": "0xd6bd42BF8f0b5a9820C1161a7C1b378c93744674",
+      "transactionHash": "0xe4bb2a6eb9d181f848aeb7a046c1cece226492c701d09633b3788465e3a908e6"
+    },
     "80001": {
       "events": {
         "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925": {
@@ -21427,12 +21433,18 @@
         }
       },
       "links": {},
-      "address": "0x129ca91d24FC723C6bEB2daBB1749620D750f40f",
-      "transactionHash": "0x15953ba21ee61cd90afc451a12c14216b0be72d48fada11d774b34e26668fba6"
+      "address": "0x86D7b1117a04146c9425a6bf38d9AAE3D58a07bD",
+      "transactionHash": "0x9ac847ac331e03aa9c20f1dcb66393e735a25fe497ae6b05e8df0430388ed7e0"
+    },
+    "11155111": {
+      "events": {},
+      "links": {},
+      "address": "0xd6bd42BF8f0b5a9820C1161a7C1b378c93744674",
+      "transactionHash": "0xade37503dd62b56429436b3d7739829314d64e8a7c32322f175b7cf351df111c"
     }
   },
   "schemaVersion": "3.4.13",
-  "updatedAt": "2023-08-14T18:32:05.650Z",
+  "updatedAt": "2023-08-20T09:49:09.599Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

@@ -8,8 +8,10 @@ import { useAccount } from 'wagmi';
 import { erc721mumbai } from '../test/erc721mumbai';
 import toast, { Toaster } from 'react-hot-toast';
 import Modal1 from './modal'
+import { useNetwork } from 'wagmi';
 
 const MintTestNFT = () => {
+  const { chain } = useNetwork();
   const [mintAmount, setMintAmount] = useState(1);
   const [nftsMinted, setNftsMinted] = useState([]);
   const [ownedNFTs, setOwnedNFTs] = useState([]);
@@ -20,7 +22,7 @@ const MintTestNFT = () => {
 
   useEffect(() => {
     const fetchNftData = async () => {
-      const networkId = await provider.getNetwork().then((network) => network.chainId);
+      const networkId = chain.id;
 
         const contractBoredApe = new ethers.Contract(
           BoredApeYachtClub.networks[networkId].address,

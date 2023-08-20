@@ -21332,12 +21332,18 @@
         }
       },
       "links": {},
-      "address": "0x539E9622Bb2894Ac97a55b9695ceeF68381ab9a7",
-      "transactionHash": "0x87d18ca7bf96c69da4e6bb79c8353ea6fc6d76fb127ff82a699ae5774d4fe358"
+      "address": "0xb30eae7a9308316958D573B8ef68EfB388de2886",
+      "transactionHash": "0x4b499abcba9df01014ae8c919769ebdef1ad5c8bc5852a5b1c901648695c2d4d"
+    },
+    "11155111": {
+      "events": {},
+      "links": {},
+      "address": "0x7FDd5eDfcE3A74328205D84975e41af55c1163c4",
+      "transactionHash": "0xc0d8e02056a03086b06db873c136dd6e68979fef19ae44133510c8fbc23a533d"
     }
   },
   "schemaVersion": "3.4.13",
-  "updatedAt": "2023-08-14T18:32:05.717Z",
+  "updatedAt": "2023-08-20T09:49:09.772Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

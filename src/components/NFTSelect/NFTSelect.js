@@ -22,6 +22,7 @@ const gradientStyle = {
 const NFTSelect = () => {
   const { address } = useAccount();
   const [nftData, setNftData] = useState([]);
+  const [chainId, setChainId] = useState('');
   const navigate = useNavigate();
   const { chain } = useNetwork();
   const networkId = chain.id;
@@ -36,6 +37,16 @@ const NFTSelect = () => {
   const contractAddress = mainNftRaffle.networks[networkId].address
   console.log(contractAddress, '1');
 
+  if(chainId === '80001') {
+    setChainId(0x8111)
+  }
+  else if(chainId === '11155111') {
+    setChainId(0x123);
+  }
+  else if(chainId === '11221') {
+    setChainId(0x122);
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       await Moralis.start({
@@ -43,7 +54,7 @@ const NFTSelect = () => {
       });
       try {
         const response = await Moralis.EvmApi.nft.getWalletNFTs({
-          chain: 0x13881,
+          chain: chainId,
           format: "decimal",
           mediaItems: false,
           normalizeMetadata: true,

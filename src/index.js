@@ -15,21 +15,20 @@ import { publicProvider } from 'wagmi/providers/public';
 
 export const linea = {
   id: 59140,
-  name: 'Linea',
+  name: 'Linea Testnet',
   network: 'Linea',
   nativeCurrency: {
   decimals: 18,
-  name: 'Linea',
   symbol: 'ETH',
   },
     iconUrl: 'https://pbs.twimg.com/profile_images/1639402103486521344/erDLnbwE_400x400.jpg',
   rpcUrls: {
-  public: { http: ['https://rpc.goerli.linea.build'] },
-  default: { http: ['https://rpc.goerli.linea.build'] },
+  public: { http: ['https://sepolia.infura.io/v3/569707d18f6749d78d01b7342e91db2e'] },
+  default: { http: ['https://sepolia.infura.io/v3/569707d18f6749d78d01b7342e91db2e'] },
   },
   blockExplorers: {
-  etherscan: { name: 'explorer', url: 'https://explorer.goerli.linea.build/' },
-  default: { name: 'explorer', url: 'https://explorer.goerli.linea.build/' },
+  etherscan: { name: 'explorer', url: 'https://sepolia.etherscan.io' },
+  default: { name: 'explorer', url: 'https://sepolia.etherscan.io' },
   },
   contracts: {
   multicall3: {
@@ -38,6 +37,31 @@ export const linea = {
   },
   },
   }
+
+  export const sepolia = {
+    id: 11155111,
+    name: 'Sepolia',
+    network: 'sepolia',
+    nativeCurrency: {
+    decimals: 18,
+    symbol: 'ETH',
+    },
+      iconUrl: 'https://cryptologos.cc/logos/versions/ethereum-eth-logo-diamond-purple.svg?v=026',
+    rpcUrls: {
+    public: { http: ['https://sepolia.infura.io/v3/569707d18f6749d78d01b7342e91db2e'] },
+    default: { http: ['https://sepolia.infura.io/v3/569707d18f6749d78d01b7342e91db2e'] },
+    },
+    blockExplorers: {
+    etherscan: { name: 'explorer', url: 'https://sepolia.etherscan.io' },
+    default: { name: 'explorer', url: 'https://sepolia.etherscan.io' },
+    },
+    contracts: {
+    multicall3: {
+    address: '0xca11bde05977b3631167028862be2a173976ca11',
+    blockCreated: 1,
+    },
+    },
+    }
 
   export const testnet = {
     id: 9816,
@@ -66,7 +90,7 @@ export const linea = {
     }
 
 const { chains, provider } = configureChains(
-  [ polygonMumbai, testnet],
+  [ linea, sepolia, polygonMumbai ],
   [
     alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
     publicProvider()

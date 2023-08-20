@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: MIT
+// untested final.
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
@@ -9,7 +10,6 @@ import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
 import "@chainlink/contracts/src/v0.8/ConfirmedOwner.sol";
 
 contract mainNftRaffle is IERC721Receiver, VRFConsumerBaseV2, ConfirmedOwner {
-
     using SafeMath for uint256;
 
     mapping(uint256 => uint256) public raffleIdToRequestId;
@@ -70,6 +70,7 @@ contract mainNftRaffle is IERC721Receiver, VRFConsumerBaseV2, ConfirmedOwner {
         uint256 nftPrice;
         uint256 totalVolumeofTickets;
         uint256 endTime;
+        string nftName;
         uint256 nftId;
         string[5] goals;
         address nftContractAddress;
@@ -96,6 +97,7 @@ contract mainNftRaffle is IERC721Receiver, VRFConsumerBaseV2, ConfirmedOwner {
         uint256 nftPrice;
         uint256 totalVolumeofTickets;
         uint256 endTime;
+        string nftName;
         uint256 nftId;
         address nftContractAddress;
         string nftSourceLink;
@@ -116,11 +118,14 @@ contract mainNftRaffle is IERC721Receiver, VRFConsumerBaseV2, ConfirmedOwner {
 
     event raffleEnded(uint256 indexed raffleId);
 
-    function requestRandomTicket(uint256 _raffleId) public returns (uint256 requestId) {
+    function requestRandomTicket(
+        uint256 _raffleId
+    ) public returns (uint256 requestId) {
         uint256 totalTicketsSold = raffles[_raffleId].totalSoldTickets;
         require(totalTicketsSold > 0, "No tickets sold yet");
         require(
-            raffles[_raffleId].totalSoldTickets >= (raffles[_raffleId].totalVolumeofTickets * 80) / 100,
+            raffles[_raffleId].totalSoldTickets >=
+                (raffles[_raffleId].totalVolumeofTickets * 80) / 100,
             "Not enough ticket sold"
         );
 
@@ -131,14 +136,14 @@ contract mainNftRaffle is IERC721Receiver, VRFConsumerBaseV2, ConfirmedOwner {
             callbackGasLimit,
             numWords
         );
-        
+
         // Create a new RequestStatus for this requestId and associate it with the raffleId
         s_requests[requestId] = RequestStatus({
             randomWords: new uint256[](0),
             exists: true,
             fulfilled: false
         });
-        
+
         // Map the raffleId to the requestId
         raffleIdToRequestId[_raffleId] = requestId;
 
@@ -148,10 +153,12 @@ contract mainNftRaffle is IERC721Receiver, VRFConsumerBaseV2, ConfirmedOwner {
         return requestId;
     }
 
-    function getRequestForRaffle(uint256 _raffleId) public view returns (uint256 requestId) {
-    requestId = raffleIdToRequestId[_raffleId];
-    require(requestId != 0, "No request for this id");
-    return requestId;
+    function getRequestForRaffle(
+        uint256 _raffleId
+    ) public view returns (uint256 requestId) {
+        requestId = raffleIdToRequestId[_raffleId];
+        require(requestId != 0, "No request for this id");
+        return requestId;
     }
 
     function fulfillRandomWords(
@@ -164,10 +171,14 @@ contract mainNftRaffle is IERC721Receiver, VRFConsumerBaseV2, ConfirmedOwner {
         emit RequestFulfilled(_requestId, _randomWords);
     }
 
-    function pickRandomTicket(uint256 _raffleId, uint256 requestId) private view returns(uint256) {
+    function pickRandomTicket(
+        uint256 _raffleId,
+        uint256 requestId
+    ) private view returns (uint256) {
         require(s_requests[requestId].fulfilled, "Request not fulfilled yet");
         uint256 randomValue = s_requests[requestId].randomWords[0];
-        uint256 randomNumber = randomValue % raffles[_raffleId].totalSoldTickets;
+        uint256 randomNumber = randomValue %
+            raffles[_raffleId].totalSoldTickets;
         uint256 winningTicket = randomNumber + 1; // Adding 1 to convert 0-based index to 1-based ticket numbers
         return winningTicket;
     }
@@ -186,6 +197,7 @@ contract mainNftRaffle is IERC721Receiver, VRFConsumerBaseV2, ConfirmedOwner {
         uint256 _nftPrice,
         uint256 _totalVolumeofTickets,
         uint256 _endTime,
+        string memory _nftName,
         uint256 _nftId,
         address _nftContractAddress,
         string[5] memory _goals,
@@ -214,11 +226,12 @@ contract mainNftRaffle is IERC721Receiver, VRFConsumerBaseV2, ConfirmedOwner {
             nftPrice: _nftPrice,
             totalVolumeofTickets: _totalVolumeofTickets,
             endTime: _endTime,
+            nftName: _nftName,
             nftId: _nftId,
             nftContractAddress: _nftContractAddress,
             nftSourceLink: _nftSourceLink,
             raffleCreator: msg.sender,
-            rafflePool: (_nftPrice.mul(150)).div(100),
+            rafflePool: (_nftPrice * 150).div(100),
             ticketPrice: 0,
             charityAddress: _charityAddress,
             totalSoldTickets: 0,
@@ -348,7 +361,9 @@ contract mainNftRaffle is IERC721Receiver, VRFConsumerBaseV2, ConfirmedOwner {
 
         uint winningTicketNumber = winningTicket;
         address winningTicketOwner = ticketToOwner[raffleId][winningTicketNumber];
-        require(winningTicketOwner != address(0), "Winner has not been selected yet");
+        require(
+            winningTicketOwner != address(0), "Winner has not been selected yet"
+        );
 
         // Store the winning ticket information in the raffle struct
         raffle.raffleWinner = winningTicketOwner;
@@ -431,7 +446,7 @@ contract mainNftRaffle is IERC721Receiver, VRFConsumerBaseV2, ConfirmedOwner {
             charityPrize
         );
     }
-    
+
     function getRaffleWinner(
         uint256 raffleId
     ) public view returns (address winner, uint256 winningTicket) {
@@ -464,6 +479,7 @@ contract mainNftRaffle is IERC721Receiver, VRFConsumerBaseV2, ConfirmedOwner {
             nftPrice: raffle.nftPrice,
             totalVolumeofTickets: raffle.totalVolumeofTickets,
             endTime: raffle.endTime,
+            nftName: raffle.nftName,
             nftId: raffle.nftId,
             nftContractAddress: raffle.nftContractAddress,
             nftSourceLink: raffle.nftSourceLink,

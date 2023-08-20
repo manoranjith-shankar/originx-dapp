@@ -56,7 +56,7 @@ module.exports = {
     linea: {
       networkCompleteTimeout: 3000000000,
       provider: () =>
-        new HDWalletProvider(priv_key, `https://linea-goerli.infura.io/v3/${api_key}`),
+        new HDWalletProvider(priv_key, `https://linea-goerli.infura.io/v3/569707d18f6749d78d01b7342e91db2e`),
       network_id: 59140,
       confirmations: 0,
       timeoutBlocks: 0,
@@ -72,6 +72,16 @@ module.exports = {
       timeoutBlocks: 0,
       skipDryRun: true
       },
+
+    sepolia: {
+      networkCompleteTimeout: 3000000000,
+      provider: () =>
+        new HDWalletProvider(priv_key, "https://sepolia.infura.io/v3/569707d18f6749d78d01b7342e91db2e"),
+      network_id: 11155111,
+      confirmations: 0,
+      timeoutBlocks: 0,
+      skipDryRun: true
+    },
 
     // An additional network, but with some advanced options…
     // advanced: {

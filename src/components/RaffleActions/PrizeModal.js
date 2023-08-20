@@ -73,12 +73,12 @@ const PrizeModal = ({ isOpen, onClose, raffleId }) => {
             <thead>
               <tr>
                 <th>Entity</th>
-                <th>Raffle Pool Share (%)</th>
+                <th>Raffle Share</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>Raffle Creator (R1)</td>
+                <td>Raffle Creator</td>
                 <td>{rafflePool[1]} ETH</td>
               </tr>
               <tr>
@@ -86,7 +86,7 @@ const PrizeModal = ({ isOpen, onClose, raffleId }) => {
                 <td>Non-Fungible Token (NFT)</td>
               </tr>
               <tr>
-                <td>Development Team (R2)</td>
+                <td>Development Team</td>
                 <td>{rafflePool[2]} ETH</td>
               </tr>
               <tr>

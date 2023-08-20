@@ -10,7 +10,7 @@ import clonex from '../contracts/clonex.json'
 import mainNftRaffle from '../contracts/mainNftRaffle.json';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import { useAccount } from 'wagmi';
+import { useAccount, useNetwork } from 'wagmi';
 
 const gradientStyle = {
   background: `linear-gradient(to right, var(--primary-color), var(--secondary-color))`,
@@ -23,15 +23,17 @@ const NFTSelect = () => {
   const { address } = useAccount();
   const [nftData, setNftData] = useState([]);
   const navigate = useNavigate();
+  const { chain } = useNetwork();
+  const networkId = chain.id;
 
   const contractAbis = {
-    [BoredApeYachtClub.networks['80001'].address] : BoredApeYachtClub.abi,
-    [InvisibleFriends.networks['80001'].address]: InvisibleFriends.abi,
-    [Doodles.networks['80001'].address]: Doodles.abi,
-    [clonex.networks['80001'].address]: clonex.abi,
+    [BoredApeYachtClub.networks[networkId].address] : BoredApeYachtClub.abi,
+    [InvisibleFriends.networks[networkId].address]: InvisibleFriends.abi,
+    [Doodles.networks[networkId].address]: Doodles.abi,
+    [clonex.networks[networkId].address]: clonex.abi,
   };
 
-  const contractAddress = mainNftRaffle.networks['80001'].address
+  const contractAddress = mainNftRaffle.networks[networkId].address
   console.log(contractAddress, '1');
 
   useEffect(() => {
@@ -41,7 +43,7 @@ const NFTSelect = () => {
       });
       try {
         const response = await Moralis.EvmApi.nft.getWalletNFTs({
-          chain: "0x13881",
+          chain: 0x13881,
           format: "decimal",
           mediaItems: false,
           normalizeMetadata: true,

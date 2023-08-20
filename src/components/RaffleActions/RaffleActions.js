@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useAccount } from 'wagmi';
+import { useAccount, useNetwork } from 'wagmi';
 import { BigNumber, ethers } from 'ethers';
 import mainNftRaffle from '../contracts/mainNftRaffle.json';
 import toast, { Toaster } from 'react-hot-toast';
@@ -24,6 +24,7 @@ const RaffleActions = () => {
   const [modalDisplay, setModalDisplay] = useState(false);
   const [modalRaffleId, setModalRaffleId] = useState('');
   const [raffleInfo, setRaffleInfo] = useState([]);
+  const { chain } = useNetwork();
 
   const closeModal = () => {
     setModalDisplay(false);
@@ -113,7 +114,7 @@ const RaffleActions = () => {
 
   const handlePickWinner = async (raffleId) => {
     try {
-      const networkId = await provider.getNetwork().then((network) => network.chainId);
+      const networkId = chain.id;
       const contract = new ethers.Contract(
         mainNftRaffle.networks[networkId].address,
         mainNftRaffle.abi,

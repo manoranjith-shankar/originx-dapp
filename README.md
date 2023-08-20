@@ -1,6 +1,6 @@
 # OriginX &middot; [![npm](https://img.shields.io/npm/v/npm.svg?style=flat-square)](https://www.npmjs.com/package/npm) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/your/your-project/blob/master/LICENSE)
 
-## What is originX
+## originX
 
 originX is a NFT Charitable Raffler, a decentralized application that allows users to 
 participate in raffles where the prizes are non-fungible tokens (NFTs). The raffles are 
@@ -10,12 +10,6 @@ and impactful way to engage the community and support philanthropic initiatives.
 In simple words, originX is a collaboration of opensea for NFT ethusiasts and GoFundMe for donators who raise funds for a cause. By listing their assests, NFT owners get an incentive of 5% of their set selling price (no bidding nor bargaining). while, the users buys tickets for raffles to get a chance to be a random winner of the NFT. On an average of **0.3 ETH** goes to charity for every **1 ETH** being raffled.
 
 - refer. [Raffle Information](https://originx-docs.0xc0d3rs.tech/overview/raffle-pool)
-
-### Usage of multiple consensys products: Make a Dapp That Slaps, No Cap
-
-- Infura (Rpc APIs)
-- Linea (contract deployment)
-- Truffle project
 
 ### How it works
 
@@ -28,6 +22,11 @@ In simple words, originX is a collaboration of opensea for NFT ethusiasts and Go
 > Detailed information and example usage, please take a look at our [originX docs](https://originx-docs.0xc0d3rs.tech/getting-started/creating-a-raffle)
 
 ## Getting started
+
+### Requirements
+
+- nodeJs
+- npm
 
 ### Installation
 > You must have [node.js](https://nodejs.org/en/download) installed
@@ -57,3 +56,9 @@ This will deploy the contract in the linea testnet, you can also deploy in sepol
 npm start
 ```
 This should start the dApp at [localhost:3000](https://localhost:3000)
+
+## Usage of multiple consensys products: Make a Dapp That Slaps, No Cap
+
+- Infura (Rpc APIs)
+- Linea (contract deployment)
+- Truffle project

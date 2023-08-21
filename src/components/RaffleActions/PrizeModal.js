@@ -5,6 +5,7 @@ import { ethers } from 'ethers';
 import { useNetwork, useAccount } from 'wagmi'
 import mainNftRaffle from '../contracts/mainNftRaffle.json';
 import { useState, useEffect } from 'react';
+import originxRaffler from '../contracts/originxRaffler.json';
 
 const PrizeModal = ({ isOpen, onClose, raffleId }) => {
   const [ opened ] = useDisclosure(isOpen);
@@ -30,11 +31,20 @@ const PrizeModal = ({ isOpen, onClose, raffleId }) => {
 
       const networkId = chain.id;
       // Initialize ethers provider and contract instance
-      const contract = new ethers.Contract (
-        mainNftRaffle.networks[networkId].address,
-        mainNftRaffle.abi,
-        provider.getSigner(account)
-      );
+      let contract;
+        if (networkId === 11155111) {
+          contract = new ethers.Contract(
+            originxRaffler.networks[networkId].address,
+            originxRaffler.abi,
+            provider.getSigner(account)
+          );
+        } else {
+          contract = new ethers.Contract(
+            mainNftRaffle.networks[networkId].address,
+            mainNftRaffle.abi,
+            provider.getSigner(account)
+          );
+        }
   
       const prizePool = await contract.getPrizePool(raffleId);
       const PrizePoolTotal = Number(prizePool[0]._hex).toString();
@@ -46,15 +56,18 @@ const PrizeModal = ({ isOpen, onClose, raffleId }) => {
       const winnerPrizeEth = ethers.utils.formatEther(winnerPrize)
       const developmentTeamEth = ethers.utils.formatEther(developmentTeam)
       const charityEth = ethers.utils.formatEther(charity)
-  
-      setRafflePool([prizePoolEth, winnerPrizeEth, developmentTeamEth, charityEth])
+
+      const raffleInfo = await contract.raffleInfo(raffleId);
+      const nftName = raffleInfo.nftName; 
+      const nftId = Number(raffleInfo.nftId); 
+      setRafflePool([prizePoolEth, winnerPrizeEth, developmentTeamEth, charityEth, nftName, nftId])
     };
 
     if(opened) {
       handleDisplayPrizePool(raffleId);
     }
 
-  }, [opened, raffleId])
+  }, [opened, raffleId, provider]);
 
 
   return (
@@ -83,7 +96,7 @@ const PrizeModal = ({ isOpen, onClose, raffleId }) => {
               </tr>
               <tr>
                 <td>Raffle Winner</td>
-                <td>Non-Fungible Token (NFT)</td>
+                <td>{rafflePool[4]} #{rafflePool[5]}</td>
               </tr>
               <tr>
                 <td>Development Team</td>

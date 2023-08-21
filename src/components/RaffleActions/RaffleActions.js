@@ -8,6 +8,7 @@ import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import CreateRaffleBox from '../Misc/CreateRaffleBox';
 import PrizeModal from './PrizeModal';
+import originxRaffler from '../contracts/originxRaffler.json'
 
 const RaffleActions = () => {
   const { account, isConnected } = useAccount();
@@ -23,6 +24,7 @@ const RaffleActions = () => {
   const [raffleIdsOwned, setRaffleIdsOwned] = useState([]);
   const [modalDisplay, setModalDisplay] = useState(false);
   const [modalRaffleId, setModalRaffleId] = useState('');
+  const [ routeAddress, setRouteAddress] = useState('');
   const [raffleInfo, setRaffleInfo] = useState([]);
   const { chain } = useNetwork();
 
@@ -50,12 +52,27 @@ const RaffleActions = () => {
       }
 
       try {
-        const networkId = await provider.getNetwork().then((network) => network.chainId);
-        const contract = new ethers.Contract(
-          mainNftRaffle.networks[networkId].address,
-          mainNftRaffle.abi,
-          provider.getSigner(account)
-        );
+        const networkId = chain.id;
+        let contract;
+        if (networkId === 11155111) {
+          contract = new ethers.Contract(
+            originxRaffler.networks[networkId].address,
+            originxRaffler.abi,
+            provider.getSigner(account)
+          );
+          setRouteAddress('https://sepolia.etherscan.io/')
+        } else {
+          contract = new ethers.Contract(
+            mainNftRaffle.networks[networkId].address,
+            mainNftRaffle.abi,
+            provider.getSigner(account)
+          );
+          if (networkId === 80001) {
+            setRouteAddress('https://mumbai.polygonscan.com/')
+          } else {
+            setRouteAddress('https://explorer.goerli.linea.build/')
+          }
+        }
     
         const rafflesOwned = await contract.getOwnedRaffles(accountAddress);
         const rafflesOwnedCount = rafflesOwned[0];
@@ -115,11 +132,21 @@ const RaffleActions = () => {
   const handlePickWinner = async (raffleId) => {
     try {
       const networkId = chain.id;
-      const contract = new ethers.Contract(
-        mainNftRaffle.networks[networkId].address,
-        mainNftRaffle.abi,
-        provider.getSigner(account)
-      );
+      let contract;
+        if (networkId === 11155111) {
+          contract = new ethers.Contract(
+            originxRaffler.networks[networkId].address,
+            originxRaffler.abi,
+            provider.getSigner(account)
+          );
+          setRouteAddress('https://sepolia.etherscan.io/')
+        } else {
+          contract = new ethers.Contract(
+            mainNftRaffle.networks[networkId].address,
+            mainNftRaffle.abi,
+            provider.getSigner(account)
+          );
+        }
       const raffleIdBigNumber = BigNumber.from(raffleId);
       const raffleIdStr = raffleIdBigNumber.toString();
 
@@ -176,12 +203,22 @@ const RaffleActions = () => {
   const handleCancelRaffle = async (raffleId) => {
     toast.loading("Cancelling the raffle...");
     try {
-      const networkId = await provider.getNetwork().then((network) => network.chainId);
-      const contract = new ethers.Contract(
-        mainNftRaffle.networks[networkId].address,
-        mainNftRaffle.abi,
-        provider.getSigner(account)
-      );
+      const networkId = chain.id;
+      let contract;
+        if (networkId === 11155111) {
+          contract = new ethers.Contract(
+            originxRaffler.networks[networkId].address,
+            originxRaffler.abi,
+            provider.getSigner(account)
+          );
+          setRouteAddress('https://sepolia.etherscan.io/')
+        } else {
+          contract = new ethers.Contract(
+            mainNftRaffle.networks[networkId].address,
+            mainNftRaffle.abi,
+            provider.getSigner(account)
+          );
+        }
       // Call the pickWinner function in the contract
       const transaction = await contract.cancelRaffle(raffleId);
       await transaction.wait();

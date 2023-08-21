@@ -7,12 +7,14 @@ import toast, { Toaster } from 'react-hot-toast';
 import LoadingAnimation from '../LoadingAnimation/LoadingAnimation'
 import CountdownTimer from '../BuyTickets/countdown';
 import { Badge, MantineProvider } from '@mantine/core';
+import originxRaffler from '../contracts/originxRaffler.json'
 
 const BuyTickets = () => {
     const { raffleId } = useParams();
-  const { address } = useAccount();
+  const { account } = useAccount();
   const [raffleData, setRaffleData] = useState(null);
   const [totalTicketsWanted, setTotalTicketsWanted] = useState(1);
+  const [ routeAddress, setRouteAddress] = useState('');
   const [endDate, setEndDate] = useState(null);
 
   const shortenAddress = (address) => {
@@ -32,11 +34,27 @@ const BuyTickets = () => {
 
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const networkId = await provider.getNetwork().then((network) => network.chainId);
-        const contract = new ethers.Contract(
-          mainNftRaffle.networks[networkId].address,
-          mainNftRaffle.abi,
-          provider.getSigner(address)
-        );
+        let contract;
+      
+          if (networkId === 11155111) {
+            contract = new ethers.Contract(
+              originxRaffler.networks[networkId].address,
+              originxRaffler.abi,
+              provider.getSigner(account)
+            );
+            setRouteAddress('https://sepolia.etherscan.io/')
+          } else {
+            contract = new ethers.Contract(
+              mainNftRaffle.networks[networkId].address,
+              mainNftRaffle.abi,
+              provider.getSigner(account)
+            );
+            if (networkId === 80001) {
+              setRouteAddress('https://mumbai.polygonscan.com/')
+            } else {
+              setRouteAddress('https://explorer.goerli.linea.build/')
+            }
+          }
         
         // Fetch raffle details for the specified raffleId
         const raffleInfo = await contract.raffleInfo(raffleId);
@@ -57,6 +75,8 @@ const BuyTickets = () => {
           goals: raffleInfo.goals,
           unparsedPrice: raffleInfo.ticketPrice,
           availableTickets: availableTickets,
+          tokenId: raffleInfo.nftId,
+          name: raffleInfo.nftName,
           volumeOfTickets: raffleInfo.totalVolumeofTickets - 0,
           totalTicketsWanted: totalTicketsWanted,
           charityAddress: raffleInfo.charityAddress,
@@ -83,7 +103,7 @@ const BuyTickets = () => {
     return () => {
       clearInterval(intervalId);
     };
-  }, [raffleId,endDate, address, totalTicketsWanted],[]);
+  }, [raffleId,endDate, account, totalTicketsWanted],[]);
 
   if (!raffleData) {
     return <div><LoadingAnimation /></div>;
@@ -103,11 +123,26 @@ const BuyTickets = () => {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const networkId = await provider.getNetwork().then((network) => network.chainId);
         // Initialize ethers provider and contract instance
-        const contract = new ethers.Contract(
-          mainNftRaffle.networks[networkId].address,
-          mainNftRaffle.abi,
-          provider.getSigner(address)
-        );
+        let contract;
+        if (networkId === 11155111) {
+          contract = new ethers.Contract(
+            originxRaffler.networks[networkId].address,
+            originxRaffler.abi,
+            provider.getSigner(account)
+          );
+          setRouteAddress('https://sepolia.etherscan.io/')
+        } else {
+          contract = new ethers.Contract(
+            mainNftRaffle.networks[networkId].address,
+            mainNftRaffle.abi,
+            provider.getSigner(account)
+          );
+          if (networkId === 80001) {
+            setRouteAddress('https://mumbai.polygonscan.com/')
+          } else {
+            setRouteAddress('https://explorer.goerli.linea.build/')
+          }
+        }
       
       const totalPrice = calculateTotalPrice(raffleData.unparsedPrice, totalTicketsWanted);
       var loadingToastId = toast.loading('Transacting...')
@@ -151,7 +186,7 @@ const BuyTickets = () => {
             <div className="item-info">
               <div className="item-thumb text-center">
                 <img src={raffleData.img} alt="" />
-                <h5 className='justify-content-center'>BoredApeYacthClub #9999</h5>
+                <h4 className='justify-content-center'>{raffleData.name} #{Number(raffleData.tokenId)}</h4>
               </div>
               <div className="card no-hover countdown-times my-4">
                 <div className="countdown d-flex justify-content-center"/>
@@ -174,7 +209,7 @@ const BuyTickets = () => {
                 </p>
               <div className="owner d-flex align-items-center">
                 <span>Created By</span>
-                <Link className="owner-meta d-flex align-items-center ml-3" to={`https://mumbai.polygonscan.com/address/${raffleData.creator}`} target='_blank'>
+                <Link className="owner-meta d-flex align-items-center ml-3" to={`${routeAddress}address/${raffleData.creator}`} target='_blank'>
                   <h6 className="ml-2">{raffleData.owner}</h6>
                 </Link>
               </div>
@@ -185,7 +220,7 @@ const BuyTickets = () => {
                   <div className="row items">
                     <div>
                         <span>Charity:  </span>
-                        <Link className="owner-meta" to={`https://mumbai.polygonscan.com/address/${raffleData.charityAddress}`} target='_blank'>
+                        <Link className="owner-meta" to={`${routeAddress}address/${raffleData.charityAddress}`} target='_blank'>
                           {raffleData.charityAddress}
                         </Link>
                         <p>Raffle Status: Live </p>

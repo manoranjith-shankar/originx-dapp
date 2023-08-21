@@ -27,6 +27,8 @@ In simple words, originX is a combination of opensea for NFT ethusiasts and GoFu
 
 - nodeJs
 - npm
+- web3 provider private key
+- Infura chain RPC API (optional)
 
 ### Installation
 

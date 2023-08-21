@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import Header from '../components/Header/Header';
 import Hero from '../components/Hero/Hero';
-import Work from '../components/Work/Work';
 import Footer from '../components/Footer/Footer';
 import Info from '../components/Info/Info';
 
@@ -13,7 +12,6 @@ class Home extends Component {
                 <Header />
                 <Hero />
                 <Info />
-                <Work />
                 <Footer />
             </div>
         );

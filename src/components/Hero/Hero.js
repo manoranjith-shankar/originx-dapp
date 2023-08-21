@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const initData = {
   preheading: "Nft Raffles",
   heading: "Explore, collect, and sell impactful NFTs with OriginX",
-  content: "Donate and redeem unique tokens for a meaningful impact",
+  content: "Sell your digital assests along with an impact.",
   btn_1: "Explore",
   btn_2: "Create Raffles"
 };

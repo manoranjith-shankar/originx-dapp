@@ -6,10 +6,13 @@ import { useNetwork, useAccount } from 'wagmi'
 import mainNftRaffle from '../contracts/mainNftRaffle.json';
 import { useState, useEffect } from 'react';
 import originxRaffler from '../contracts/originxRaffler.json';
+import { useNavigate } from 'react-router-dom';
 
 const PrizeModal = ({ isOpen, onClose, raffleId }) => {
   const [ opened ] = useDisclosure(isOpen);
   const [ rafflePool, setRafflePool ] = useState([]);
+  const [ image, setImage ] = useState('');
+  const navigate = useNavigate();
 
   const { chain } = useNetwork();
   const { account } = useAccount();
@@ -26,25 +29,29 @@ const PrizeModal = ({ isOpen, onClose, raffleId }) => {
 
   const provider = new ethers.providers.Web3Provider(window.ethereum);
 
+  const networkId = chain.id;
+  // Initialize ethers provider and contract instance
+  let contract;
+    if (networkId === 11155111) {
+      contract = new ethers.Contract(
+        originxRaffler.networks[networkId].address,
+        originxRaffler.abi,
+        provider.getSigner(account)
+      );
+    } else {
+      contract = new ethers.Contract(
+        mainNftRaffle.networks[networkId].address,
+        mainNftRaffle.abi,
+        provider.getSigner(account)
+      );
+    }
+
+    const handleNavigation = () => {
+      navigate(`/buytickets/${raffleId}`)
+    }
+
   useEffect(()=> {
     const handleDisplayPrizePool = async (raffleId) => {
-
-      const networkId = chain.id;
-      // Initialize ethers provider and contract instance
-      let contract;
-        if (networkId === 11155111) {
-          contract = new ethers.Contract(
-            originxRaffler.networks[networkId].address,
-            originxRaffler.abi,
-            provider.getSigner(account)
-          );
-        } else {
-          contract = new ethers.Contract(
-            mainNftRaffle.networks[networkId].address,
-            mainNftRaffle.abi,
-            provider.getSigner(account)
-          );
-        }
   
       const prizePool = await contract.getPrizePool(raffleId);
       const PrizePoolTotal = Number(prizePool[0]._hex).toString();
@@ -60,6 +67,9 @@ const PrizeModal = ({ isOpen, onClose, raffleId }) => {
       const raffleInfo = await contract.raffleInfo(raffleId);
       const nftName = raffleInfo.nftName; 
       const nftId = Number(raffleInfo.nftId); 
+      const imageUrl = raffleInfo.nftSourceLink;
+
+      setImage(imageUrl);
       setRafflePool([prizePoolEth, winnerPrizeEth, developmentTeamEth, charityEth, nftName, nftId])
     };
 
@@ -96,7 +106,7 @@ const PrizeModal = ({ isOpen, onClose, raffleId }) => {
               </tr>
               <tr>
                 <td>Raffle Winner</td>
-                <td>{rafflePool[4]} #{rafflePool[5]}</td>
+                <td onClick={handleNavigation}>{rafflePool[4]} #{rafflePool[5]}</td>
               </tr>
               <tr>
                 <td>Development Team</td>

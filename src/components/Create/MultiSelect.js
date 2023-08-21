@@ -30,15 +30,23 @@ export default function MultiSelectComp({ onSelectedValuesChange }) {
         value={value}
         onChange={handleValueChange}
         data={[
-          { value: 'No Poverty', label: 'No Poverty' },
-          { value: 'Zero Hunger', label: 'Zero Hunger' },
-          { value: 'Quality Education', label: 'Quality Education' },
+          { value: 'poverty alleviation', label: 'poverty alleviation' },
+          { value: 'agricultural development', label: 'agricultural development' },
+          { value: 'Child rights', label: 'Child rights' },
           { value: 'Clean Water & Sanitization', label: 'Clean Water & Sanitization' },
+          { value: 'Sustainable agriculture', label: 'Sustainable agriculture' },
           { value: 'Reduce Inequalities', label: 'Reduce Inequalities' },
           { value: 'Climate Action', label: 'Climate Action' },
-          { value: 'Life Below Water', label: 'Life Below Water' },
+          { value: 'entrepreneurship', label: 'entrepreneurship' },
+          { value: 'education', label: 'education' },
+          { value: 'healthcare', label: 'healthcare' },
+          { value: 'child protection', label: 'child protection' },
+          { value: 'hunger relief', label: 'hunger relief' },
+          { value: 'food waste reduction', label: 'food waste reduction' },
+          { value: 'rural livelihoods', label: 'rural livelihoods' },
+          { value: 'food security', label: 'food security' },
         ]}
-        placeholder="Select UN Sdgs"
+        placeholder="Select any 5 causes"
         searchValue={searchValue}
         onSearchChange={onSearchChange}
         max='3'

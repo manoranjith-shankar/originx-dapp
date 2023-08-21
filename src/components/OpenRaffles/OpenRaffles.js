@@ -15,7 +15,6 @@ const OpenRaffles = () => {
   });
   const [exploreData, setExploreData] = useState([]);
   const [ routeAddress, setRouteAddress] = useState('');
-  const [ contractInstance, setContractInstance] = useState('');
   const { address, account } = useAccount();
   const { chain } = useNetwork();
   console.log(address, '1');
@@ -37,39 +36,36 @@ const OpenRaffles = () => {
       const networkId = chain.id;
       const provider = new ethers.providers.Web3Provider(window.ethereum);
 
-      if(networkId === 11155111) {
-        const contract = new ethers.Contract (
+      let contract; // Declare the contract variable
+      
+      if (networkId === 11155111) {
+        contract = new ethers.Contract(
           originxRaffler.networks[networkId].address,
           originxRaffler.abi,
           provider.getSigner(account)
         );
-        setContractInstance(contract);
         setRouteAddress('https://sepolia.etherscan.io/')
-      }
-      else {
-        // Initialize ethers provider and contract instance
-        const contract = new ethers.Contract (
+      } else {
+        contract = new ethers.Contract(
           mainNftRaffle.networks[networkId].address,
           mainNftRaffle.abi,
           provider.getSigner(account)
         );
-        setContractInstance(contract);
-        if(networkId === 80001) {
+        if (networkId === 80001) {
           setRouteAddress('https://mumbai.polygonscan.com/')
-        }
-        else {
+        } else {
           setRouteAddress('https://explorer.goerli.linea.build/')
         }
       }
-      
+
       try {
         // Retrieve the total number of raffles from the contract
-        const totalRaffles = await contractInstance.getTotalRaffles();
+        const totalRaffles = await contract.getTotalRaffles();
       
         // Fetch raffle details for each raffle
         const exploreData = [];
         for (let i = 1; i <= totalRaffles; i++) {
-          const raffleInfo = await contractInstance.raffleInfo(i);
+          const raffleInfo = await contract.raffleInfo(i);
           
           const owner = shortenAddress(raffleInfo.raffleCreator);
           const address = (raffleInfo.raffleCreator)
@@ -97,7 +93,7 @@ const OpenRaffles = () => {
     };
 
     fetchRaffles();
-  }, [address, chain.id], []);
+  }, [address, chain.id]);
 
   return (
     <section className="explore-area">

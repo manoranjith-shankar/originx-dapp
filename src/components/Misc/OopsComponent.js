@@ -56,7 +56,7 @@ const styles = {
 const OopsComponent = ({ onRetry }) => (
   <div style={styles.container}>
     <h2 style={styles.heading}>Oops!</h2>
-    <p style={styles.message}>Something's wrong.. Please reconnect your wallet and try again.</p>
+    <p style={styles.message}>Something's wrong.. Please reconnect your wallet to a different networkand try again.</p>
     <div
       style={styles.reasonsContainer}
       onMouseOver={(e) => {

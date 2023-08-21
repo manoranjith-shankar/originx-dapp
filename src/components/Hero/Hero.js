@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
+import { Link, useNavigate } from 'react-router-dom';
+import { useNetwork } from 'wagmi';
 
 const initData = {
   preheading: "Nft Raffles",
@@ -11,6 +13,19 @@ const initData = {
 
 const Hero = () => {
   const [data, setData] = useState({});
+  const { chain } = useNetwork();
+  const networkId = chain.id;
+  const navigate  = useNavigate();
+  console.log(networkId, '1')
+
+   const handleCreateRoute = () => {
+    if(networkId === 59140) {
+      alert("Please connect your wallet to a different network and try again.")
+    }
+    else {
+      navigate('/nftselect')
+    }
+   }
 
   useEffect(() => {
     setData(initData);
@@ -30,10 +45,10 @@ const Hero = () => {
                 <i className="icon-rocket mr-2" />
                 {data.btn_1}
               </Link>
-              <Link to="/nftselect" className="btn btn-bordered-white">
+              <a onClick={handleCreateRoute} href='' className="btn btn-bordered-white">
                 <i className="icon-note mr-2" />
                 {data.btn_2}
-              </Link>
+              </a>
             </div>
           </div>
         </div>

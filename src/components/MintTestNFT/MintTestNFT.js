@@ -23,6 +23,7 @@ const MintTestNFT = () => {
   useEffect(() => {
     const fetchNftData = async () => {
       const networkId = chain.id;
+      console.log(networkId);
 
         const contractBoredApe = new ethers.Contract(
           BoredApeYachtClub.networks[networkId].address,
@@ -72,7 +73,7 @@ const MintTestNFT = () => {
     toast.loading('Minting your NFT', {
       duration: 2500
     })
-    const networkId = await provider.getNetwork().then((network) => network.chainId);
+    const networkId = chain.id;
         const contract = new ethers.Contract(
           BoredApeYachtClub.networks[networkId].address,
           BoredApeYachtClub.abi,
@@ -97,7 +98,7 @@ const MintTestNFT = () => {
     toast.loading('Minting your NFT', {
       duration: 2500
     })
-    const networkId = await provider.getNetwork().then((network) => network.chainId);
+    const networkId = chain.id;
         const contract = new ethers.Contract(
           Doodles.networks[networkId].address,
           Doodles.abi,
@@ -119,7 +120,7 @@ const MintTestNFT = () => {
     toast.loading('Minting your NFT', {
       duration: 2500
     })
-    const networkId = await provider.getNetwork().then((network) => network.chainId);
+    const networkId = chain.id;
         const contract = new ethers.Contract(
           InvisibleFriends.networks[networkId].address,
           InvisibleFriends.abi,
@@ -141,7 +142,7 @@ const MintTestNFT = () => {
     toast.loading('Minting your NFT', {
       duration: 2500
     })
-    const networkId = await provider.getNetwork().then((network) => network.chainId);
+    const networkId = chain.id;
         const contract = new ethers.Contract(
           clonex.networks[networkId].address,
           clonex.abi,

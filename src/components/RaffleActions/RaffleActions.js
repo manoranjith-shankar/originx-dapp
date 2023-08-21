@@ -24,6 +24,7 @@ const RaffleActions = () => {
   const [raffleIdsOwned, setRaffleIdsOwned] = useState([]);
   const [modalDisplay, setModalDisplay] = useState(false);
   const [modalRaffleId, setModalRaffleId] = useState('');
+  const [ raffleWinnerStatus, setRaffleWinnerStatus] = useState('');
   const [ routeAddress, setRouteAddress] = useState('');
   const [raffleInfo, setRaffleInfo] = useState([]);
   const { chain } = useNetwork();
@@ -39,17 +40,8 @@ const RaffleActions = () => {
     return `${address.slice(0, 5)}...${address.slice(-3)}`;
   };
 
-  const notifyProviderError = () => {
-    toast.error(`Please Connect your wallet`);
-  };
-
   useEffect(() => {
     const fetchRafflesOwned = async () => {
-      
-      if (isConnected === false) {
-        notifyProviderError();
-        return;
-      }
 
       try {
         const networkId = chain.id;
@@ -108,8 +100,16 @@ const RaffleActions = () => {
             raffleEnded: raffle.raffleEnded,
             raffleWinner: raffle.raffleWinner,
           });
+
+          console.log(raffle.raffleWinner)
+          if (raffle.raffleWinner === '0x0000000000000000000000000000000000000000') {
+            setRaffleWinnerStatus('unPicked');
+          }
+          else {
+            setRaffleWinnerStatus('Winner Picked');
+          }
         }
-        
+
         setRaffleInfo(raffleDetails);
         setRaffleIdsOwned(raffleIdsOwned);  
 
@@ -279,6 +279,10 @@ const RaffleActions = () => {
                           }>
                           <h6 className="ml-2 mb-0">{raffleDetails.creator} ETH</h6>
                         </a>
+                      </div>
+                      <div className="seller d-flex align-items-center my-3">
+                        <span>Status</span>
+                          <h6 className="ml-2 mb-0">{raffleWinnerStatus}</h6>
                       </div>
                       <div className="row items">
                         <button className="btn btn-bordered-white btn-smaller mt-3" onClick={() => handlePickWinner(raffleDetails.id)}>

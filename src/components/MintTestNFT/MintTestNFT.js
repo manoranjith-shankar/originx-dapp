@@ -85,7 +85,7 @@ const MintTestNFT = () => {
             value: ethers.utils.parseEther('0.1')
           });
 
-          const imageURI = await erc721mumbai[0].pic;
+          const imageURI = await erc721mumbai[1].pic;
           setMintedImageURI(imageURI);
           toast.success('Minted Successfully.')
           console.log(tx);

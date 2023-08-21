@@ -14,17 +14,18 @@ const initData = {
 const Hero = () => {
   const [data, setData] = useState({});
   const { chain } = useNetwork();
-  const networkId = chain.id;
   const navigate  = useNavigate();
-  console.log(networkId, '1')
 
    const handleCreateRoute = () => {
-    if(networkId === 59140) {
-      alert("Please connect your wallet to a different network and try again.")
-    }
-    else {
-      navigate('/nftselect')
-    }
+    setTimeout(()=> {
+      const networkId = chain.id;
+      if(networkId === 59140) {
+        alert("Please connect your wallet to a different network and try again.")
+      }
+      else {
+        navigate('/nftselect')
+      }
+    }, 1500)
    }
 
   useEffect(() => {

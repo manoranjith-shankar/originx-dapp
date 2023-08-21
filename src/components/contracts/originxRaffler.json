@@ -45322,12 +45322,12 @@
     "11155111": {
       "events": {},
       "links": {},
-      "address": "0xF1B2484237841d321136D8324ffAe81EA973fe1B",
-      "transactionHash": "0x92fb0de3d1e9de8aa94e306cf1d787a4ea902f6d1942adda356e04a428bf5877"
+      "address": "0xBC2fFB54Ba9Df3F175734fE06B670260F62EE7e5",
+      "transactionHash": "0x4ffd7179a291c80d56782f97b079e31f4cec481f42b75a632da390e414a18d3a"
     }
   },
   "schemaVersion": "3.4.13",
-  "updatedAt": "2023-08-20T18:15:40.791Z",
+  "updatedAt": "2023-08-21T19:19:06.545Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

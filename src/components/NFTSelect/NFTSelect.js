@@ -21,8 +21,7 @@ const gradientStyle = {
 };
 
 const NFTSelect = () => {
-  const { address, account } = useAccount();
-  const [ contractInstance, setContractInstance] = useState('');
+  const { address } = useAccount();
   const [nftData, setNftData] = useState([]);
   const navigate = useNavigate();
   const { chain } = useNetwork();
@@ -63,6 +62,7 @@ const NFTSelect = () => {
       duration: 3000,
     });
     const tAddress = tokenAddress._value;
+    let contractAddress;
     try {
       const contractAbi = contractAbis[tAddress];
       console.log('Contract ABI for token address:', tAddress);
@@ -73,20 +73,19 @@ const NFTSelect = () => {
   
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
-      console.log(networkId, contractInstance, '1');
-
-      if(networkId === '11155111') {
-        const contractAddressSepolia = originxRaffler.networks['11155111'].address
-        setContractInstance(contractAddressSepolia);
+      
+      if(networkId === 11155111) {
+         contractAddress = originxRaffler.networks[networkId].address
       }
       else {
-        const contractAddress = mainNftRaffle.networks[networkId].address
-        setContractInstance(contractAddress);
+         contractAddress = mainNftRaffle.networks[networkId].address
       }
       
+      console.log(networkId, contractAddress, '1');
       const contract = new ethers.Contract(tAddress, contractAbi, signer);
-  
-      const approvalTx = await contract.setApprovalForAll(contractInstance, true);
+      
+      const approvalTx = await contract.setApprovalForAll(contractAddress, true);
+      toast.loading("Approving NFT...Please wait");
       await approvalTx.wait();
 
       console.log('Approval transaction:', approvalTx.hash);

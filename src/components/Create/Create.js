@@ -18,7 +18,6 @@ const Create = () => {
   const navigate = useNavigate();
   const { tokenId, tokenAddress, name , imageSource } = useParams();
   const { isConnected, account } = useAccount();
-  const [ contractInstance, setContractInstance] = useState();
   const [raffleName, setRaffleName] = useState('');
   const [description, setDescription] = useState('');
   const [nftAddress, setNftAddress] = useState('');
@@ -70,26 +69,25 @@ const Create = () => {
     }
     const networkId = chain.id;
 
+    let contract;
     if(networkId === 11155111) {
-      const contract = new ethers.Contract (
+       contract = new ethers.Contract (
         originxRaffler.networks[networkId].address,
         originxRaffler.abi,
         provider.getSigner(account)
       );
-      setContractInstance(contract);
     }
     else {
       // Initialize ethers provider and contract instance
-      const contract = new ethers.Contract (
+       contract = new ethers.Contract (
         mainNftRaffle.networks[networkId].address,
         mainNftRaffle.abi,
         provider.getSigner(account)
       );
-      setContractInstance(contract);
     }
 
     try {
-      const result = await contractInstance.createRaffle(
+      const result = await contract.createRaffle(
         raffleName,
         description,
         ethers.utils.parseUnits(nftPrice),

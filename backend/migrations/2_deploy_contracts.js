@@ -11,5 +11,5 @@ module.exports = function(deployer) {
   deployer.deploy(DoodlesNFT);
   deployer.deploy(IFNfts);
   deployer.deploy(CloneX);
-  // deployer.deploy(originxRaffler);
+  deployer.deploy(originxRaffler);
 };

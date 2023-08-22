@@ -154,7 +154,7 @@ const RaffleActions = () => {
       
       // Call the pickWinner function in the contract
       const transaction = await contract.requestRandomTicket(raffleIdBigNumber);
-      transaction.wait();
+      await transaction.wait();
       const requestId = await contract.getRequestForRaffle(raffleIdBigNumber);
       const requestIdBigNumber = ethers.BigNumber.from(requestId);
       const requestIdStr = requestIdBigNumber.toString();

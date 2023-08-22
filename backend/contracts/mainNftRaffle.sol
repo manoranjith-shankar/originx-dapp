@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-// polygonMumbai and linea deployment.
+// sepolia - deployment
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
@@ -50,9 +50,6 @@ contract mainNftRaffle is IERC721Receiver, VRFConsumerBaseV2, ConfirmedOwner {
     // Cannot exceed VRFCoordinatorV2.MAX_NUM_WORDS.
     uint32 numWords = 1;
 
-    /**
-     * COORDINATOR PolygonMumbai: 0x7a1BaC17Ccc5b313516C5E16fb24f7659aA5ebed
-     */
     constructor()
         VRFConsumerBaseV2(0x7a1BaC17Ccc5b313516C5E16fb24f7659aA5ebed)
         ConfirmedOwner(msg.sender)
@@ -61,6 +58,30 @@ contract mainNftRaffle is IERC721Receiver, VRFConsumerBaseV2, ConfirmedOwner {
             0x7a1BaC17Ccc5b313516C5E16fb24f7659aA5ebed
         );
         s_subscriptionId;
+    }
+
+    function requestRandomWords()
+        external
+        onlyOwner
+        returns (uint256 requestId)
+    {
+        // Will revert if subscription is not set and funded.
+        requestId = COORDINATOR.requestRandomWords(
+            keyHash,
+            s_subscriptionId,
+            requestConfirmations,
+            callbackGasLimit,
+            numWords
+        );
+        s_requests[requestId] = RequestStatus({
+            randomWords: new uint256[](0),
+            exists: true,
+            fulfilled: false
+        });
+        requestIds.push(requestId);
+        lastRequestId = requestId;
+        emit RequestSent(requestId, numWords);
+        return requestId;
     }
 
     struct Raffle {

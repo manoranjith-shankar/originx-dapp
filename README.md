@@ -1,7 +1,5 @@
 # OriginX &middot; [![npm](https://img.shields.io/npm/v/npm.svg?style=flat-square)](https://www.npmjs.com/package/npm) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/your/your-project/blob/master/LICENSE)
 
-## originX
-
 originX is a Charitable NFT Raffler, a decentralized application that allows users to 
 participate in raffles where the prizes are non-fungible tokens (NFTs). The raffles are 
 organized with the purpose of raising funds for charitable causes, making it a unique 

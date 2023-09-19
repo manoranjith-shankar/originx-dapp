@@ -74,12 +74,12 @@ export const linea = {
     },
       iconUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZsG2HQt3pYcu8zI-oZtc7CxF3gbdn906Bmr0lfTiREwxTD15yH4hBC1nOF4t8ZtHHTQY&usqp=CAU',
     rpcUrls: {
-    public: { http: ['https://rpc.buildbear.io/experimental-shmi-skywalker-ea650ee3'] },
-    default: { http: ['https://rpc.buildbear.io/experimental-shmi-skywalker-ea650ee3'] },
+    public: { http: ['https://rpc.buildbear.io/wily-wicket-systri-warrick-cbc4fb67'] },
+    default: { http: ['https://rpc.buildbear.io/wily-wicket-systri-warrick-cbc4fb67'] },
     },
     blockExplorers: {
-    etherscan: { name: 'explorer', url: 'https://explorer.buildbear.io/experimental-shmi-skywalker-ea650ee3/' },
-    default: { name: 'explorer', url: 'https://explorer.buildbear.io/experimental-shmi-skywalker-ea650ee3/' },
+    etherscan: { name: 'explorer', url: 'https://explorer.buildbear.io/wily-wicket-systri-warrick-cbc4fb67/transactions' },
+    default: { name: 'explorer', url: 'https://explorer.buildbear.io/wily-wicket-systri-warrick-cbc4fb67/transactions' },
     },
     contracts: {
     multicall3: {

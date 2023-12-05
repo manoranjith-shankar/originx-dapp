@@ -1,0 +1,39 @@
+THE OVERALL FLOW OF ORIGINX V2.0
+
+Nft owner deposit NFT to contract
+contract fractionalizes ervc 721 (divisible) into multiple fractional tokens
+then a raffle is created. contributions are listed
+users buy contributions - more contributions, higher probability of winning a fractional Nft,
+NFT owners get a 10% incentive compared with the NFT floor price
+a determining factor should be formed to determine the total charity amount to be raised as well
+as the raffle pool.
+The price model should be in the form of giving all stakeholders a win-win
+ex. charity amount + 10% user incentive + some amount to the dApp as operational cost
+
+Example Calculation:
+
+n = number of fractional tokens ({min. 100 to 10000 for values >= 10ETH && 
+    min. 1000 to 10000 for values < 10ETH})
+NFT Floor Price: 10 ETH
+NFT owner Incentive: 10% of raffle pool
+Target Charity Amount: 60% of raffle pool
+Reserve prize pool: 2xFloor Price (reserved rewards)
+Number of Contributions avaliable for purchase: 2n (if n=100, then total number of contributions is 200)
+Each Contribution Price: 0.075 ETH (Floor Price / 2n). { Early users get low price high contributions,
+    which increases higher probability of winning fractional Nfts.Post (n%50) + n contributions,
+    Price is Fixed at a rate of }
+
+Possiblities:
+Set Fixed Percentage rewards for both NFT owners and contributors
+
+Dynamic Pricing: You could implement dynamic pricing where the contribution price 
+increases as more contributions are received, creating a sense of urgency and 
+potentially increasing the total raffle pool.
+
+Reserve Price: Consider setting a minimum reserve price for the raffle. 
+If this price is not met, the raffle could be canceled or the NFT could be 
+returned to the owner.
+
+Multi-Tier Contributions: Offer different contribution tiers with varying rewards, such 
+as bonus raffle entries or early access to future raffles, to cater to varying budgets 
+and engagement levels.

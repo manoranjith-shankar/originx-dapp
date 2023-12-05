@@ -1,63 +1,36 @@
-# OriginX &middot; [![npm](https://img.shields.io/npm/v/npm.svg?style=flat-square)](https://www.npmjs.com/package/npm) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/your/your-project/blob/master/LICENSE)
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-originX is a Charitable NFT Raffler, a decentralized application that allows users to 
-participate in raffles where the prizes are non-fungible tokens (NFTs). The raffles are 
-organized with the purpose of raising funds for charitable causes, making it a unique 
-and impactful way to engage with the community and support philanthropic initiatives.
+## Getting Started
 
-In simple words, originX is a combination of opensea for NFT ethusiasts and GoFundMe for donators who raise funds for a cause. By listing their assests, NFT owners get an incentive of 5% of their set selling price (no bidding nor bargaining). while, the users buys tickets for raffles to get a chance to be a random winner of the NFT. On an average of **0.3 ETH** goes to charity for every **1 ETH** being raffled.
+First, run the development server:
 
-- refer. [Raffle Information](https://originx-docs.0xc0d3rs.tech/overview/raffle-pool)
-
-### How it works
-
-- Connect your wallet, mint an NFT.
-- select the NFT you want to sell/raffle from.
-- fill out the create form, set total tickets, end date and yupp. your first raffle is created.
-- spread the word and let the users buy tickets for it.
-- pick a random winner aaaand boom! **you've sold your NFT** **while also supporting a cause.** ***(also got a 5% incentive)***
-
-> Detailed information and example usage, please take a look at our [originX docs](https://originx-docs.0xc0d3rs.tech/getting-started/creating-a-raffle)
-
-## Getting started
-
-### Requirements
-
-- nodeJs
-- npm
-- web3 provider private key
-- Infura chain RPC API (optional)
-
-### Installation
-
-A quick introduction of the minimal setup you need to get a hello world up &
-running.
-
-```shell
-npm install --save
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-### Backend Contracts
-### Add priv_key
-- In the backend directory, rename .env.example to .env and add your Private key of the provider.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-### Deploy
-After adding the private key in .env, you can deploy the contract.
+You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
-```shell
-cd backend
-truffle compile
-truffle deploy --network linea
-```
-This will deploy the contract in the linea testnet, you can also deploy in sepolia.
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-```shell
-npm start
-```
-This should start the dApp at [localhost:3000](https://localhost:3000)
+## Learn More
 
-## Usage of multiple consensys products: Make a Dapp That Slaps, No Cap
+To learn more about Next.js, take a look at the following resources:
 
-- Infura (Rpc APIs)
-- Linea (contract deployment)
-- Truffle project
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

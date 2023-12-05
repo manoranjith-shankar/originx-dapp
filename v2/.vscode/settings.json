@@ -1,4 +1,0 @@
-{
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "marquee.widgets.npm-stats.packageNames": ["next-app-template"]
-}

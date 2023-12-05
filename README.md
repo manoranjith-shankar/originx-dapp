@@ -9,7 +9,8 @@ This is the starting point of development of ORIGINX-DAPP-VERSION-2.
 
 # List of to-dos
 > Here goes some future commit infos
-    - [x] Theme Finalizing Tailwind config, truffle config
-    - [] Hero, Features, Benefits intital Design Implementation
-    - [] Some Backend Logic Implementation
-    - [] .... (will be updated soon)
+
+- [x] Theme Finalizing Tailwind config, truffle config
+- [] Hero, Features, Benefits intital Design Implementation
+- [] Some Backend Logic Implementation
+- [] .... (will be updated soon)

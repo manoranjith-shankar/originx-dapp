@@ -1,10 +1,13 @@
 import React from "react";
 import MyRouts from "./routes/routes";
+import {NextUIProvider} from "@nextui-org/react";
 
 function App() {
   return (
       <div>
+        <NextUIProvider>
           <MyRouts />
+          </NextUIProvider>
       </div>
   );
 }

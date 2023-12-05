@@ -1,7 +1,12 @@
-export default function Test1() {
+import React from "react";
+import {Card, CardBody} from "@nextui-org/react";
+
+export default function App() {
   return (
-    <h1 className="text-center justify-normal h-screen">
-      Hello world!
-    </h1>
-  )
+    <Card>
+      <CardBody>
+        <p>Make beautiful websites regardless of your design experience.</p>
+      </CardBody>
+    </Card>
+  );
 }

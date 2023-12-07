@@ -4,17 +4,18 @@ Nft owner deposit NFT to contract
 contract fractionalizes ervc 721 (divisible) into multiple fractional tokens
 then a raffle is created. contributions are listed
 users buy contributions - more contributions, higher probability of winning a fractional Nft,
-NFT owners get a 10% incentive compared with the NFT floor price
+NFT owners get a 10% incentive compared with the nftPrice
 a determining factor should be formed to determine the total charity amount to be raised as well
 as the raffle pool.
 The price model should be in the form of giving all stakeholders a win-win
 ex. charity amount + 10% user incentive + some amount to the dApp as operational cost
+Charities can sign up with the dedicated charity sign up page
 
 Example Calculation:
 
 n = number of fractional tokens ({min. 100 to 10000 for values >= 10ETH && 
     min. 1000 to 10000 for values < 10ETH})
-NFT Floor Price: 10 ETH
+nftPrice: 10 ETH
 NFT owner Incentive: 10% of raffle pool
 Target Charity Amount: 60% of raffle pool
 Reserve prize pool: 2xFloor Price (reserved rewards)
@@ -23,8 +24,20 @@ Each Contribution Price: 0.075 ETH (Floor Price / 2n). { Early users get low pri
     which increases higher probability of winning fractional Nfts.Post (n%50) + n contributions,
     Price is Fixed at a rate of }
 
+challenges:
+    1. The NFT price, we have to source the owner's original NFT
+    price, preventing the owner from setting the inflated price.
+
 Possiblities:
 Set Fixed Percentage rewards for both NFT owners and contributors
+. Integrating with external price oracles:
+
+Chainlink Price Feeds: Integrate Chainlink Price Feeds to access real-time market data for individual NFTs. 
+This ensures transparency and reduces the risk of manipulation by NFT owners setting inflated prices.
+
+NFT Price Oracles: Utilize specialized NFT price oracles like CoinGecko or OpenSea API to fetch floor 
+price data for NFT collections. This allows for fair raffle entry based on the current market value of the 
+collection.
 
 Dynamic Pricing: You could implement dynamic pricing where the contribution price 
 increases as more contributions are received, creating a sense of urgency and 
@@ -37,3 +50,73 @@ returned to the owner.
 Multi-Tier Contributions: Offer different contribution tiers with varying rewards, such 
 as bonus raffle entries or early access to future raffles, to cater to varying budgets 
 and engagement levels.
+
+created chainLink Automation, have to use this into automating the function to call
+the pickWinners function upon conditions according to pickWinnersCheck.
+
+
+------------------------------------------------------------------------------------------------
+PoC MVP:
+
+function createRaffle:
+ This function is used to create raffle. This function takes in the totalFractionsOfNFT, depending
+ on the factors of the nftPrice
+    1. input params:
+        - raffleName
+        - description
+        - nftPrice
+        - endTime
+        - totalFractionsOfNFT
+        - nftId
+        - nftContractAddress
+        - nftName
+    2. output:
+        - raffleId
+
+    This function calls the calculateTotalAvailableContributions by passing relevant values.
+
+    Finds the dynamicPriceRandom value according to the nftPrice.
+
+    Calculates the reserved raffle pool for the raffleId, i.e., nftPrice + (nftPrice % 50).
+
+function calculateTotalAvailableContributions:
+
+    1. IP:
+        - raffleId
+        - totalFractionsOfNFT
+
+    It simply calculates the value of totalAvaliableContributions by multiplying the variable
+    totalFractionsOfNFT by 2. This function also sets the global value of totalAvaliableContributions
+    for that raffleId only once.
+
+function buyContributions:
+ This function let's user to buy contributions for a particular raffle by paying the contribution
+ price along with platform fee, by implementing dynamic pricing.
+
+     1.IP:
+        - raffleId
+        - totalContributionsRequired
+
+ How is each contribution price is determined:
+    Each contributionPrice is determined by using a dynamic price model:
+        - The Initial Price of the contribution is set by nftPrice / totalAvaliableContributions.
+        - Then it is incremented by certain conditions:
+            . if nftPrice is 1 - 10.0 ETH, then find a random value between 1000 and 10000,
+            for nftPrice > 10.1 ETH, then find a random value between 10000 to 50000.
+        - Here, it takes the previous price also a factor, like if the previous price is 
+        0.075 & the dynamicPriceRandomValue (dynamicPriceRandom / totalContributionsRequired ) for that 
+        raffleId is 0.003, then the newPrice should be be 0.078 (previous price + dynamicPriceRandomValue/).
+        and then this continues for every contribution price, untill the reserved threshold value is achieved
+        for that raffleId, and the price don't increase thereafter.
+
+    Example:
+    nftPrice = 3.87 ETH.
+    totalFractionsOfNFT = 148.
+    dynamicPriceRandom = 2357.
+    dynamicPriceRandomValue = 
+
+
+    n1 + n2 = (n1*random(1)) + n3 = (n2*random(2)) + ..... + nn = (nn * random(n)), where random(n) equals
+    to reserved threshold value.
+
+

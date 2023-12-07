@@ -50,6 +50,40 @@ module.exports = {
         900: "#0D102D",
       },
     },
+    fontSize: {
+      xs: ["0.75rem", { lineHeight: "normal" }],
+      "2xs": ["0.8125rem", { lineHeight: "normal" }],
+      sm: ["0.875rem", { lineHeight: "normal" }],
+      base: ["1rem", { lineHeight: "normal" }],
+      lg: ["1.25rem", { lineHeight: "normal" }],
+      xl: ["1.5rem", { lineHeight: "normal" }],
+      "2xl": ["1.75rem", { lineHeight: "normal" }],
+      "3xl": ["2rem", { lineHeight: "normal" }],
+      "4xl": ["2.25rem", { lineHeight: "normal" }],
+      "5xl": ["2.5rem", { lineHeight: "normal" }],
+      "6xl": ["3.5rem", { lineHeight: "normal" }],
+      "7xl": ["4.25rem", { lineHeight: "normal" }],
+    },
+    extend: {
+      borderRadius: {
+        "2lg": "0.625rem",
+      },
+      transitionProperty: {
+        height: "height",
+        width: "width",
+      },
+      animation: {
+        fly: "fly 6s cubic-bezier(0.75, 0.02, 0.31, 0.87) infinite",
+        heartBeat: "heartBeat 1s cubic-bezier(0.75, 0.02, 0.31, 0.87) infinite",
+        progress: "progress 5s linear",
+      },
+      keyframes: {
+        fly: {
+          "0%, 100%": { transform: "translateY(5%)" },
+          "50%": { transform: "translateY(0)" },
+        },
+      },
+    },
   },
   darkMode: "class",
   plugins: [nextui()],

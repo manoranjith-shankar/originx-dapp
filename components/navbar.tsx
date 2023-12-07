@@ -7,27 +7,27 @@ import {AcmeLogo} from "./Logo";
 
 export default function NavigationBar() {
   return (
-    <div className="page-header--transparent fixed top-0 z-20 w-full bg-white/[.15] backdrop-blur transition-colors">
-    <Navbar>
+    <div className="page-header--transparent fixed top-0 z-10 w-full backdrop-blur transition-colors">
+    <Navbar className="bg-transparent">
       <NavbarBrand>
         <AcmeLogo />
-        <p className="font-bold text-inherit">ACME</p>
+        <p className="font-bold text-lg">originX</p>
       </NavbarBrand>
 
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem>
-          <Link color="primary" href="#">
-            Features
+          <Link color="foreground" href="#">
+            Home
           </Link>
         </NavbarItem>
         <NavbarItem isActive>
           <Link href="#" aria-current="page" color="secondary">
-            Customers
+            Elemental Word1
           </Link>
         </NavbarItem>
         <NavbarItem>
           <Link color="foreground" href="#">
-            Integrations
+            Elemental Word2
           </Link>
         </NavbarItem>
       </NavbarContent>

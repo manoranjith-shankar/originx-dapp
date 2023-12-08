@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chainlink/contracts": "^0.8.0",
     "@nextui-org/button": "2.0.26",
     "@nextui-org/code": "2.0.24",
     "@nextui-org/dropdown": "^2.1.16",
@@ -21,6 +22,7 @@
     "@nextui-org/switch": "2.0.25",
     "@nextui-org/system": "2.0.15",
     "@nextui-org/theme": "2.1.17",
+    "@openzeppelin/contracts": "^5.0.1",
     "@react-aria/ssr": "^3.8.0",
     "@react-aria/visually-hidden": "^3.8.6",
     "@types/node": "20.5.7",

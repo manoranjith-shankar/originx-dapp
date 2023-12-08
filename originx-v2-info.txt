@@ -28,6 +28,8 @@ challenges:
     1. The NFT price, we have to source the owner's original NFT
     price, preventing the owner from setting the inflated price.
 
+    2. The determination of dynamicRandomValue
+
 Possiblities:
 Set Fixed Percentage rewards for both NFT owners and contributors
 . Integrating with external price oracles:
@@ -61,12 +63,14 @@ PoC MVP:
 function createRaffle:
  This function is used to create raffle. This function takes in the totalFractionsOfNFT, depending
  on the factors of the nftPrice
+
+ set an eligible NFT by checking if it is greater than or equals to 1 ETH
     1. input params:
         - raffleName
         - description
         - nftPrice
         - endTime
-        - totalFractionsOfNFT
+        - totalFractionsOfNFT (random number of 50 ~ 100) only uint
         - nftId
         - nftContractAddress
         - nftName
@@ -85,9 +89,21 @@ function calculateTotalAvailableContributions:
         - raffleId
         - totalFractionsOfNFT
 
-    It simply calculates the value of totalAvaliableContributions by multiplying the variable
-    totalFractionsOfNFT by 2. This function also sets the global value of totalAvaliableContributions
+    It simply calculates the value of totalAvailableContributions by multiplying the variable
+    totalFractionsOfNFT by 2. This function also sets the global value of totalAvailableContributions
     for that raffleId only once.
+
+function calculateReservedPrice:
+
+    1.IP:
+        - raffleId
+        - nftPrice
+    
+    if the nftPrice if less than 5 ETH return 5 % of nftPrice
+    if the nftPrice if less than 5~10 ETH return 4 % of nftPrice
+    if the nftPrice if less than 10~15 ETH return 3 % of nftPrice
+    if the nftPrice if less than 15~20 ETH return 2 % of nftPrice
+    if the nftPrice if less than 20~30 ETH return 1 % of nftPrice
 
 function buyContributions:
  This function let's user to buy contributions for a particular raffle by paying the contribution
@@ -99,21 +115,35 @@ function buyContributions:
 
  How is each contribution price is determined:
     Each contributionPrice is determined by using a dynamic price model:
-        - The Initial Price of the contribution is set by nftPrice / totalAvaliableContributions.
-        - Then it is incremented by certain conditions:
-            . if nftPrice is 1 - 10.0 ETH, then find a random value between 1000 and 10000,
-            for nftPrice > 10.1 ETH, then find a random value between 10000 to 50000.
-        - Here, it takes the previous price also a factor, like if the previous price is 
-        0.075 & the dynamicPriceRandomValue (dynamicPriceRandom / totalContributionsRequired ) for that 
-        raffleId is 0.003, then the newPrice should be be 0.078 (previous price + dynamicPriceRandomValue/).
-        and then this continues for every contribution price, untill the reserved threshold value is achieved
-        for that raffleId, and the price don't increase thereafter.
+        - The Initial Price of the contribution is set by (nftPrice / totalAvailableContributions)
+        - totalAvailableContributions is calculated by rounding off 1.5 * totalFractionsOfNFT
+        - reserved threshold value is calculated by nftPrice * 2.5
 
     Example:
-    nftPrice = 3.87 ETH.
-    totalFractionsOfNFT = 148.
-    dynamicPriceRandom = 2357.
-    dynamicPriceRandomValue = 
+
+    nftPrice = 0.5 ETH
+    reservedThresholdValue = nftPrice * 2.5, if 1 ETH, then 2.5 ETH as threshold
+    totalFractionsOfNFT = 40, random number between 10 to 50 multiples of 10
+    dynamicPriceRandom = 5684, random number between 1000 to 10000
+    totalAvailableContributions = 60, (Math.round(1.5 * totalFractionsOfNFT));
+    dynamicPriceRandomValue = 0.00008796622097114708, (nftPrice / dynamicPriceRandom);
+
+    Initial Contribution Price:  0.008333333333333333 (nftPrice / totalAvailableContributions)
+    Contribution1 = 0.008333333333333333 + 0.00008796622097114708 = 0.008421299554304481
+    Contribution2 = 0.008421299554304481 +  0.00008796622097114708 = 0.008509265775275629
+    Contribution3 = 0.008509265775275629 + 0.00008796622097114708 = 0.008597231996246776
+
+    .
+    .
+    .
+    .
+    .
+    Contribution(n) = {value} + 0.00008796622097114708 = {newValue}
+    And total Value of contribution is >= reserved threshold value, all the contributions stay
+    unchanged.
+
+    here it goes on.. until the price reaches somewhere nearer the threshold value (5.805).
+    Now computer the formula for this pricing model so that i can implement it in smart contract.
 
 
     n1 + n2 = (n1*random(1)) + n3 = (n2*random(2)) + ..... + nn = (nn * random(n)), where random(n) equals

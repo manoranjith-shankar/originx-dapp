@@ -1,17 +1,23 @@
 'use client'
 
 import React from "react";
+import Image from "next/image";
 import {Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Avatar} from "@nextui-org/react";
 import {  Dropdown,  DropdownTrigger,  DropdownMenu,  DropdownItem} from "@nextui-org/react";
 import {AcmeLogo} from "./Logo";
+import v2Logo from "@/public/originx-v2-main-logo-transparent.png"
 
 export default function NavigationBar() {
   return (
     <div className="page-header--transparent fixed top-0 z-10 w-full backdrop-blur transition-colors">
     <Navbar className="bg-transparent">
       <NavbarBrand>
-        <AcmeLogo />
-        <p className="font-bold text-lg">originX</p>
+        <Image 
+          src={v2Logo}
+          alt = ''
+          width={120}
+          height={120}
+        />
       </NavbarBrand>
 
       <NavbarContent className="hidden sm:flex gap-4" justify="center">

@@ -4,8 +4,7 @@ import React from "react";
 import Image from "next/image";
 import {Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Avatar} from "@nextui-org/react";
 import {  Dropdown,  DropdownTrigger,  DropdownMenu,  DropdownItem} from "@nextui-org/react";
-import {AcmeLogo} from "./Logo";
-import v2Logo from "@/public/originx-v2-main-logo-transparent.png"
+import v2Logo from "@/public/originx-v2-main-logo-transparent.png";
 
 export default function NavigationBar() {
   return (
@@ -28,12 +27,12 @@ export default function NavigationBar() {
         </NavbarItem>
         <NavbarItem isActive>
           <Link href="#" aria-current="page" color="secondary">
-            Elemental Word1
+            Raffles
           </Link>
         </NavbarItem>
         <NavbarItem>
           <Link color="foreground" href="#">
-            Elemental Word2
+            Marketplace
           </Link>
         </NavbarItem>
       </NavbarContent>
@@ -42,8 +41,7 @@ export default function NavigationBar() {
         <Dropdown placement="bottom-end">
           <DropdownTrigger>
             <Avatar
-              isBordered
-              as="button"
+              as="feDropShadow"
               className="transition-transform"
               color="secondary"
               name="Jason Hughes"
@@ -54,7 +52,7 @@ export default function NavigationBar() {
           <DropdownMenu aria-label="Profile Actions" variant="flat">
             <DropdownItem key="profile" className="h-14 gap-2">
               <p className="font-semibold">Signed in as</p>
-              <p className="font-semibold">zoey@example.com</p>
+              <p className="font-semibold">0xc09...Ea7b</p>
             </DropdownItem>
             <DropdownItem key="settings">My Settings</DropdownItem>
             <DropdownItem key="team_settings">Team Settings</DropdownItem>

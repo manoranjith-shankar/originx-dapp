@@ -88,12 +88,11 @@ contract originx is IERC721Receiver, VRFConsumerBaseV2, ConfirmedOwner {
         uint raffleId;
         string raffleName;
         string description;
-        uint256 nftPrice;
-        uint256 totalVolumeofTickets;
-        uint256 endTime;
         string nftName;
         uint256 nftId;
-        string[5] goals;
+        uint256 nftPrice;
+        uint256 totalFractionsOfNfts;
+        uint256 endTime;
         address nftContractAddress;
         string nftSourceLink;
         address charityAddress;
@@ -105,8 +104,7 @@ contract originx is IERC721Receiver, VRFConsumerBaseV2, ConfirmedOwner {
         bool raffleEnded;
         uint256 fundsInContract;
         uint256[] tickets;
-        uint winningTicket;
-        address raffleWinner;
+        address[] raffleWinners;
         address payable developmentTeam;
     }
 

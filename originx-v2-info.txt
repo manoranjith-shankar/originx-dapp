@@ -61,10 +61,89 @@ the pickWinners function upon conditions according to pickWinnersCheck.
 PoC MVP:
 
 function createRaffle:
- This function is used to create raffle. This function takes in the totalFractionsOfNFT, depending
- on the factors of the nftPrice
+ This function is used to create raffle. This function takes in all the mentioned input
+ parameters and returns the raffleId, only if all the requirements for creating the raffle 
+ are fulfilled.
 
- set an eligible NFT by checking if it is greater than or equals to 1 ETH
+ Firstly this function set an eligible for the NFT by checking if it is greater than or 
+ equals to 0.5 ETH, if it is lesser throw an error.
+
+ Next, this function transfer the NFT using safeTransferFrom to itself, then using Chainlink
+ VRF it generates two random numbers:
+    - one, totalFractionsOfNft within this array value [10,20,30,40,50] - this value is the
+    number fractions the NFT will be fractionalized into.
+    - two, it generates a dynamicRandom within the range of 1000 to 10000 (this should be a private
+    variable) - this variable is used to determine the dynamicRandomValue, a crucial factor in
+    determining each contributionPrice in the dynamic Pricing model.
+
+ Then, using another function with the totalFractionsOfNft as input parameters 
+ to fractionalize this NFT and outputs the fractional tokens. This is mapped to the
+ raffleId and when the winners are picked, these tokens will be transferred to them.
+
+ after this create function calls another function, calculateContributions(),
+    function calculateContributionsPrice(),
+        input params:
+            - nftPrice;
+            - totalFractionsOfNft;
+            - dynamicPriceRandom;
+
+        This function calculates each contributionPrice and returns the contributions array
+    
+    Dynamic Pricing Model:
+    
+     totalAvailableContributions = Math.round(1.5 * totalFractionsOfNFT);
+     reservedThresholdValue = nftPrice * 2.5;
+     dynamicPriceRandomValue = nftPrice / dynamicPriceRandom;
+     initialContributionPrice = nftPrice / totalAvailableContributions;
+
+     The implemented pricing model, (change this into solidity function):
+     // dynamic pricing model for v2
+
+function calculateContributions() {
+    // Given parameters
+    const nftPrice = 0.5;
+    let reservedThresholdValue = nftPrice * 2.5;
+    const totalFractionsOfNFT = 40; // random number between 10 to 50 multiples of 10
+    const dynamicPriceRandom = 5684; // random number between 1000 to 10000
+    const totalAvailableContributions = Math.round(1.5 * totalFractionsOfNFT);
+    const dynamicPriceRandomValue = nftPrice / dynamicPriceRandom;
+
+    let initialContributionPrice = nftPrice / totalAvailableContributions;
+
+    // Initialize an array to store contribution values
+    let contributions = [initialContributionPrice];
+
+    // Calculate subsequent contributions until reaching the reserved threshold value
+    while (calculateTotalValue(contributions) <= reservedThresholdValue) {
+        let lastContribution = contributions[contributions.length - 1];
+        let nextContribution = lastContribution + dynamicPriceRandomValue;
+        contributions.push(nextContribution);
+    }
+
+    // Once the threshold is reached, set the remaining contributions to the last calculated value
+    let remainingContributions = totalAvailableContributions - contributions.length + 1;
+    contributions = contributions.concat(Array.from({ length: remainingContributions }, () => contributions[contributions.length - 1]));
+
+    return contributions;
+    }
+
+    // Function to calculate the total value of contributions
+    function calculateTotalValue(contributions) {
+        return contributions.reduce((total, contribution) => total + contribution, 0);
+    }
+
+    // Call the function and get the contributions array
+    const contributionsArray = calculateContributions();
+
+    // Call the function to calculate the total value
+    const totalValue = calculateTotalValue(contributionsArray);
+
+    // Print the contributions and total value
+    console.log("Contributions:", contributionsArray);
+    console.log("Total Value:", totalValue);
+
+ which will be transferred to addresses of the raffle winners.
+
     1. input params:
         - raffleName
         - description
@@ -92,6 +171,18 @@ function calculateTotalAvailableContributions:
     It simply calculates the value of totalAvailableContributions by multiplying the variable
     totalFractionsOfNFT by 2. This function also sets the global value of totalAvailableContributions
     for that raffleId only once.
+
+function fractionalizeNft:
+    This function fractionalizes the given NFT and returns the erc20 tokens to the nft owner's
+    address.
+
+    input parameters:
+        - total fractions of NFT (total erc20 tokens)
+        - token name ex. BoredApeYatchClub (BAYC)
+
+    output:
+        gives back the erc20 tokens to the nft owner's address, also renames the erc20 tokens
+        buy adding x{tokenName} (xBAYC).
 
 function calculateReservedPrice:
 

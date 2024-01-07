@@ -182,13 +182,17 @@ function fractionalizeNft:
 
     output:
         gives back the erc20 tokens to the nft owner's address, also renames the erc20 tokens
-        buy adding x{tokenName} (xBAYC).
+        buy adding x{tokenName} (xBAYC). 1.10 BAYC = 20 xBAYC => xBayc each price = 1/40. = 0.025
 
 function calculateReservedPrice:
 
     1.IP:
         - raffleId
         - nftPrice
+
+    60, ( 25 low price (FCFS), 35 ) = 40 (winners) 20 (benefits) 60 : 40
+
+    0.00121, 0.00127, ... , 0.00235
     
     if the nftPrice if less than 5 ETH return 5 % of nftPrice
     if the nftPrice if less than 5~10 ETH return 4 % of nftPrice

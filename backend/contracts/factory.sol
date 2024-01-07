@@ -4,6 +4,8 @@ pragma solidity ^0.8.0;
 import "./fractionalizer.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 
+// update: the fractionalizer works properly, integrate it with the originx-v2 main contract
+// and correct the functionalities of secondary fractionalizer functions.
 contract NFTFractionalizerFactory is Ownable, IERC721Receiver {
     // Event emitted when a new NFTFractionalizer contract is deployed
     event FractionalizerDeployed(address indexed fractionalizer, address indexed nft, uint256 tokenId);
